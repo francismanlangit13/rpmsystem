@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2023 at 01:42 PM
+-- Generation Time: Aug 28, 2023 at 05:04 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -30,7 +30,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `location` (
   `location_id` int(11) NOT NULL,
-  `location_name` text NOT NULL
+  `location_name` text NOT NULL,
+  `location_status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -45,11 +46,11 @@ CREATE TABLE `payment` (
   `location_id` int(11) NOT NULL,
   `property_id` int(11) NOT NULL,
   `payment_type_id` int(11) NOT NULL,
+  `payment_amount` double NOT NULL,
   `payment_photo` text NOT NULL,
-  `payment_amount` text NOT NULL,
   `payment_datestart` datetime NOT NULL,
   `payment_dateupdate` datetime NOT NULL,
-  `payment_status` int(11) NOT NULL
+  `payment_status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -59,11 +60,12 @@ CREATE TABLE `payment` (
 --
 
 CREATE TABLE `payment_platform` (
-  `pay_platform_id` int(11) NOT NULL,
+  `payment_platform_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `pay_platform_name` text NOT NULL,
-  `pay_platform_account` text NOT NULL,
-  `pay_platform_photo` text NOT NULL
+  `payment_platform_name` text NOT NULL,
+  `payment_platform_account` text NOT NULL,
+  `payment_platform_photo` text NOT NULL,
+  `payment_platform_status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -75,7 +77,7 @@ CREATE TABLE `payment_platform` (
 CREATE TABLE `payment_type` (
   `payment_type_id` int(11) NOT NULL,
   `payment_type_name` text NOT NULL,
-  `status_id` int(11) NOT NULL
+  `payment_status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -87,9 +89,10 @@ CREATE TABLE `payment_type` (
 CREATE TABLE `property` (
   `property_id` int(11) NOT NULL,
   `property_name` text NOT NULL,
-  `property_rent` int(11) NOT NULL,
+  `property_rent` double NOT NULL,
   `location_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `managed_by` text NOT NULL,
   `property_status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -115,11 +118,25 @@ CREATE TABLE `user` (
   `fname` text NOT NULL,
   `mname` text NOT NULL,
   `lname` text NOT NULL,
+  `gender` text NOT NULL,
+  `birthday` date NOT NULL,
+  `civil_status` text NOT NULL,
   `email` text NOT NULL,
   `phone` text NOT NULL,
   `password` text NOT NULL,
-  `status_id` int(11) NOT NULL
+  `profile` text NOT NULL,
+  `user_type_id` int(11) NOT NULL,
+  `user_status_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `fname`, `mname`, `lname`, `gender`, `birthday`, `civil_status`, `email`, `phone`, `password`, `profile`, `user_type_id`, `user_status_id`) VALUES
+(1, 'user', '', 'admin', 'Male', '0000-00-00', '', 'admin@gmail.com', '09568452546', '0192023a7bbd73250516f069df18b500', '', 1, 1),
+(2, 'Mei', '', 'Trestiza', 'Female', '2001-04-14', 'Single', 'mei@gmail.com', '09426567646', '0192023a7bbd73250516f069df18b500', '', 1, 1),
+(3, 'Jaylord', '', 'Galindo', 'Male', '2000-03-23', 'Single', 'galindo@gmail.com', '09123456789', '0192023a7bbd73250516f069df18b500', '', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -128,9 +145,38 @@ CREATE TABLE `user` (
 --
 
 CREATE TABLE `user_status` (
-  `status_id` int(11) NOT NULL,
-  `status_name` text NOT NULL
+  `user_status_id` int(11) NOT NULL,
+  `user_status_name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_status`
+--
+
+INSERT INTO `user_status` (`user_status_id`, `user_status_name`) VALUES
+(1, 'Active'),
+(2, 'Inactive'),
+(3, 'Archive');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_type`
+--
+
+CREATE TABLE `user_type` (
+  `user_type_id` int(11) NOT NULL,
+  `user_type_name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_type`
+--
+
+INSERT INTO `user_type` (`user_type_id`, `user_type_name`) VALUES
+(1, 'Admin'),
+(2, 'Staff'),
+(3, 'Client');
 
 --
 -- Indexes for dumped tables
@@ -147,16 +193,16 @@ ALTER TABLE `location`
 --
 ALTER TABLE `payment`
   ADD PRIMARY KEY (`payment_id`),
-  ADD KEY `user_id` (`user_id`,`location_id`,`property_id`),
-  ADD KEY `location_id` (`location_id`),
+  ADD KEY `user_id` (`user_id`,`location_id`,`property_id`,`payment_type_id`),
+  ADD KEY `payment_type_id` (`payment_type_id`),
   ADD KEY `property_id` (`property_id`),
-  ADD KEY `payment_type_id` (`payment_type_id`);
+  ADD KEY `location_id` (`location_id`);
 
 --
 -- Indexes for table `payment_platform`
 --
 ALTER TABLE `payment_platform`
-  ADD PRIMARY KEY (`pay_platform_id`),
+  ADD PRIMARY KEY (`payment_platform_id`),
   ADD KEY `user_id` (`user_id`);
 
 --
@@ -170,7 +216,7 @@ ALTER TABLE `payment_type`
 --
 ALTER TABLE `property`
   ADD PRIMARY KEY (`property_id`),
-  ADD KEY `location_id` (`location_id`,`user_id`),
+  ADD KEY `location_id` (`location_id`,`user_id`,`property_status_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `property_status_id` (`property_status_id`);
 
@@ -185,13 +231,20 @@ ALTER TABLE `property_status`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
-  ADD KEY `status_id` (`status_id`);
+  ADD KEY `user_status_id` (`user_status_id`) USING BTREE,
+  ADD KEY `user_type_id` (`user_type_id`);
 
 --
 -- Indexes for table `user_status`
 --
 ALTER TABLE `user_status`
-  ADD PRIMARY KEY (`status_id`);
+  ADD PRIMARY KEY (`user_status_id`);
+
+--
+-- Indexes for table `user_type`
+--
+ALTER TABLE `user_type`
+  ADD PRIMARY KEY (`user_type_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -213,7 +266,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `payment_platform`
 --
 ALTER TABLE `payment_platform`
-  MODIFY `pay_platform_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_platform_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment_type`
@@ -234,10 +287,22 @@ ALTER TABLE `property_status`
   MODIFY `property_status_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `user_status`
 --
 ALTER TABLE `user_status`
-  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `user_type`
+--
+ALTER TABLE `user_type`
+  MODIFY `user_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -247,10 +312,10 @@ ALTER TABLE `user_status`
 -- Constraints for table `payment`
 --
 ALTER TABLE `payment`
-  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`),
-  ADD CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`property_id`) REFERENCES `property` (`property_id`),
-  ADD CONSTRAINT `payment_ibfk_3` FOREIGN KEY (`payment_type_id`) REFERENCES `payment_type` (`payment_type_id`),
-  ADD CONSTRAINT `payment_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`payment_type_id`) REFERENCES `payment_type` (`payment_type_id`),
+  ADD CONSTRAINT `payment_ibfk_3` FOREIGN KEY (`property_id`) REFERENCES `property` (`property_id`),
+  ADD CONSTRAINT `payment_ibfk_4` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`);
 
 --
 -- Constraints for table `payment_platform`
@@ -262,15 +327,16 @@ ALTER TABLE `payment_platform`
 -- Constraints for table `property`
 --
 ALTER TABLE `property`
-  ADD CONSTRAINT `property_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`),
-  ADD CONSTRAINT `property_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `property_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `property_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`),
   ADD CONSTRAINT `property_ibfk_3` FOREIGN KEY (`property_status_id`) REFERENCES `property_status` (`property_status_id`);
 
 --
 -- Constraints for table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `user_status` (`status_id`);
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`user_status_id`) REFERENCES `user_status` (`user_status_id`),
+  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`user_type_id`) REFERENCES `user_type` (`user_type_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
