@@ -29,6 +29,10 @@
         <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js" crossorigin="anonymous"></script>
         <script src="<?php echo base_url ?>assets/js/litepicker.js"></script>
 
-        
+        <script>
+            window.onload = function() {
+                localStorage.setItem("savedPassword", ''); // Clear the value password if user click reload the page.
+            }
+        </script>
     </body>
 </html>

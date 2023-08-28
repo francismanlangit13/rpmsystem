@@ -9,6 +9,8 @@
     // This is global hosting configuration.
     if(!defined('date')) define('date', date("Y-m-d h:i:s"));
     if(!defined('base_url')) define('base_url','http://localhost/rpmsystem/');
+    if(!defined('emailuser')) define('emailuser', 'yourgmail@gmail.com'); // Email for GoogleAPI
+    if(!defined('emailpass')) define('emailpass', 'your_email_pass'); // Password for GoogleAPI
     if(!defined('DB_SERVER')) define('DB_SERVER',"localhost");
     if(!defined('DB_USERNAME')) define('DB_USERNAME',"root");
     if(!defined('DB_PASSWORD')) define('DB_PASSWORD',"");

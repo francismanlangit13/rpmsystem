@@ -30,15 +30,15 @@
                     <!-- Sidenav Heading (Users)-->
                     <div class="sidenav-menu-heading">Users</div>
                     <!-- Sidenav Accordion (Pages)-->
-                    <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false)  {  } else{ echo'collapsed'; } ?>" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                         <div class="nav-link-icon"><i data-feather="users"></i></div>
                         Accounts
                         <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapsePages" data-bs-parent="#accordionSidenav">
+                    <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false)  { echo'show'; }?>" id="collapsePages" data-bs-parent="#accordionSidenav">
                         <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">
                             <!-- Nested Sidenav Accordion (Accounts -> Users)-->
-                            <a class="nav-link" href="users">Users</a>
+                            <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false)  { echo 'active'; } ?>" href="user">Users</a>
                             <!-- Nested Sidenav Accordion (Accounts -> Client)-->
                             <a class="nav-link" href="client">Client</a>
                         </nav>
@@ -46,47 +46,20 @@
                     <!-- Sidenav Heading (Business Tool)-->
                     <div class="sidenav-menu-heading">Business Tool</div>
                     <!-- Sidenav Accordion (Apartment)-->
-                    <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseApartments" aria-expanded="false" aria-controls="collapseApartments">
+                    <a class="nav-link" href="apartment">
                         <div class="nav-link-icon"><i class="fas fa-house-user"></i></div>
                         Apartment
-                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapseApartments" data-bs-parent="#accordionSidenav">
-                        <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavApartment">
-                            <!-- Nested Sidenav Accordion (Apartment -> Location)-->
-                            <a class="nav-link" href="apartment_location">Location</a>
-                            <!-- Nested Sidenav Accordion (Apartment -> Property)-->
-                            <a class="nav-link" href="apartment_property">Property</a>
-                        </nav>
-                    </div>
                     <!-- Sidenav Accordion (Boarding House)-->
-                    <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseBHs" aria-expanded="false" aria-controls="collapseBHs">
+                    <a class="nav-link collapsed" href="boarding">
                         <div class="nav-link-icon"><i class="fas fa-laptop-house"></i></div>
                         Boarding House
-                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapseBHs" data-bs-parent="#accordionSidenav">
-                        <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavBH">
-                            <!-- Nested Sidenav Accordion (Boarding House -> Location)-->
-                            <a class="nav-link" href="boarding_location">Location</a>
-                            <!-- Nested Sidenav Accordion (Boarding House -> Property)-->
-                            <a class="nav-link" href="boarding_property">Property</a>
-                        </nav>
-                    </div>
                     <!-- Sidenav Accordion (Residential Space)-->
-                    <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseRSs" aria-expanded="false" aria-controls="collapseRSs">
+                    <a class="nav-link collapsed" href="residential">
                         <div class="nav-link-icon"><i class="fas fa-landmark"></i></div>
                         Residential Space
-                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapseRSs" data-bs-parent="#accordionSidenav">
-                        <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavRS">
-                            <!-- Nested Sidenav Accordion (Residential Space -> Location)-->
-                            <a class="nav-link" href="residential_location">Location</a>
-                            <!-- Nested Sidenav Accordion (Residential Space -> Property)-->
-                            <a class="nav-link" href="residential_property">Property</a>
-                        </nav>
-                    </div>
                     <!-- Sidenav Heading (Payments)-->
                     <div class="sidenav-menu-heading">Payments</div>
                     <!-- Sidenav Accordion (Payments)-->

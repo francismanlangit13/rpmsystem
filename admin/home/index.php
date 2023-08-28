@@ -2,6 +2,12 @@
 <main>
     <!-- Main page content-->
     <div class="container-xl px-4 mt-5">
+        <nav class="rounded bg-gray-200 mb-4" aria-label="breadcrumb">
+            <ol class="breadcrumb px-3 py-2 rounded mb-0">
+                <li class="breadcrumb-item"><a class="text-decoration-none" href="../home">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
         <!-- Custom page header alternative example-->
         <div class="d-flex justify-content-between align-items-sm-center flex-column flex-sm-row mb-4">
             <div class="me-4 mb-3 mb-sm-0">
