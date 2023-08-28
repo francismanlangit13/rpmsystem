@@ -43,19 +43,22 @@
                                             <hr style="margin-top:5px !important; margin-bottom:5px !important">
                                             <h1 class="h4 text-gray-900 mb-4">LOGIN</h1>
                                         </div>
-                                        <form class="user">
+                                        <form class="user" action="logincode.php" method="POST">
                                             <div class="form-group">
-                                                <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                                <input type="text" id="emailPhoneInput" name="email_phone" class="form-control form-control-user" placeholder="Enter Email or Phone" required>
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                                                <div class="password-container">
+                                                    <input type="password" id="passwordInput" name="password" class="form-control form-control-user" minlength="8" placeholder="Password" required>
+                                                    <span class="password-toggle"><i class="fa fa-eye-slash"></i></span>
+                                                </div>
                                             </div>
-                                            <a href="index.html" class="btn btn-primary btn-user btn-block">Login</a>
+                                            <button type="submit" name="login_btn" id="loginButton" class="btn btn-primary btn-user btn-block">Login</button>
                                         </form>
-                                        <label class="h6 text-gray-900 mt-3">By clicking login you agree the <a class="text-decoration-none" href="#">terms and conditions</a> and <a class="text-decoration-none" href="#">privacy policy</a>.</lab>
+                                        <label class="h6 text-gray-900 mt-3">By clicking login you agree the <a href="#">terms and conditions</a> and <a href="#">privacy policy</a>.</lab>
                                         <hr>
                                         <div class="text-center">
-                                            <a class="small text-decoration-none" href="#">Forgot Password?</a>
+                                            <a class="small text-decoration-none" href="forgot">Forgot Password?</a>
                                         </div>
                                     </div>
                                 </div>
@@ -65,6 +68,10 @@
                 </div>
             </div>
         </div>
+        <!-- Sweetalert JavaScript -->
+        <script src="<?php echo base_url ?>assets/js/sweetalert.js"></script>
+        <!-- Show password login JavaScript -->
+        <script src="<?php echo base_url ?>assets/js/show-password-login.js"></script>
         <!-- Bootstrap core JavaScript-->
         <script src="<?php echo base_url ?>assets/login/vendor/jquery/jquery.min.js"></script>
         <script src="<?php echo base_url ?>assets/login/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -72,5 +79,35 @@
         <script src="<?php echo base_url ?>assets/login/vendor/jquery-easing/jquery.easing.min.js"></script>
         <!-- Custom scripts for all pages-->
         <script src="<?php echo base_url ?>assets/login/js/sb-admin-2.min.js"></script>
+        <!-- Script for save last inputed Email or Password -->
+        <script>
+            // Restore input values from localStorage when the page loads
+            window.onload = function() {
+                var emailPhoneInput = document.getElementById("emailPhoneInput");
+                var passwordInput = document.getElementById("passwordInput");
+                
+                if (localStorage.getItem("savedEmailPhone")) {
+                    emailPhoneInput.value = localStorage.getItem("savedEmailPhone"); // Gets the value email or phone from localstorage or cookie
+                    localStorage.setItem("savedEmailPhone", ''); // Clear the value email or phone if user click reload the page.
+                }
+                
+                if (localStorage.getItem("savedPassword")) {
+                    passwordInput.value = localStorage.getItem("savedPassword"); // Gets the value password from localstorage or cookie
+                    localStorage.setItem("savedPassword", ''); // Clear the value password if user click reload the page.
+                }
+            };
+
+            // Save input values to localStorage when the login button is clicked
+            document.getElementById("loginButton").addEventListener("click", function() {
+                var emailPhoneInput = document.getElementById("emailPhoneInput");
+                var passwordInput = document.getElementById("passwordInput");
+                
+                localStorage.setItem("savedEmailPhone", emailPhoneInput.value); // Will save the value email or phone from localstorage or cookie
+                localStorage.setItem("savedPassword", passwordInput.value); // Will save the value password from localstorage or cookie
+            });
+        </script>
+
+        <!-- Sweetalert message popup -->
+        <?php include ('message.php'); ?> 
     </body>
 </html>

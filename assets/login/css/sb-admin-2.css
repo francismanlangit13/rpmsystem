@@ -10884,14 +10884,27 @@ a:focus {
   background-size: 90% 90%;
 }
 
+.password-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
 form.user .custom-checkbox.small label {
   line-height: 1.5rem;
 }
 
 form.user .form-control-user {
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   border-radius: 10rem;
   padding: 1.5rem 1rem;
+  color: black;
 }
 
 form.user .btn-user {
