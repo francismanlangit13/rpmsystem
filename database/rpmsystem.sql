@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2023 at 05:22 AM
+-- Generation Time: Oct 22, 2023 at 04:37 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -30,24 +30,26 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
-  `fname` varchar(255) NOT NULL,
-  `mname` varchar(255) NOT NULL,
-  `lname` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `fname` varchar(25) NOT NULL,
+  `mname` varchar(25) NOT NULL,
+  `lname` varchar(25) NOT NULL,
+  `gender` varchar(6) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `phone` varchar(11) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `status` varchar(10) NOT NULL,
-  `type` varchar(10) NOT NULL
+  `status` varchar(7) NOT NULL,
+  `type` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `fname`, `mname`, `lname`, `email`, `password`, `status`, `type`) VALUES
-(1, 'user', '', 'admin', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
-(2, 'Riza Mae', '', 'Trestiza', 'riza@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
-(3, 'Jaylord', '', 'Galindo', 'jaylordgalindo@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
-(4, 'Nica', '', 'Ogapay', 'nica12@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin');
+INSERT INTO `user` (`user_id`, `fname`, `mname`, `lname`, `gender`, `email`, `phone`, `password`, `status`, `type`) VALUES
+(1, 'user', '', 'admin', '', 'admin@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
+(2, 'Riza Mae', '', 'Trestiza', 'Female', 'riza@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
+(3, 'Jaylord', '', 'Galindo', 'Male', 'jaylordgalindo@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
+(4, 'Nica', '', 'Ogapay', 'Female', 'nica12@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin');
 
 --
 -- Indexes for dumped tables
@@ -67,7 +69,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
