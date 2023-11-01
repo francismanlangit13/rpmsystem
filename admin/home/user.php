@@ -77,7 +77,7 @@
                                         </a>
                                     </div>
                                     <div class="col-md-4">
-                                        <button type="button" data-toggle="modal11" value="<?=$row['user_id']; ?>" data-target="#exampleModalDelete111" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
+                                        <button type="button" data-toggle="modal" value="<?=$row['user_id']; ?>" data-target="#Modal_delete_user" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>
                                             </span>
@@ -94,4 +94,34 @@
         </div>
     </div>
 </main>
+<!-- Modal User Delete -->
+<div class="modal fade" id="Modal_delete_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <form action="user_code.php" method="POST">
+            <input type="hidden" id="delete_id" name="user_id">
+            <button type="submit" name="delete_user" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- JavaScript for delete user -->
+<script>
+    function deleteModal(button) {
+        var id = button.value;
+        document.getElementById("delete_id").value = id;
+    }
+</script>
 <?php include ('../includes/bottom.php'); ?>

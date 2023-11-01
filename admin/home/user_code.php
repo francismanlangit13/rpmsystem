@@ -60,4 +60,24 @@
             exit(0);
         }
     }
+
+    //Delete user
+    if(isset($_POST['delete_user'])){
+        $user_id= $_POST['user_id'];
+        $query = "UPDATE `user` SET `status` = 'Archive' WHERE user_id = $user_id ";
+        $query_run = mysqli_query($con, $query);
+
+        if($query_run){
+            $_SESSION['status'] = "User deleted successfully";
+            $_SESSION['status_code'] = "success";
+            header("Location: " . base_url . "admin/home/user");
+            exit(0);
+        }
+        else{
+            $_SESSION['status'] = "User was not delete";
+            $_SESSION['status_code'] = "error";
+            header("Location: " . base_url . "admin/home/user");
+            exit(0);
+        } 
+    }
 ?>
