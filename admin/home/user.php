@@ -65,13 +65,13 @@
                             <td>
                                 <div class="row d-inline-flex justify-content-center col-lg-4 col-xl-12">
                                     <div class="col-md-4 mb-1">
-                                        <a href="#" class="btn btn-info btn-icon-split" title="View"> 
+                                        <a href="user_view?id=<?=$row['user_id']?>" class="btn btn-info btn-icon-split" title="View"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
                                             <span class="text ml-2 mr-2"></span>
                                         </a>
                                     </div>
                                     <div class="col-md-4 mb-1">
-                                        <a href="#" class="btn btn-success btn-icon-split" title="Edit"> 
+                                        <a href="user_edit?id=<?=$row['user_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>
                                         </a>
