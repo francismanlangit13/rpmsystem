@@ -17,6 +17,7 @@
                     <div class="collapse" id="collapseAccounts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="user">Users</a>
+                            <a class="nav-link" href="renter">Renters</a>
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">Interface</div>
