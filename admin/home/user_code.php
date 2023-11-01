@@ -31,4 +31,33 @@
             exit(0);
         }
     }
+
+    // Edit user account
+    if(isset($_POST["edit_user"])){
+        $user_id = $_POST["user_id"];
+        $fname = $_POST['fname'];
+        $mname = $_POST['mname'];
+        $lname = $_POST['lname'];
+        $gender = $_POST['gender'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $type = $_POST['role'];
+        $status = $_POST['status'];
+
+        $query = "UPDATE `user` SET `fname`='$fname',`mname`='$mname',`lname`='$lname',`gender`='$gender',`email`='$email',`phone`='$phone',`status`='$status',`type`='$type' WHERE `user_id`='$user_id'";
+        $query_run = mysqli_query($con, $query);
+
+        if($query_run){
+            $_SESSION['status'] = "User updated successfully";
+            $_SESSION['status_code'] = "success";
+            header("Location: " . base_url . "admin/home/user");
+            exit(0);
+        }
+        else{
+            $_SESSION['status'] = "User was not update";
+            $_SESSION['status_code'] = "error";
+            header("Location: " . base_url . "admin/home/user");
+            exit(0);
+        }
+    }
 ?>
