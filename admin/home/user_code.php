@@ -1,5 +1,19 @@
 <?php
-    include('../../db_conn.php');
+    if (!defined('DB_SERVER')){
+        include ('../includes/authentication.php');
+        $user_id = $_SESSION['auth_user']['user_id'];
+        // DB connection parameters
+        $host = DB_SERVER;
+        $user = DB_USERNAME;
+        $password = DB_PASSWORD;
+        $db = DB_NAME;
+        $dsn = "mysql:host=$host;dbname=$db;charset=UTF8";
+        try{
+           $conn = new PDO($dsn, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        } catch (PDOException $e){
+           echo $e->getMessage();
+        }
+    }
 
     // Add user account
     if(isset($_POST["add_user"])){
