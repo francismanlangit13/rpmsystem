@@ -6,38 +6,42 @@
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
         <div class="row">
+            <?php
+                $total_query = $con->query("SELECT (SELECT COUNT(*) FROM location) as total_location, SUM(CASE WHEN type = 'Admin' THEN 1 ELSE 0 END) as total_admin, SUM(CASE WHEN type = 'Staff' THEN 1 ELSE 0 END) as total_staff, SUM(CASE WHEN type = 'Renter' THEN 1 ELSE 0 END) as total_renter FROM user");
+                $total_count = $total_query->fetch_assoc();
+            ?>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-primary text-white mb-4">
-                    <div class="card-body">Primary Card</div>
+                    <div class="card-body">Total Admin<span class="float-end"><?php echo $total_count['total_admin']; ?></span></div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <a class="small text-white stretched-link text-decoration-none" href="user">View Details</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-warning text-white mb-4">
-                    <div class="card-body">Warning Card</div>
+                    <div class="card-body">Total Staff <span class="float-end"><?php echo $total_count['total_staff']; ?></span></div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <a class="small text-white stretched-link text-decoration-none" href="user">View Details</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-success text-white mb-4">
-                    <div class="card-body">Success Card</div>
+                    <div class="card-body">Total Renters <span class="float-end"><?php echo $total_count['total_renter']; ?></span></div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <a class="small text-white stretched-link text-decoration-none" href="renter">View Details</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-danger text-white mb-4">
-                    <div class="card-body">Danger Card</div>
+                    <div class="card-body">Total Locations <span class="float-end"><?php echo $total_count['total_location']; ?></span></div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
+                        <a class="small text-white stretched-link text-decoration-none" href="location">View Details</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>
