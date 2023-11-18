@@ -15,5 +15,6 @@
         }
         $userID = $_SESSION['auth_user']['user_id'];
         $user_qry = $con->query("SELECT * FROM user WHERE user_id = $userID");
+        $user = $user_qry->fetch_assoc();
     }
 ?>
