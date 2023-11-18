@@ -20,6 +20,11 @@
                             <a class="nav-link" href="renter">Renters</a>
                         </nav>
                     </div>
+                    <div class="sb-sidenav-menu-heading">Property</div>
+                    <a class="nav-link" href="location">
+                        <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        Locations
+                    </a>
                 </div>
             </div>
             <div class="sb-sidenav-footer">
