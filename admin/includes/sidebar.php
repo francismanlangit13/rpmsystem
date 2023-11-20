@@ -20,10 +20,14 @@
                             <a class="nav-link" href="renter">Renters</a>
                         </nav>
                     </div>
-                    <div class="sb-sidenav-menu-heading">Property</div>
+                    <div class="sb-sidenav-menu-heading">Properties</div>
                     <a class="nav-link" href="location">
                         <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
                         Locations
+                    </a>
+                    <a class="nav-link" href="properties">
+                        <div class="sb-nav-link-icon"><i class="fas fa-house-user"></i></div>
+                        Properties
                     </a>
                 </div>
             </div>

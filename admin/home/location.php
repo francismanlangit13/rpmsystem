@@ -15,7 +15,7 @@
             </a>
         </h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active"><a href="./home" class="text-decoration-none">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item">Locations</li>
         </ol>
         <div class="card mb-4">

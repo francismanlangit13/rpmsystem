@@ -3,7 +3,7 @@
     <div class="container-fluid px-4">
         <h1 class="mt-4">View User</h1>
         <ol class="breadcrumb mb-4 mt-3">
-            <li class="breadcrumb-item active"><a href="./home" class="text-decoration-none">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item active"><a href="./user" class="text-decoration-none">Users</a></li>
             <li class="breadcrumb-item">View User</li>
         </ol>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2023 at 01:19 AM
+-- Generation Time: Nov 20, 2023 at 04:33 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -21,6 +21,41 @@ SET time_zone = "+00:00";
 --
 -- Database: `rpmsystem`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcement`
+--
+
+CREATE TABLE `announcement` (
+  `ann_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `ann_description` varchar(255) NOT NULL,
+  `ann_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `location`
+--
+
+CREATE TABLE `location` (
+  `location_id` int(11) NOT NULL,
+  `location_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `location`
+--
+
+INSERT INTO `location` (`location_id`, `location_name`) VALUES
+(2, 'Taraka'),
+(3, 'Nacional'),
+(4, 'Butuay'),
+(5, 'Naga'),
+(6, 'Corrales');
 
 -- --------------------------------------------------------
 
@@ -46,11 +81,20 @@ CREATE TABLE `property` (
   `property_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `rented_by` int(11) NOT NULL,
-  `billing_date` date NOT NULL,
   `property_name` varchar(255) NOT NULL,
-  `property_location` varchar(255) NOT NULL,
-  `property_cost` double NOT NULL
+  `location_id` int(11) NOT NULL,
+  `property_cost` double NOT NULL,
+  `billing_date` date NOT NULL,
+  `date_rented` date NOT NULL,
+  `property_status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `property`
+--
+
+INSERT INTO `property` (`property_id`, `user_id`, `rented_by`, `property_name`, `location_id`, `property_cost`, `billing_date`, `date_rented`, `property_status`) VALUES
+(1, 3, 4, '1 Bedroom sofa 50 square meters boarding house', 2, 1300, '0000-00-00', '0000-00-00', 'Available');
 
 -- --------------------------------------------------------
 
@@ -77,10 +121,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `fname`, `mname`, `lname`, `suffix`, `gender`, `email`, `phone`, `password`, `status`, `type`) VALUES
-(1, 'user', '', 'admin', '', '', 'admin@gmail.com', '09124746385', '0192023a7bbd73250516f069df18b500', 'Active', 'Admin'),
+(1, 'user', '', 'admin', '', '', 'admin@gmail.com', '09124746385', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
 (2, 'Riza Mae', '', '122', '', 'Male', 'riza@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
-(3, 'Jaylord', '', 'Galindo', '', 'Male', 'jaylordgalindo@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
-(4, 'Nica', '', 'Ogapay', '', 'Female', 'nica12@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin');
+(3, 'Jaylord', '', 'Galindo', '', 'Male', 'jaylordgalindo@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Staff'),
+(4, 'Nica', '', 'Ogapay', '', 'Female', 'nica12@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Renter'),
+(10, '', '', '', '', '', '', '', 'd41d8cd98f00b204e9800998ecf8427e', 'Archive', 'Renter');
 
 -- --------------------------------------------------------
 
@@ -103,17 +148,31 @@ CREATE TABLE `utilities` (
 --
 
 --
+-- Indexes for table `announcement`
+--
+ALTER TABLE `announcement`
+  ADD PRIMARY KEY (`ann_id`);
+
+--
+-- Indexes for table `location`
+--
+ALTER TABLE `location`
+  ADD PRIMARY KEY (`location_id`);
+
+--
 -- Indexes for table `payment`
 --
 ALTER TABLE `payment`
-  ADD PRIMARY KEY (`payment_id`);
+  ADD PRIMARY KEY (`payment_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `property`
 --
 ALTER TABLE `property`
   ADD PRIMARY KEY (`property_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `location_id` (`location_id`);
 
 --
 -- Indexes for table `user`
@@ -125,11 +184,24 @@ ALTER TABLE `user`
 -- Indexes for table `utilities`
 --
 ALTER TABLE `utilities`
-  ADD PRIMARY KEY (`utilities_id`);
+  ADD PRIMARY KEY (`utilities_id`),
+  ADD KEY `property_id` (`property_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `announcement`
+--
+ALTER TABLE `announcement`
+  MODIFY `ann_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `location`
+--
+ALTER TABLE `location`
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -141,13 +213,13 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `property`
 --
 ALTER TABLE `property`
-  MODIFY `property_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `property_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `utilities`
@@ -160,10 +232,23 @@ ALTER TABLE `utilities`
 --
 
 --
+-- Constraints for table `payment`
+--
+ALTER TABLE `payment`
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+--
 -- Constraints for table `property`
 --
 ALTER TABLE `property`
-  ADD CONSTRAINT `property_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `property_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `property_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`);
+
+--
+-- Constraints for table `utilities`
+--
+ALTER TABLE `utilities`
+  ADD CONSTRAINT `utilities_ibfk_1` FOREIGN KEY (`property_id`) REFERENCES `property` (`property_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
