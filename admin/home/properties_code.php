@@ -15,16 +15,17 @@
         }
     }
 
-    // Add renter account
+    // Add property
     if(isset($_POST["add_properties"])){
+        $add_property_unit_code = $_POST['add_property_unit_code'];
         $add_staff = $_POST['add_staff'];
         $add_renter = $_POST['add_renter'];
-        $property_name = $_POST['property_name'];
-        $property_location = $_POST['property_location'];
-        $property_cost = $_POST['property_cost'];
-        $property_status = $_POST['property_status'];
+        $add_property_type = $_POST['add_property_type'];
+        $add_property_location = $_POST['add_property_location'];
+        $add_property_cost = $_POST['add_property_cost'];
+        $add_property_status = $_POST['add_property_status'];
 
-        $query = "INSERT INTO `property` (`user_id`, `rented_by`, `property_name`, `location_id`, `property_cost`, `property_status`) VALUES ('$add_staff','$add_renter','$property_name','$property_location','$property_cost','$property_status')";
+        $query = "INSERT INTO `property` (`user_id`, `rented_by`, `property_unit_code`, `location_id`, `property_type`, `property_cost`, `property_status`) VALUES ('$add_staff','$add_renter','$add_property_unit_code','$add_property_location','$add_property_type','$add_property_cost','$add_property_status')";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
@@ -41,50 +42,50 @@
         }
     }
 
-    // Edit renter account
-    if(isset($_POST["edit_renter"])){
-        $user_id = $_POST["user_id"];
-        $fname = $_POST['fname'];
-        $mname = $_POST['mname'];
-        $lname = $_POST['lname'];
-        $gender = $_POST['gender'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $status = $_POST['status'];
+    // Edit property
+    if(isset($_POST["edit_properties"])){
+        $id = $_POST["id"];
+        $edit_property_unit_code = $_POST['edit_property_unit_code'];
+        $edit_staff = $_POST['edit_staff'];
+        $edit_renter = $_POST['edit_renter'];
+        $edit_property_type = $_POST['edit_property_type'];
+        $edit_property_location = $_POST['edit_property_location'];
+        $edit_property_cost = $_POST['edit_property_cost'];
+        $edit_property_status = $_POST['edit_property_status'];
 
-        $query = "UPDATE `user` SET `fname`='$fname',`mname`='$mname',`lname`='$lname',`gender`='$gender',`email`='$email',`phone`='$phone',`status`='$status' WHERE `user_id`='$user_id'";
+        $query = "UPDATE `property` SET `user_id`='$edit_staff',`rented_by`='$edit_renter',`property_unit_code`='$edit_property_unit_code',`property_location`='$edit_property_location',`property_type`='$edit_property_type',`property_cost`='$edit_property_cost',`property_status`='$edit_property_status' WHERE `property_id`='$id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
-            $_SESSION['status'] = "Renter updated successfully";
+            $_SESSION['status'] = "Properties updated successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/renter");
+            header("Location: " . base_url . "admin/home/properties");
             exit(0);
         }
         else{
-            $_SESSION['status'] = "Renter was not update";
+            $_SESSION['status'] = "Properties was not update";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/renter");
+            header("Location: " . base_url . "admin/home/properties");
             exit(0);
         }
     }
 
-    //Delete renter
-    if(isset($_POST['delete_renter'])){
-        $user_id= $_POST['user_id'];
-        $query = "UPDATE `user` SET `status` = 'Archive' WHERE user_id = $user_id ";
+    //Delete property
+    if(isset($_POST['delete_properties'])){
+        $property_id= $_POST['property_id'];
+        $query = "UPDATE `property` SET `property_status` = 'Archive' WHERE `property_id` = $property_id ";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
-            $_SESSION['status'] = "Renter deleted successfully";
+            $_SESSION['status'] = "Properties deleted successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/renter");
+            header("Location: " . base_url . "admin/home/properties");
             exit(0);
         }
         else{
-            $_SESSION['status'] = "Renter was not delete";
+            $_SESSION['status'] = "Properties was not delete";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/renter");
+            header("Location: " . base_url . "admin/home/properties");
             exit(0);
         } 
     }

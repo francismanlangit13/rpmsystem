@@ -30,15 +30,20 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="add_property_unit_code" class="required">Property Unit Code</label>
+                                    <input type="text" class="form-control" placeholder="Enter Property Unit Code" name="add_property_unit_code" id="add_property_unit_code" required>
+                                    <div id="add_property_unit_code-error"></div>
+                                </div>
                                 <!-- Select2 Example -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <?php
                                         $client = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Staff'";
                                         $client_result = $con->query($client);
                                     ?>
-                                    <label for="add_staff" class="required">Landlady/Landlord</label>
+                                    <label for="add_staff" class="required">Landlady / Landlord</label>
                                     <select class="form-control select2" id="add_staff" name="add_staff" style="width: 100%;" required>
-                                        <option value="">Select Landlady/Landlord</option>
+                                        <option value="">Select Landlady / Landlord</option>
                                         <?php 
                                             if ($client_result->num_rows > 0) {
                                             while($clientrow = $client_result->fetch_assoc()) {
@@ -57,7 +62,7 @@
                                 </script>
 
                                 <!-- Select2 Example -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <?php
                                         $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter'";
                                         $staff_result = $con->query($staff);
@@ -83,18 +88,12 @@
                                     });
                                 </script>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="property_name" class="required">Property Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter Property Name" name="property_name" id="property_name" required>
-                                    <div id="property_name-error"></div>
-                                </div>
-
                                 <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label for="property_type" class="required">Property Type</label>
                                         <select class="form-control" name="property_type" id="property_type" required>
                                             <option value="" selected disabled>Select Property Type</option>
-                                            <option value="Apartments">Apartments</option>
+                                            <option value="Apartment">Apartment</option>
                                             <option value="Boarding House">Boarding House</option>
                                             <option value="Residential Space">Residential Space</option>
                                         </select>
@@ -102,31 +101,39 @@
                                     </div>
                                 </div>
 
-                                <!-- Select2 Example -->
                                 <div class="col-md-3 mb-3">
-                                    <?php
-                                        $location = "SELECT * FROM `location`";
-                                        $location_result = $con->query($location);
-                                    ?>
-                                    <label for="property_location" class="required">Location</label>
-                                    <select class="form-control select3" id="property_location" name="property_location" style="width: 100%;" required>
-                                        <option value="">Select Location</option>
-                                        <?php 
-                                            if ($location_result->num_rows > 0) {
-                                            while($locationrow = $location_result->fetch_assoc()) {
-                                        ?>
-                                        <option value="<?=$locationrow['location_id'];?>"><?=$locationrow['location_name'];?></option>
-                                        <?php } } ?>
-                                    </select>
-                                    <div id="property_location-error"></div>
+                                    <div class="form-group">
+                                        <label for="address" class="required">Barangay</label>
+                                        <select class="form-control" name="barangay" id="barangay" required>
+                                            <option value="" selected disabled>Select Barangay</option>
+                                            <option value="Adorable">Adorable</option>    
+                                            <option value="Butuay">Butuay</option> 
+                                            <option value="Carmen">Carmen</option> 
+                                            <option value="Corrales">Corrales</option> 
+                                            <option value="Dicoloc">Dicoloc</option> 
+                                            <option value="Gata">Gata</option> 
+                                            <option value="Guintomoyan">Guintomoyan</option> 
+                                            <option value="Malibacsan">Malibacsan</option> 
+                                            <option value="Macabayao">Macabayao</option> 
+                                            <option value="Matugas Alto">Matugas Alto</option> 
+                                            <option value="Matugas Bajo">Matugas Bajo</option> 
+                                            <option value="Mialem">Mialem</option> 
+                                            <option value="Naga">Naga</option> 
+                                            <option value="Palilan">Palilan</option> 
+                                            <option value="Nacional">Nacional</option> 
+                                            <option value="Rizal">Rizal</option>
+                                            <option value="San Isidro">San Isidro</option> 
+                                            <option value="Santa Cruz">Santa Cruz</option>
+                                            <option value="Sibaroc">Sibaroc</option>
+                                            <option value="Sinara Alto">Sinara Alto</option>
+                                            <option value="Sinara Bajo">Sinara Bajo</option>
+                                            <option value="Seti">Seti</option>
+                                            <option value="Tabo-o">Tabo-o</option>
+                                            <option value="Taraka">Taraka</option>
+                                        </select>
+                                        <div id="barangay-error"></div>
+                                    </div>
                                 </div>
-                                <!-- Initialize Select2 -->
-                                <script>
-                                    $(document).ready(function () {
-                                        // Initialize Select2 Elements
-                                        $('.select3').select2();
-                                    });
-                                </script>
 
                                 <div class="col-md-3 mb-3">
                                     <label for="property_cost" class="required">Property Cost</label>

@@ -51,62 +51,94 @@
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item">Properties</li>
         </ol>
-        <div class="wrap mb-3">
-            <h3>Apartments</h3>
-            <div class="search">
-                <input type="text" class="searchTerm" id="Search" onkeyup="myFunction()" placeholder="What are you looking for?" title="Type a property">
-                <button type="submit" class="searchButton">
-                    <i class="fa fa-search"></i>
-                </button>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                DataTable Locations
             </div>
-        </div>
-        <div class="row"> 
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="card-group" id="productList">
-                    <?php
-                    $query = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS `staff_fullname` FROM `property` INNER JOIN `location` ON location.location_id = property.location_id INNER JOIN `user` ON user.user_id = property.user_id";
-                    $query_run = mysqli_query($con, $query);
-                    $property = mysqli_num_rows($query_run) > 0;
-                    if ($property) {
-                        while ($row = mysqli_fetch_assoc($query_run)) {
-                    ?>
-                    <div class="col-12 col-md-6 col-lg-3 mb-4 target">
-                        <a href="property_overview?id=<?=$row['property_id'];?>" style="text-decoration:none; color:black;">
-                            <div class="card h-100">
-                                <!-- <img class="img-fluid card-img-top" src="<?php echo base_url ?>assets/files/property/<?php echo $row['photo'];?>"  alt="user-avatar" style="height:250px; width: 100%; object-fit: cover;"> -->
-                                <div class="card-body">
-                                    <h3 class="card-title text-center" style="font-size: 22px;"><?php echo $row['property_name']; ?></h3>
-                                    <p class="card-text text-center">Location: <?php echo $row['location_name'];?></p>
-                                    <p class="card-text text-center">Cost: ₱<?php echo $row['property_cost'];?> </p>
-                                    <p class="card-text text-center">
-                                        <?php
-                                            if ($row['property_status'] != 'Available') {
-                                                echo "<span style='color:red'> (Not Available)</span>"; 
-                                            } else {
-                                                echo "<span style='color:green'> (Available)</span>"; 
-                                            }
-                                        ?>
-                                    </p>
+            <div class="card-body">
+                <table class="text-center" id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Property Unit Code</th>
+                            <th>Location</th>
+                            <th>Cost</th>
+                            <th>Landlady / Landlord</th>
+                            <th>Property Status</th>
+                            <th>Rented By</th>
+                            <th>Buttons</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Property Name</th>
+                            <th>Location</th>
+                            <th>Cost</th>
+                            <th>Landlady / Landlord</th>
+                            <th>Property Status</th>
+                            <th>Rented By</th>
+                            <th>Buttons</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <?php
+                            $query = "SELECT *, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `staff_fullname` FROM `property` INNER JOIN `user` ON `user`.`user_id` = `property`.`user_id` WHERE `property_status` != 'Archive'";
+                            $query_run = mysqli_query($con, $query);
+                            if(mysqli_num_rows($query_run) > 0){
+                                foreach($query_run as $row){
+                        ?>
+                        <tr>
+                            <td><?= $row['property_id']; ?></td>
+                            <td><?= $row['property_unit_code']; ?></td>
+                            <td><?= $row['property_location']; ?></td>
+                            <td><?= $row['property_cost']; ?></td>
+                            <td><?= $row['staff_fullname']; ?></td>
+                            <td><?= $row['property_status']; ?></td>
+                            <td>
+                                <?php
+                                    $client_id = $row['rented_by'];
+                                    $client = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS `renter_fullname` FROM `user` WHERE `user_id` = '$client_id'";
+                                    $client_result = $con->query($client);
+                                    $client_data = $client_result->fetch_assoc();
+                                ?>
+                                <?= $client_data['renter_fullname']; ?>
+                            </td>
+                            <td>
+                                <div class="row d-inline-flex justify-content-center col-lg-4 col-xl-12">
+                                    <div class="col-md-4 mb-1">
+                                        <a href="properties_view?id=<?=$row['property_id']?>" class="btn btn-info btn-icon-split" title="View"> 
+                                            <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
+                                            <span class="text ml-2 mr-2"></span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4 mb-1">
+                                        <a href="properties_edit?id=<?=$row['property_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
+                                            <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
+                                            <span class="text"></span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" data-toggle="modal" value="<?=$row['property_id']; ?>" data-target="#Modal_delete_properties" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-trash"></i>
+                                            </span>
+                                            <span class="text"></span>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                    <?php
-                        }
-                    } else {
-                        echo "<div class='col-12 text-center mt-5'>No data found.</div>";
-                    }
-                    ?>
-                </div>
-                <div class="col-12 text-center mt-5" id="noResults" style="display: none;">
-                    <h3>No results found</h3>
-                </div>
+                            </td>
+                        </tr>
+                        <?php } } else{ } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </main>
 <!-- Modal Location Delete -->
-<div class="modal fade" id="Modal_delete_location" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="Modal_delete_properties" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -116,48 +148,24 @@
         </button>
       </div>
       <div class="modal-body">
-        Are you sure you want to delete?
+        Are you sure you want to delete property ID number <label id="property_id"></label>?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <form action="location_code.php" method="POST">
-            <input type="hidden" id="delete_id" name="location_id">
-            <button type="submit" name="delete_location" class="btn btn-danger">Delete</button>
+        <form action="properties_code.php" method="POST">
+            <input type="hidden" id="delete_id" name="property_id">
+            <button type="submit" name="delete_properties" class="btn btn-danger">Delete</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-<!-- JavaScript for delete location -->
+<!-- JavaScript for delete property -->
 <script>
     function deleteModal(button) {
         var id = button.value;
         document.getElementById("delete_id").value = id;
-    }
-</script>
-<script>
-    function myFunction() {
-        var input = document.getElementById("Search");
-        var filter = input.value.toLowerCase();
-        var nodes = document.getElementsByClassName('target');
-        var resultsFound = false;
-
-        for (i = 0; i < nodes.length; i++) {
-            var productName = nodes[i].querySelector('.card-title').innerText.toLowerCase();
-            if (productName.includes(filter)) {
-                nodes[i].style.display = "block";
-                resultsFound = true;
-            } else {
-                nodes[i].style.display = "none";
-            }
-        }
-
-        var noResultsMsg = document.getElementById("noResults");
-        if (resultsFound) {
-            noResultsMsg.style.display = "none";
-        } else {
-            noResultsMsg.style.display = "block";
-        }
+        document.getElementById("property_id").innerHTML = id;
     }
 </script>
 <?php include ('../includes/bottom.php'); ?>

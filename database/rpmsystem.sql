@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2023 at 04:33 PM
+-- Generation Time: Nov 26, 2023 at 06:22 AM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -38,28 +38,6 @@ CREATE TABLE `announcement` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `location`
---
-
-CREATE TABLE `location` (
-  `location_id` int(11) NOT NULL,
-  `location_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `location`
---
-
-INSERT INTO `location` (`location_id`, `location_name`) VALUES
-(2, 'Taraka'),
-(3, 'Nacional'),
-(4, 'Butuay'),
-(5, 'Naga'),
-(6, 'Corrales');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `payment`
 --
 
@@ -81,8 +59,9 @@ CREATE TABLE `property` (
   `property_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `rented_by` int(11) NOT NULL,
-  `property_name` varchar(255) NOT NULL,
-  `location_id` int(11) NOT NULL,
+  `property_unit_code` varchar(255) NOT NULL,
+  `property_location` varchar(255) NOT NULL,
+  `property_type` varchar(250) NOT NULL,
   `property_cost` double NOT NULL,
   `billing_date` date NOT NULL,
   `date_rented` date NOT NULL,
@@ -93,8 +72,9 @@ CREATE TABLE `property` (
 -- Dumping data for table `property`
 --
 
-INSERT INTO `property` (`property_id`, `user_id`, `rented_by`, `property_name`, `location_id`, `property_cost`, `billing_date`, `date_rented`, `property_status`) VALUES
-(1, 3, 4, '1 Bedroom sofa 50 square meters boarding house', 2, 1300, '0000-00-00', '0000-00-00', 'Available');
+INSERT INTO `property` (`property_id`, `user_id`, `rented_by`, `property_unit_code`, `property_location`, `property_type`, `property_cost`, `billing_date`, `date_rented`, `property_status`) VALUES
+(1, 3, 0, 'Door 1 Black', 'Guintomoyan', 'Apartment', 2500, '0000-00-00', '0000-00-00', 'Available'),
+(3, 3, 4, 'adasdsad', 'Mialem', 'Residential Space', 5000, '0000-00-00', '0000-00-00', 'Rented');
 
 -- --------------------------------------------------------
 
@@ -154,12 +134,6 @@ ALTER TABLE `announcement`
   ADD PRIMARY KEY (`ann_id`);
 
 --
--- Indexes for table `location`
---
-ALTER TABLE `location`
-  ADD PRIMARY KEY (`location_id`);
-
---
 -- Indexes for table `payment`
 --
 ALTER TABLE `payment`
@@ -171,8 +145,7 @@ ALTER TABLE `payment`
 --
 ALTER TABLE `property`
   ADD PRIMARY KEY (`property_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `location_id` (`location_id`);
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `user`
@@ -198,12 +171,6 @@ ALTER TABLE `announcement`
   MODIFY `ann_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `location`
---
-ALTER TABLE `location`
-  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
@@ -213,7 +180,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `property`
 --
 ALTER TABLE `property`
-  MODIFY `property_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `property_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -241,8 +208,7 @@ ALTER TABLE `payment`
 -- Constraints for table `property`
 --
 ALTER TABLE `property`
-  ADD CONSTRAINT `property_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  ADD CONSTRAINT `property_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`);
+  ADD CONSTRAINT `property_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Constraints for table `utilities`
