@@ -21,9 +21,13 @@
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">Properties</div>
-                    <a class="nav-link" href="location">
+                    <!-- <a class="nav-link" href="location">
                         <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
                         Locations
+                    </a> -->
+                    <a class="nav-link" href="contract">
+                        <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
+                        Contracts
                     </a>
                     <a class="nav-link" href="properties">
                         <div class="sb-nav-link-icon"><i class="fas fa-house-user"></i></div>

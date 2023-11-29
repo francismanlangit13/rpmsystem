@@ -7,7 +7,7 @@
         </ol>
         <div class="row">
             <?php
-                $total_query = $con->query("SELECT (SELECT COUNT(*) FROM location) as total_location, SUM(CASE WHEN type = 'Admin' THEN 1 ELSE 0 END) as total_admin, SUM(CASE WHEN type = 'Staff' THEN 1 ELSE 0 END) as total_staff, SUM(CASE WHEN type = 'Renter' THEN 1 ELSE 0 END) as total_renter FROM user");
+                $total_query = $con->query("SELECT (SELECT COUNT(*) FROM `contract`) as total_contract, SUM(CASE WHEN type = 'Admin' THEN 1 ELSE 0 END) as total_admin, SUM(CASE WHEN type = 'Staff' THEN 1 ELSE 0 END) as total_staff, SUM(CASE WHEN type = 'Renter' THEN 1 ELSE 0 END) as total_renter FROM user");
                 $total_count = $total_query->fetch_assoc();
             ?>
             <div class="col-xl-3 col-md-6">
@@ -39,7 +39,7 @@
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-danger text-white mb-4">
-                    <div class="card-body">Total Locations <span class="float-end"><?php echo $total_count['total_location']; ?></span></div>
+                    <div class="card-body">Total Contracts <span class="float-end"><?php echo $total_count['total_contract']; ?></span></div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white stretched-link text-decoration-none" href="location">View Details</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
