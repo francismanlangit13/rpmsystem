@@ -33,6 +33,15 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-house-user"></i></div>
                         Properties
                     </a>
+                    <div class="sb-sidenav-menu-heading">Billing</div>
+                    <a class="nav-link" href="payment">
+                        <div class="sb-nav-link-icon"><i class="fas fa-file-invoice"></i></div>
+                        Payments
+                    </a>
+                    <a class="nav-link" href="utilities">
+                        <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
+                        Utilities
+                    </a>
                 </div>
             </div>
             <div class="sb-sidenav-footer">

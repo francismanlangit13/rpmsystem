@@ -41,7 +41,7 @@
                 <div class="card bg-danger text-white mb-4">
                     <div class="card-body">Total Contracts <span class="float-end"><?php echo $total_count['total_contract']; ?></span></div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link text-decoration-none" href="location">View Details</a>
+                        <a class="small text-white stretched-link text-decoration-none" href="contract">View Details</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>
