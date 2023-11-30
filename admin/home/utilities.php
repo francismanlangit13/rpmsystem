@@ -7,7 +7,7 @@
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">Utilities
-            <a href="payment_add" class="btn btn-success btn-icon-split float-end mt-2"> 
+            <a href="utilities_add" class="btn btn-success btn-icon-split float-end mt-2"> 
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -53,36 +53,41 @@
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `utilities` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by WHERE `payment`.`status` != 'Archive'";
+                            $query = "SELECT *, DATE_FORMAT(utilities_date, '%M %d, %Y %h:%i %p') as new_utilities_date FROM `utilities`
+                                INNER JOIN `user` ON user.user_id = utilities.user_id
+                                INNER JOIN utilities_type ON utilities_type.utilities_type_id = utilities.utilities_type_id
+                                INNER JOIN property ON property.user_id = utilities.user_id
+                                WHERE `utilities_status` != 'Archive'
+                            ";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
                         ?>
                         <tr>
-                            <td><?= $row['payment_id']; ?></td>
+                            <td><?= $row['utilities_id']; ?></td>
                             <td><?= $row['fname']; ?> <?= $row['mname']; ?> <?= $row['lname']; ?></td>
                             <td><?= $row['property_location']; ?></td>
                             <td><?= $row['phone']; ?></td>
-                            <td><?= $row['payment_type']; ?></td>
-                            <td><?= $row['payment_amount']; ?></td>
-                            <td><?= $row['payment_status']; ?></td>
-                            <td><?= $row['new_payment_date']; ?></td>
+                            <td><?= $row['utilities_type_name']; ?></td>
+                            <td><?= $row['utilities_amount']; ?></td>
+                            <td><?= $row['new_utilities_date']; ?></td>
+                            <td><?= $row['utilities_status']; ?></td>
                             <td>
                                 <div class="row d-inline-flex justify-content-center col-lg-4 col-xl-12">
                                     <div class="col-md-4 mb-1">
-                                        <a href="payment_view?id=<?=$row['payment_id']?>" class="btn btn-info btn-icon-split" title="View"> 
+                                        <a href="utilities_view?id=<?=$row['utilities_id']?>" class="btn btn-info btn-icon-split" title="View"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
                                             <span class="text ml-2 mr-2"></span>
                                         </a>
                                     </div>
                                     <div class="col-md-4 mb-1">
-                                        <a href="payment_edit?id=<?=$row['payment_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
+                                        <a href="utilities_edit?id=<?=$row['utilities_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>
                                         </a>
                                     </div>
                                     <div class="col-md-4">
-                                        <button type="button" data-toggle="modal" value="<?=$row['payment_id']; ?>" data-target="#Modal_delete_payment" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
+                                        <button type="button" data-toggle="modal" value="<?=$row['utilities_id']; ?>" data-target="#Modal_delete_utilities" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>
                                             </span>
@@ -99,12 +104,12 @@
         </div>
     </div>
 </main>
-<!-- Modal Payment Delete -->
-<div class="modal fade" id="Modal_delete_payment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Utilities Delete -->
+<div class="modal fade" id="Modal_delete_utilities" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Payment</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete Utilities</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -114,15 +119,15 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <form action="payment_code.php" method="POST">
-            <input type="hidden" id="delete_id" name="payment_id">
-            <button type="submit" name="delete_payment" class="btn btn-danger">Delete</button>
+        <form action="utilities_code.php" method="POST">
+            <input type="hidden" id="delete_id" name="utilities_id">
+            <button type="submit" name="delete_utilities" class="btn btn-danger">Delete</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-<!-- JavaScript for delete payment -->
+<!-- JavaScript for delete utilities -->
 <script>
     function deleteModal(button) {
         var id = button.value;
