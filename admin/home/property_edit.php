@@ -14,7 +14,7 @@
         <h1 class="mt-4">Edit Property</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./properties" class="text-decoration-none">Properties</a></li>
+            <li class="breadcrumb-item active"><a href="./property" class="text-decoration-none">Property</a></li>
             <li class="breadcrumb-item">Edit Property</li>
         </ol>
         <?php
@@ -26,14 +26,14 @@
                 if(mysqli_num_rows($sql_run) > 0) {
                     foreach($sql_run as $row){
         ?>
-        <form action="properties_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form action="property_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Property form
                                 <div class="float-end">
-                                    <button type="submit" name="edit_properties" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                                    <button type="submit" name="edit_property" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
                                     <input type="hidden" name="id" value="<?=$row['property_id']?>">
                                 </div>
                             </h4>
@@ -41,9 +41,9 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="edit_property_unit_code" class="required">Property Unit Code</label>
-                                    <input type="text" class="form-control" placeholder="Enter Property Unit Code" name="edit_property_unit_code" id="edit_property_unit_code" value="<?=$row['property_unit_code']?>" required>
-                                    <div id="edit_property_unit_code-error"></div>
+                                    <label for="property_unit_code" class="required">Property Unit Code</label>
+                                    <input type="text" class="form-control" placeholder="Enter Property Unit Code" name="property_unit_code" id="property_unit_code" value="<?=$row['property_unit_code']?>" required>
+                                    <div id="property_unit_code-error"></div>
                                 </div>
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
@@ -51,8 +51,8 @@
                                         $client = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Staff'";
                                         $client_result = $con->query($client);
                                     ?>
-                                    <label for="edit_staff" class="required">Landlady / Landlord</label>
-                                    <select class="form-control select2" id="edit_staff" name="edit_staff" style="width: 100%;" required>
+                                    <label for="staff" class="required">Landlady / Landlord</label>
+                                    <select class="form-control select2" id="staff" name="staff" style="width: 100%;" required>
                                         <option value="">Select Landlady / Landlord</option>
                                         <?php 
                                         if ($client_result->num_rows > 0) {
@@ -62,7 +62,7 @@
                                         <option value="<?=$clientrow['user_id'];?>" <?=$selected;?>><?=$clientrow['fullname'];?></option>
                                         <?php } } ?>
                                     </select>
-                                    <div id="edit_staff-error"></div>
+                                    <div id="staff-error"></div>
                                 </div>
                                 <!-- Initialize Select2 -->
                                 <script>
@@ -78,8 +78,8 @@
                                         $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter'";
                                         $staff_result = $con->query($staff);
                                     ?>
-                                    <label for="edit_renter" class="required">Rented By</label>
-                                    <select class="form-control select3" id="edit_renter" name="edit_renter" style="width: 100%;" required>
+                                    <label for="renter" class="required">Rented By</label>
+                                    <select class="form-control select3" id="renter" name="renter" style="width: 100%;" required>
                                         <option value="">Select Rented By</option>
                                         <option value="0" <?= isset($row['rented_by']) && $row['rented_by'] == '0' ? 'selected' : '' ?>>None</option>
                                         <?php 
@@ -90,7 +90,7 @@
                                         <option value="<?=$staffrow['user_id'];?>" <?=$selected;?>><?=$staffrow['fullname'];?></option>
                                         <?php } } ?>
                                     </select>
-                                    <div id="edit_renter-error"></div>
+                                    <div id="renter-error"></div>
                                 </div>
                                 <!-- Initialize Select2 -->
                                 <script>
@@ -101,22 +101,30 @@
                                 </script>
 
                                 <div class="col-md-3 mb-3">
-                                    <div class="form-group">
-                                        <label for="edit_property_type" class="required">Property Type</label>
-                                        <select class="form-control" name="edit_property_type" id="edit_property_type" required>
-                                            <option value="" selected disabled>Select Property Type</option>
-                                            <option value="Apartment" <?= isset($row['property_type']) && $row['property_type'] == 'Apartment' ? 'selected' : '' ?>>Apartment</option>
-                                            <option value="Boarding House" <?= isset($row['property_type']) && $row['property_type'] == 'Boarding House' ? 'selected' : '' ?>>Boarding House</option>
-                                            <option value="Residential Space" <?= isset($row['property_type']) && $row['property_type'] == 'Residential Space' ? 'selected' : '' ?>>Residential Space</option>
-                                        </select>
-                                        <div id="edit_property_type-error"></div>
-                                    </div>
+                                    <?php
+                                        $stmt = "SELECT * FROM `property_type` WHERE property_type_status != 'Archive'";
+                                        $stmt_run = mysqli_query($con,$stmt);
+                                    ?>
+                                    <label for="property_type_id" class="required">Property Type</label>
+                                    <select class="form-control" id="property_type_id" name="property_type_id" required>
+                                        <option value="">Select Property Type</option>
+                                        <?php
+                                            // use a while loop to fetch data
+                                            while ($property_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):;
+                                            $selected = ($property_type['property_type_id'] == $row['property_type_id']) ? 'selected' : '';
+                                        ?>
+                                            <option value="<?= $property_type["property_type_id"]; ?>" <?=$selected;?>><?= $property_type["property_type_name"]; ?></option>
+                                        <?php
+                                            endwhile; // While loop must be terminated
+                                        ?>
+                                    </select>
+                                    <div id="property_type_id-error"></div>
                                 </div>
 
                                 <div class="col-md-3 mb-3">
                                     <div class="form-group">
-                                        <label for="edit_property_location" class="required">Barangay</label>
-                                        <select class="form-control" name="edit_property_location" id="edit_property_location" required>
+                                        <label for="property_location" class="required">Barangay</label>
+                                        <select class="form-control" name="property_location" id="property_location" required>
                                             <option value="" selected disabled>Select Barangay</option>
                                             <option value="Adorable" <?= isset($row['property_location']) && $row['property_location'] == 'Adorable' ? 'selected' : '' ?>>Adorable</option>    
                                             <option value="Butuay" <?= isset($row['property_location']) && $row['property_location'] == 'Butuay' ? 'selected' : '' ?>>Butuay</option> 
@@ -143,14 +151,14 @@
                                             <option value="Tabo-o" <?= isset($row['property_location']) && $row['property_location'] == 'Tabo-o' ? 'selected' : '' ?>>Tabo-o</option>
                                             <option value="Taraka" <?= isset($row['property_location']) && $row['property_location'] == 'Taraka' ? 'selected' : '' ?>>Taraka</option>
                                         </select>
-                                        <div id="edit_property_location-error"></div>
+                                        <div id="property_location-error"></div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="edit_property_cost" class="required">Property Cost</label>
-                                    <input type="text" class="form-control" placeholder="Enter Property Cost" name="edit_property_cost" id="edit_property_cost" value="<?=$row['property_cost']?>" required>
-                                    <div id="edit_property_cost-error"></div>
+                                    <label for="property_amount" class="required">Property Amount</label>
+                                    <input type="text" class="form-control" placeholder="Enter Property Cost" name="property_amount" id="property_amount" value="<?=$row['property_amount']?>" required>
+                                    <div id="property_amount-error"></div>
                                 </div>
     
                                 <!-- <div class="col-md-4 mb-3">
@@ -161,14 +169,14 @@
 
                                 <div class="col-md-3 mb-3">
                                     <div class="form-group">
-                                        <label for="edit_property_status">Property Status</label>
-                                        <select class="form-control" name="edit_property_status" id="edit_property_status" required>
+                                        <label for="property_status">Property Status</label>
+                                        <select class="form-control" name="property_status" id="property_status" required>
                                             <option value="" selected disabled>Select Status</option>
                                             <option value="Rented" <?= isset($row['property_status']) && $row['property_status'] == 'Rented' ? 'selected' : '' ?>>Rented</option>
                                             <option value="Available" <?= isset($row['property_status']) && $row['property_status'] == 'Available' ? 'selected' : '' ?>>Available</option>
                                             <option value="Renovating" <?= isset($row['property_status']) && $row['property_status'] == 'Renovating' ? 'selected' : '' ?>>Renovating</option>
                                         </select>
-                                        <div id="edit_property_status-error"></div>
+                                        <div id="property_status-error"></div>
                                     </div>
                                 </div>
                             </div>

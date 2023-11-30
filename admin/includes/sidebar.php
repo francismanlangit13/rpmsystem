@@ -20,6 +20,19 @@
                             <a class="nav-link" href="renter">Renters</a>
                         </nav>
                     </div>
+                    <div class="sb-sidenav-menu-heading">Categories</div>
+                    <a class="nav-link" href="payment_type">
+                        <div class="sb-nav-link-icon"><i class="fab fa-paypal"></i></div>
+                        Payment Type
+                    </a>
+                    <a class="nav-link" href="property_type">
+                        <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                        Property Type
+                    </a>
+                    <a class="nav-link" href="utilities_type">
+                        <div class="sb-nav-link-icon"><i class="fas fa-scroll"></i></div>
+                        Utilities Type
+                    </a>
                     <div class="sb-sidenav-menu-heading">Properties</div>
                     <!-- <a class="nav-link" href="location">
                         <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
@@ -29,9 +42,9 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
                         Contracts
                     </a>
-                    <a class="nav-link" href="properties">
+                    <a class="nav-link" href="property">
                         <div class="sb-nav-link-icon"><i class="fas fa-house-user"></i></div>
-                        Properties
+                        Property
                     </a>
                     <div class="sb-sidenav-menu-heading">Billing</div>
                     <a class="nav-link" href="payment">

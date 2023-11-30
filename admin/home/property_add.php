@@ -14,26 +14,26 @@
         <h1 class="mt-4">Add Property</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./renter" class="text-decoration-none">Properties</a></li>
+            <li class="breadcrumb-item active"><a href="./property" class="text-decoration-none">Property</a></li>
             <li class="breadcrumb-item">Add Property</li>
         </ol>
-        <form action="properties_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form action="property_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Property form
                                 <div class="float-end">
-                                    <button type="submit" name="add_properties" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+                                    <button type="submit" name="add_property" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
                                 </div>
                             </h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="add_property_unit_code" class="required">Property Unit Code</label>
-                                    <input type="text" class="form-control" placeholder="Enter Property Unit Code" name="add_property_unit_code" id="add_property_unit_code" required>
-                                    <div id="add_property_unit_code-error"></div>
+                                    <label for="property_unit_code" class="required">Property Unit Code</label>
+                                    <input type="text" class="form-control" placeholder="Enter Property Unit Code" name="property_unit_code" id="property_unit_code" required>
+                                    <div id="property_unit_code-error"></div>
                                 </div>
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
@@ -41,8 +41,8 @@
                                         $client = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Staff'";
                                         $client_result = $con->query($client);
                                     ?>
-                                    <label for="add_staff" class="required">Landlady / Landlord</label>
-                                    <select class="form-control select2" id="add_staff" name="add_staff" style="width: 100%;" required>
+                                    <label for="staff" class="required">Landlady / Landlord</label>
+                                    <select class="form-control select2" id="staff" name="staff" style="width: 100%;" required>
                                         <option value="">Select Landlady / Landlord</option>
                                         <?php 
                                             if ($client_result->num_rows > 0) {
@@ -51,7 +51,7 @@
                                         <option value="<?=$clientrow['user_id'];?>"><?=$clientrow['fullname'];?></option>
                                         <?php } } ?>
                                     </select>
-                                    <div id="add_staff-error"></div>
+                                    <div id="staff-error"></div>
                                 </div>
                                 <!-- Initialize Select2 -->
                                 <script>
@@ -67,8 +67,8 @@
                                         $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter'";
                                         $staff_result = $con->query($staff);
                                     ?>
-                                    <label for="add_renter" class="required">Rented By</label>
-                                    <select class="form-control select3" id="add_renter" name="add_renter" style="width: 100%;" required>
+                                    <label for="renter" class="required">Rented By</label>
+                                    <select class="form-control select3" id="renter" name="renter" style="width: 100%;" required>
                                         <option value="">Select Rented By</option>
                                         <option value=" ">None</option>
                                         <?php 
@@ -78,7 +78,7 @@
                                         <option value="<?=$staffrow['user_id'];?>"><?=$staffrow['fullname'];?></option>
                                         <?php } } ?>
                                     </select>
-                                    <div id="add_renter-error"></div>
+                                    <div id="renter-error"></div>
                                 </div>
                                 <!-- Initialize Select2 -->
                                 <script>
@@ -89,22 +89,29 @@
                                 </script>
 
                                 <div class="col-md-3 mb-3">
-                                    <div class="form-group">
-                                        <label for="property_type" class="required">Property Type</label>
-                                        <select class="form-control" name="property_type" id="property_type" required>
-                                            <option value="" selected disabled>Select Property Type</option>
-                                            <option value="Apartment">Apartment</option>
-                                            <option value="Boarding House">Boarding House</option>
-                                            <option value="Residential Space">Residential Space</option>
-                                        </select>
-                                        <div id="property_type-error"></div>
-                                    </div>
+                                    <?php
+                                        $stmt = "SELECT * FROM `property_type` WHERE property_type_status != 'Archive'";
+                                        $stmt_run = mysqli_query($con,$stmt);
+                                    ?>
+                                    <label for="property_type_id" class="required">Property Type</label>
+                                    <select class="form-control" id="property_type_id" name="property_type_id" required>
+                                        <option value="">Select Property Type</option>
+                                        <?php
+                                            // use a while loop to fetch data
+                                            while ($property_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):;
+                                        ?>
+                                            <option value="<?= $property_type["property_type_id"]; ?>"><?= $property_type["property_type_name"]; ?></option>
+                                        <?php
+                                            endwhile; // While loop must be terminated
+                                        ?>
+                                    </select>
+                                    <div id="property_type_id-error"></div>
                                 </div>
 
                                 <div class="col-md-3 mb-3">
                                     <div class="form-group">
-                                        <label for="address" class="required">Barangay</label>
-                                        <select class="form-control" name="barangay" id="barangay" required>
+                                        <label for="property_location" class="required">Barangay</label>
+                                        <select class="form-control" name="property_location" id="property_location" required>
                                             <option value="" selected disabled>Select Barangay</option>
                                             <option value="Adorable">Adorable</option>    
                                             <option value="Butuay">Butuay</option> 
@@ -131,14 +138,14 @@
                                             <option value="Tabo-o">Tabo-o</option>
                                             <option value="Taraka">Taraka</option>
                                         </select>
-                                        <div id="barangay-error"></div>
+                                        <div id="property_location-error"></div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="property_cost" class="required">Property Cost</label>
-                                    <input type="text" class="form-control" placeholder="Enter Property Cost" name="property_cost" id="property_cost" required>
-                                    <div id="property_cost-error"></div>
+                                    <label for="property_amount" class="required">Property Cost</label>
+                                    <input type="text" class="form-control" placeholder="Enter Property Cost" name="property_amount" id="property_amount" required>
+                                    <div id="property_amount-error"></div>
                                 </div>
     
                                 <!-- <div class="col-md-4 mb-3">

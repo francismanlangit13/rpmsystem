@@ -8,7 +8,7 @@
     <div class="container-fluid px-4">
         <h1 class="mt-4">Edit Property Type</h1>
         <ol class="breadcrumb mb-4 mt-3">
-            <li class="breadcrumb-item active"><a href="./home" class="text-decoration-none">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item active"><a href="./property_type" class="text-decoration-none">Property Type</a></li>
             <li class="breadcrumb-item">Edit Property Type</li>
         </ol>

@@ -8,7 +8,7 @@
     <div class="container-fluid px-4">
         <h1 class="mt-4">Edit Utilities Type</h1>
         <ol class="breadcrumb mb-4 mt-3">
-            <li class="breadcrumb-item active"><a href="./home" class="text-decoration-none">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item active"><a href="./utilities_type" class="text-decoration-none">Utilities Type</a></li>
             <li class="breadcrumb-item">Edit Utilities Type</li>
         </ol>
