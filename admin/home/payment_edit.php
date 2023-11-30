@@ -20,7 +20,7 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by WHERE `payment_status` != 'Archive'";
+                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by WHERE `payment`.`status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
