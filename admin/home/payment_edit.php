@@ -14,7 +14,7 @@
         <h1 class="mt-4">Edit Payment</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./renter" class="text-decoration-none">Payment</a></li>
+            <li class="breadcrumb-item active"><a href="./payment" class="text-decoration-none">Payment</a></li>
             <li class="breadcrumb-item">Edit Payment</li>
         </ol>
         <?php

@@ -34,6 +34,7 @@
                             <th>Type</th>
                             <th>Amount</th>
                             <th>Status</th>
+                            <th>Date payment</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
@@ -46,12 +47,13 @@
                             <th>Type</th>
                             <th>Amount</th>
                             <th>Status</th>
+                            <th>Date payment</th>
                             <th>Buttons</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by WHERE `payment`.`status` != 'Archive'";
+                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by WHERE `payment`.`status` != 'Archive'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
@@ -64,6 +66,7 @@
                             <td><?= $row['payment_type']; ?></td>
                             <td><?= $row['payment_amount']; ?></td>
                             <td><?= $row['payment_status']; ?></td>
+                            <td><?= $row['new_payment_date']; ?></td>
                             <td>
                                 <div class="row d-inline-flex justify-content-center col-lg-4 col-xl-12">
                                     <div class="col-md-4 mb-1">
