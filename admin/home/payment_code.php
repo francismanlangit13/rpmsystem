@@ -21,9 +21,10 @@
         $payment_amount = $_POST['payment_amount'];
         $payment_status = $_POST['payment_status'];
         $payment_type = 'Cash';
+        $payment_date = date;
         $status = 'Active';
 
-        $query = "INSERT INTO `payment`(`user_id`, `payment_type`, `payment_amount`, `payment_status`, `status`) VALUES ('$add_renter','$payment_type','$payment_amount','$payment_status','$status')";
+        $query = "INSERT INTO `payment`(`user_id`, `payment_type`, `payment_amount`, `payment_date`, `payment_status`, `status`) VALUES ('$add_renter','$payment_type','$payment_amount','$payment_date','$payment_status','$status')";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
@@ -81,6 +82,6 @@
             $_SESSION['status_code'] = "error";
             header("Location: " . base_url . "admin/home/payment");
             exit(0);
-        } 
+        }
     }
 ?>
