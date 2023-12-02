@@ -11,16 +11,16 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Add Utilities</h1>
+        <h1 class="mt-4">Edit Utilities</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item active"><a href="./utilities" class="text-decoration-none">Utilities</a></li>
-            <li class="breadcrumb-item">Add Utilities</li>
+            <li class="breadcrumb-item">Edit Utilities</li>
         </ol>
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `utilities` WHERE `utilities_id` = '$id' AND `utilities_status` != 'Archive'";
+                $sql = "SELECT * FROM `utilities` WHERE `utilities_status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -33,7 +33,8 @@
                         <div class="card-header">
                             <h4>Utilities form
                                 <div class="float-end">
-                                    <button type="submit" name="add_utilities" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+                                    <button type="submit" name="edit_utilities" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                                    <input type="hidden" name="utilities_id" value="<?=$row['utilities_id']?>">
                                 </div>
                             </h4>
                         </div>
@@ -42,18 +43,18 @@
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter'";
+                                        $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` INNER JOIN `property` ON property.rented_by = user.user_id WHERE `type` = 'Renter'";
                                         $staff_result = $con->query($staff);
                                     ?>
                                     <label for="renter" class="required">Rented By</label>
                                     <select class="form-control select3" id="renter" name="renter" style="width: 100%;" required>
                                         <option value="">Select Rented By</option>
-                                        <option value=" ">None</option>
                                         <?php 
                                             if ($staff_result->num_rows > 0) {
                                             while($staffrow = $staff_result->fetch_assoc()) {
+                                                $selected = ($staffrow['rented_by'] == $row['user_id']) ? 'selected' : '';
                                         ?>
-                                        <option value="<?=$staffrow['user_id'];?>"><?=$staffrow['fullname'];?></option>
+                                        <option value="<?=$staffrow['rented_by'];?>" <?=$selected;?>><?=$staffrow['fullname'];?></option>
                                         <?php } } ?>
                                     </select>
                                     <div id="renter-error"></div>
@@ -77,8 +78,9 @@
                                         <?php
                                             // use a while loop to fetch data
                                             while ($utilities_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):;
+                                            $selected = ($utilities_type['utilities_type_id'] == $row['utilities_type_id']) ? 'selected' : '';
                                         ?>
-                                            <option value="<?= $utilities_type["utilities_type_id"]; ?>"><?= $utilities_type["utilities_type_name"]; ?></option>
+                                            <option value="<?= $utilities_type["utilities_type_id"]; ?>" <?=$selected;?>><?= $utilities_type["utilities_type_name"]; ?></option>
                                         <?php
                                             endwhile; // While loop must be terminated
                                         ?>
@@ -88,7 +90,7 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label for="utilities_amount" class="required">Utilities Amount</label>
-                                    <input type="text" class="form-control" placeholder="Enter Utilities Amount" name="utilities_amount" id="utilities_amount" required>
+                                    <input type="text" class="form-control" placeholder="Enter Utilities Amount" name="utilities_amount" id="utilities_amount" value="<?= $row['utilities_amount']; ?>" required>
                                     <div id="utilities_amount-error"></div>
                                 </div>
                             </div>
@@ -102,7 +104,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Utilities Type info</h4>
+                            <h4>Utilities info</h4>
                         </div>
                         <div class="card-body">
                             <h4>No records found.</h4>

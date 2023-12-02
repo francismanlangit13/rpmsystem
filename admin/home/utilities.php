@@ -34,7 +34,6 @@
                             <th>Type</th>
                             <th>Amount</th>
                             <th>Date utilities</th>
-                            <th>Status</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
@@ -47,7 +46,6 @@
                             <th>Type</th>
                             <th>Amount</th>
                             <th>Date utilities</th>
-                            <th>Status</th>
                             <th>Buttons</th>
                         </tr>
                     </tfoot>
@@ -56,7 +54,7 @@
                             $query = "SELECT *, DATE_FORMAT(utilities_date, '%M %d, %Y %h:%i %p') as new_utilities_date FROM `utilities`
                                 INNER JOIN `user` ON user.user_id = utilities.user_id
                                 INNER JOIN utilities_type ON utilities_type.utilities_type_id = utilities.utilities_type_id
-                                INNER JOIN property ON property.user_id = utilities.user_id
+                                INNER JOIN property ON property.rented_by = utilities.user_id
                                 WHERE `utilities_status` != 'Archive'
                             ";
                             $query_run = mysqli_query($con, $query);
@@ -71,7 +69,6 @@
                             <td><?= $row['utilities_type_name']; ?></td>
                             <td><?= $row['utilities_amount']; ?></td>
                             <td><?= $row['new_utilities_date']; ?></td>
-                            <td><?= $row['utilities_status']; ?></td>
                             <td>
                                 <div class="row d-inline-flex justify-content-center col-lg-4 col-xl-12">
                                     <div class="col-md-4 mb-1">

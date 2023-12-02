@@ -33,13 +33,12 @@
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter'";
+                                        $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` INNER JOIN `property` ON property.rented_by = user.user_id WHERE `type` = 'Renter'";
                                         $staff_result = $con->query($staff);
                                     ?>
                                     <label for="renter" class="required">Rented By</label>
                                     <select class="form-control select3" id="renter" name="renter" style="width: 100%;" required>
                                         <option value="">Select Rented By</option>
-                                        <option value=" ">None</option>
                                         <?php 
                                             if ($staff_result->num_rows > 0) {
                                             while($staffrow = $staff_result->fetch_assoc()) {
