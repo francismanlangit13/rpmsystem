@@ -147,17 +147,11 @@
                                     <input type="text" class="form-control" placeholder="Enter Property Cost" name="property_amount" id="property_amount" required>
                                     <div id="property_amount-error"></div>
                                 </div>
-    
-                                <!-- <div class="col-md-4 mb-3">
-                                    <label for="property_date" class="required">Date Rented</label>
-                                    <input type="date" class="form-control" placeholder="Enter Email" name="property_date" id="property_date" required>
-                                    <div id="property_date-error"></div>
-                                </div> -->
 
                                 <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label for="property_status">Property Status</label>
-                                        <select class="form-control" name="property_status" required>
+                                        <select class="form-control" name="property_status" id="property_status" required>
                                             <option value="" selected disabled>Select Status</option>
                                             <option value="Rented">Rented</option>
                                             <option value="Available">Available</option>
@@ -165,6 +159,12 @@
                                         </select>
                                         <div id="property_status-error"></div>
                                     </div>
+                                </div>
+                                
+                                <div class="col-md-3 mb-3 d-none" id="dateContainer">
+                                    <label for="date_rented" class="required">Date Rented</label>
+                                    <input type="date" class="form-control" name="date_rented" id="date_rented">
+                                    <div id="date_rented-error"></div>
                                 </div>
                             </div>
                         </div>
@@ -174,4 +174,18 @@
         </form>
     </div>
 </main>
+<script>
+    document.getElementById('property_status').addEventListener('change', function () {
+        var dateContainer = document.getElementById('dateContainer');
+        var propertyDate = document.getElementById('property_date');
+
+        if (this.value === 'Rented') {
+            dateContainer.classList.remove('d-none');
+            propertyDate.required = true;
+        } else {
+            dateContainer.classList.add('d-none');
+            propertyDate.required = false;
+        }
+    });
+</script>
 <?php include ('../includes/bottom.php'); ?>

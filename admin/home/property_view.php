@@ -87,6 +87,11 @@
                                 <input type="text" class="form-control" id="property_status" value="<?=$row['property_status']?>" disabled>
                                 <div id="property_status-error"></div>
                             </div>
+
+                            <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>" id="dateContainer">
+                                <label for="date_rented" class="required">Date Rented</label>
+                                <input type="date" class="form-control" id="date_rented" value="<?=$row['date_rented'];?>" disabled>
+                            </div>
                         </div>
                     </div>
                 </div>

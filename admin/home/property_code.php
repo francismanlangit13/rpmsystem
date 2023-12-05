@@ -24,8 +24,9 @@
         $property_location = $_POST['property_location'];
         $property_amount = $_POST['property_amount'];
         $property_status = $_POST['property_status'];
+        $date_rented = $_POST['date_rented'];
 
-        $query = "INSERT INTO `property` (`user_id`, `rented_by`, `property_unit_code`, `property_location`, `property_type_id`, `property_amount`, `property_status`) VALUES ('$staff','$renter','$property_unit_code','$property_location','$property_type_id','$property_amount','$property_status')";
+        $query = "INSERT INTO `property` (`user_id`, `rented_by`, `property_unit_code`, `property_location`, `property_type_id`, `property_amount`, `date_rented`, `property_status`) VALUES ('$staff','$renter','$property_unit_code','$property_location','$property_type_id','$property_amount','$date_rented','$property_status')";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
@@ -52,8 +53,9 @@
         $property_location = $_POST['property_location'];
         $property_amount = $_POST['property_amount'];
         $property_status = $_POST['property_status'];
+        $date_rented = $_POST['date_rented'];
 
-        $query = "UPDATE `property` SET `user_id`='$staff',`rented_by`='$renter',`property_unit_code`='$property_unit_code',`property_location`='$property_location',`property_type_id`='$property_type_id',`property_amount`='$property_amount',`property_status`='$property_status' WHERE `property_id`='$id'";
+        $query = "UPDATE `property` SET `user_id`='$staff',`rented_by`='$renter',`property_unit_code`='$property_unit_code',`property_location`='$property_location',`property_type_id`='$property_type_id',`property_amount`='$property_amount',`date_rented`='$date_rented',`property_status`='$property_status' WHERE `property_id`='$id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
