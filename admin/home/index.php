@@ -95,7 +95,6 @@
     </div>
 </main>
 <?php include ('../includes/bottom.php'); ?>
-<script src="<?php echo base_url ?>assets/demo/chart-area-demo.js"></script>
 <script src="<?php echo base_url ?>assets/demo/chart-bar-demo.js"></script>
 <script src="<?php echo base_url ?>assets/demo/chart-pie-demo.js"></script>
 
