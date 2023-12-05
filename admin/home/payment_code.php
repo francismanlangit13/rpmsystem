@@ -153,7 +153,7 @@
     //Delete payment
     if(isset($_POST['delete_payment'])){
         $payment_id= $_POST['payment_id'];
-        $query = "UPDATE `payment` SET `status` = 'Archive' WHERE payment_id = $user_id ";
+        $query = "UPDATE `payment` SET `status` = 'Archive' WHERE payment_id = $payment_id ";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
