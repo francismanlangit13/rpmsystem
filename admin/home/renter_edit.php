@@ -53,12 +53,12 @@
                                     <div id="lname-error"></div>
                                 </div>
 
-                                <!-- <div class="col-md-3 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label for="suffix">Suffix</label>
                                         <select class="form-control" id="suffix" name="suffix">
                                             <option value="" selected>Select Suffix</option>
-                                            <option value="" <?= isset($row['suffix']) && $row['suffix'] == '' ? 'selected' : '' ?>>None</option>
+                                            <option value=" " <?= isset($row['suffix']) && $row['suffix'] == ' ' ? 'selected' : '' ?>>None</option>
                                             <option value="Jr" <?= isset($row['suffix']) && $row['suffix'] == 'Jr' ? 'selected' : '' ?>>Jr</option>
                                             <option value="Sr" <?= isset($row['suffix']) && $row['suffix'] == 'Sr' ? 'selected' : '' ?>>Sr</option>
                                             <option value="I" <?= isset($row['suffix']) && $row['suffix'] == 'I' ? 'selected' : '' ?>>I</option>
@@ -70,9 +70,9 @@
                                         </select>
                                         <div id="suffix-error"></div>
                                     </div>
-                                </div> -->
+                                </div>
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-group">
                                         <label for="gender" class="required">Gender</label>
                                         <select class="form-control" name="gender" id="gender" required>

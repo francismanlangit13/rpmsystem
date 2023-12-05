@@ -43,11 +43,12 @@
                                     <div id="lname-error"></div>
                                 </div>
 
-                                <!-- <div class="col-md-3 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label for="suffix">Suffix</label>
-                                        <select class="form-control" name="suffix">
-                                            <option value="" selected disabled>Select Suffix</option>
+                                        <select class="form-control" name="suffix" id="suffix" required>
+                                            <option value="" selected>Select Suffix</option>
+                                            <option value=" ">None</option>
                                             <option value="Jr">Jr</option>
                                             <option value="Sr">Sr</option>
                                             <option value="I">I</option>
@@ -59,9 +60,9 @@
                                         </select>
                                         <div id="suffix-error"></div>
                                     </div>
-                                </div> -->
+                                </div>
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-group">
                                         <label for="gender" class="required">Gender</label>
                                         <select class="form-control" name="gender" id="gender" required>
@@ -85,11 +86,11 @@
                                     <div id="phone-error"></div>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <!-- <div class="col-md-4 mb-3">
                                     <label for="password" class="required">Password</label>
                                     <input type="password" class="form-control" placeholder="Enter Password" name="password" id="password" required>
                                     <div id="password-error"></div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
