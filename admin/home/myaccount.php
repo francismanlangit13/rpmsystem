@@ -8,6 +8,11 @@
         </ol>
         <div class="row">
             <div class="col-md-12">
+                <?php
+                    $userID = $_SESSION['auth_user']['user_id'];
+                    $user_qry = $con->query("SELECT * FROM user WHERE user_id = $userID ");
+                    $user = $user_qry->fetch_assoc();
+                ?>
                 <form action="myaccount_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-header">
