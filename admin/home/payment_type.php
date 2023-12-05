@@ -27,21 +27,21 @@
                 <table class="text-center" id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Payment Type</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Payment Type</th>
                             <th>Buttons</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT * FROM `payment_type` WHERE `payment_type_status` != 'Archive'";
+                            $query = "SELECT * FROM `payment_type` WHERE `payment_type_status` != 'Archive' AND payment_type_id != '1'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){

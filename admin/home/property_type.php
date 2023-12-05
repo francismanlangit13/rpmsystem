@@ -27,14 +27,14 @@
                 <table class="text-center" id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Property Type</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Property Type</th>
                             <th>Buttons</th>
                         </tr>

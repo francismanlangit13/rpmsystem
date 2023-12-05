@@ -6,7 +6,7 @@
         swal({
             title: "<?php echo $_SESSION['status']; ?>",
             icon: "<?php echo $_SESSION['status_code']; ?>",
-            timer: 2500,
+            timer: 3500,
             button: false,
             content: {
                 element: "span",

@@ -43,7 +43,7 @@
                                             if ($staff_result->num_rows > 0) {
                                             while($staffrow = $staff_result->fetch_assoc()) {
                                         ?>
-                                        <option value="<?=$staffrow['user_id'];?>"><?=$staffrow['fullname'];?></option>
+                                        <option value="<?=$staffrow['rented_by'];?>"><?=$staffrow['fullname'];?></option>
                                         <?php } } ?>
                                     </select>
                                     <div id="renter-error"></div>
@@ -58,7 +58,7 @@
 
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $stmt = "SELECT * FROM `utilities_type` WHERE utilities_type_status != 'Archive'";
+                                        $stmt = "SELECT * FROM `utilities_type` WHERE `utilities_type_id` != '1' AND `utilities_type_status` != 'Archive'";
                                         $stmt_run = mysqli_query($con,$stmt);
                                     ?>
                                     <label for="utilities_type_id" class="required">Utilities Type</label>

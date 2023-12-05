@@ -15,7 +15,7 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `payment_type` WHERE `payment_type_id` = '$id' AND `payment_type_status` != 'Archive'";
+                $sql = "SELECT * FROM `payment_type` WHERE `payment_type_id` = '$id' AND `payment_type_status` != 'Archive' AND payment_type_id != '1'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {

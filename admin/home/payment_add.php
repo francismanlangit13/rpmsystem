@@ -37,7 +37,7 @@
                                         $client_result = $con->query($client);
                                     ?>
                                     <label for="add_renter" class="required">Renter</label>
-                                    <select class="form-control select3" id="add_renter" name="add_renter" style="width: 100%;" required>
+                                    <select class="form-control select2" id="add_renter" name="add_renter" style="width: 100%;" required>
                                         <option value="">Select Renter</option>
                                         <?php 
                                             if ($client_result->num_rows > 0) {
@@ -52,17 +52,39 @@
                                 <script>
                                     $(document).ready(function () {
                                         // Initialize Select2 Elements
-                                        $('.select3').select2();
+                                        $('.select2').select2();
                                     });
                                 </script>
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
+                                    <?php
+                                        $stmt = "SELECT * FROM `utilities_type` WHERE `utilities_type_id` != '1' AND `utilities_type_status` != 'Archive'";
+                                        $stmt_run = mysqli_query($con,$stmt);
+                                    ?>
+                                    <label for="utilities_type_id" class="required">Utilities Type</label>
+                                    <select class="form-control" id="utilities_type_id" name="utilities_type_id" required>
+                                        <option value="">Select Utilities Type</option>
+                                        <?php
+                                            // use a while loop to fetch data
+                                            while ($utilities_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):;
+                                        ?>
+                                            <option value="<?= $utilities_type["utilities_type_id"]; ?>"><?= $utilities_type["utilities_type_name"]; ?></option>
+                                        <?php
+                                            endwhile; // While loop must be terminated
+                                        ?>
+                                    </select>
+                                    <div id="utilities_type_id-error"></div>
+                                    <input type="checkbox" id="pay_rent" name="pay_rent" value="1" onclick="toggleSelect()">
+                                    <label for="pay_rent"> Check this if the payment is Rent</label><br>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
                                     <label for="payment_amount" class="required">Amount</label>
                                     <input type="number" class="form-control" placeholder="Enter Property Cost" name="payment_amount" id="payment_amount" required>
                                     <div id="payment_amount-error"></div>
                                 </div>
 
-                                <div class="col-md-3 mb-3">
+                                <!-- <div class="col-md-4 mb-3">
                                     <div class="form-group">
                                         <label for="payment_status" class="required">Payment Status</label>
                                         <select class="form-control" name="payment_status" id="payment_status" required>
@@ -72,7 +94,7 @@
                                         </select>
                                         <div id="payment_status-error"></div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -81,4 +103,16 @@
         </form>
     </div>
 </main>
+<script>
+    function toggleSelect() {
+        var select = document.getElementById('utilities_type_id');
+        var checkbox = document.getElementById('pay_rent');
+
+        if (checkbox.checked) {
+            select.disabled = true;
+        } else {
+            select.disabled = false;
+        }
+    }
+</script>
 <?php include ('../includes/bottom.php'); ?>

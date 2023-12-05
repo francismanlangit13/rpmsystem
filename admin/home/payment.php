@@ -27,11 +27,12 @@
                 <table class="text-center" id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Full Name</th>
                             <th>Location</th>
                             <th>Phone</th>
-                            <th>Type</th>
+                            <th>Bills Type</th>
+                            <th>Payment Type</th>
                             <th>Amount</th>
                             <th>Status</th>
                             <th>Date payment</th>
@@ -40,11 +41,12 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Full Name</th>
                             <th>Location</th>
                             <th>Phone</th>
-                            <th>Type</th>
+                            <th>Bills Type</th>
+                            <th>Payment Type</th>
                             <th>Amount</th>
                             <th>Status</th>
                             <th>Date payment</th>
@@ -53,7 +55,7 @@
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by WHERE `payment`.`status` != 'Archive'";
+                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id WHERE `payment`.`status` != 'Archive'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
@@ -63,7 +65,8 @@
                             <td><?= $row['fname']; ?> <?= $row['mname']; ?> <?= $row['lname']; ?></td>
                             <td><?= $row['property_location']; ?></td>
                             <td><?= $row['phone']; ?></td>
-                            <td><?= $row['payment_type']; ?></td>
+                            <td><?= $row['utilities_type_name']; ?></td>
+                            <td><?= $row['payment_type_name']; ?></td>
                             <td><?= $row['payment_amount']; ?></td>
                             <td><?= $row['payment_status']; ?></td>
                             <td><?= $row['new_payment_date']; ?></td>

@@ -60,7 +60,7 @@
                 <table class="text-center" id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Property Unit Code</th>
                             <th>Location</th>
                             <th>Type</th>
@@ -73,7 +73,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Property Name</th>
                             <th>Location</th>
                             <th>Type</th>

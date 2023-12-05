@@ -27,6 +27,7 @@
                 <table class="text-center" id="datatablesSimple">
                     <thead>
                         <tr>
+                            <th>No.</th>
                             <th>Full Name</th>
                             <th>Gender</th>
                             <th>Email</th>
@@ -37,6 +38,7 @@
                     </thead>
                     <tfoot>
                         <tr>
+                            <th>No.</th>
                             <th>Full Name</th>
                             <th>Gender</th>
                             <th>Email</th>
@@ -53,6 +55,7 @@
                                 foreach($query_run as $row){
                         ?>
                         <tr>
+                            <td><?= $row['user_id']; ?></td>
                             <td><?= $row['fname']; ?> <?= $row['mname']; ?> <?= $row['lname']; ?></td>
                             <td><?= $row['gender']; ?></td>
                             <td><?= $row['email']; ?></td>

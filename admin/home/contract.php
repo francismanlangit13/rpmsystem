@@ -27,7 +27,7 @@
                 <table class="text-center" id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Full Name</th>
                             <th>Location</th>
                             <th>Email</th>
@@ -38,7 +38,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Full Name</th>
                             <th>Location</th>
                             <th>Email</th>

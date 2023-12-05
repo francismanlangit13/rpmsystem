@@ -20,7 +20,7 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `utilities` WHERE `utilities_status` != 'Archive'";
+                $sql = "SELECT * FROM `utilities` WHERE `utilities_id` = '$id' AND `utilities_status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {

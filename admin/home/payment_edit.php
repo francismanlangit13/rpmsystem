@@ -20,7 +20,7 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by WHERE `payment`.`status` != 'Archive'";
+                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -47,7 +47,7 @@
                                         $client_result = $con->query($client);
                                     ?>
                                     <label for="renter" class="required">Renter</label>
-                                    <select class="form-control select3" id="renter" name="renter" style="width: 100%;" required>
+                                    <select class="form-control select3" id="renter" style="width: 100%;" disabled>
                                         <option value="">Select Renter</option>
                                         <?php 
                                         if ($client_result->num_rows > 0) {
@@ -71,18 +71,6 @@
                                     <label for="payment_amount" class="required">Amount</label>
                                     <input type="number" class="form-control" placeholder="Enter Property Cost" name="payment_amount" id="payment_amount" value="<?= $row['payment_amount']; ?>" required>
                                     <div id="payment_amount-error"></div>
-                                </div>
-
-                                <div class="col-md-3 mb-3">
-                                    <div class="form-group">
-                                        <label for="payment_status" class="required">Payment Status</label>
-                                        <select class="form-control" name="payment_status" id="payment_status" required>
-                                            <option value="">Select Payment Status</option>
-                                            <option value="Partial" <?= isset($row['payment_status']) && $row['payment_status'] == 'Partial' ? 'selected' : '' ?>>Partial</option>
-                                            <option value="Full" <?= isset($row['payment_status']) && $row['payment_status'] == 'Full' ? 'selected' : '' ?>>Full</option>
-                                        </select>
-                                        <div id="payment_status-error"></div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

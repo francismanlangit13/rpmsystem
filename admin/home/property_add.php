@@ -64,7 +64,7 @@
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter'";
+                                        $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND `status` != 'Archive'";
                                         $staff_result = $con->query($staff);
                                     ?>
                                     <label for="renter" class="required">Rented By</label>
