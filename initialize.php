@@ -11,7 +11,9 @@
     if(!defined('base_url')) define('base_url','http://localhost/rpmsystem/');
     if(!defined('base_app')) define('base_app', str_replace('\\','/',__DIR__).'/' ); // Directory
     if(!defined('emailuser')) define('emailuser', 'host.sendmailer@gmail.com'); // Email for GoogleAPI
-    if(!defined('emailpass')) define('emailpass', 'lzqrmanuoigtudvt'); // Password for GoogleAPI
+    if(!defined('emailpass')) define('emailpass', 'your_api_key'); // Password for GoogleAPI
+    if(!defined('smsapiname')) define('smsapiname', 'CabTom'); // API SMS sender name
+    if(!defined('smsapikey')) define('smsapikey', 'your_api_key'); // API SMS KEY
     if(!defined('DB_SERVER')) define('DB_SERVER',"localhost");
     if(!defined('DB_USERNAME')) define('DB_USERNAME',"root");
     if(!defined('DB_PASSWORD')) define('DB_PASSWORD',"");
