@@ -13,7 +13,7 @@
     if(!defined('emailuser')) define('emailuser', 'host.sendmailer@gmail.com'); // Email for GoogleAPI
     if(!defined('emailpass')) define('emailpass', 'lzqrmanuoigtudvt'); // Password for GoogleAPI
     if(!defined('smsapiname')) define('smsapiname', 'CabTom'); // API SMS sender name
-    if(!defined('smsapikey')) define('smsapikey', 'cda2b7bcdab4a6ab448b7618c4721f59'); // API SMS KEY
+    if(!defined('smsapikey')) define('smsapikey', 'your_sms_key'); // API SMS KEY
     if(!defined('DB_SERVER')) define('DB_SERVER',"localhost");
     if(!defined('DB_USERNAME')) define('DB_USERNAME',"root");
     if(!defined('DB_PASSWORD')) define('DB_PASSWORD',"");
