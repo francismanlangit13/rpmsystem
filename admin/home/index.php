@@ -420,7 +420,8 @@
                 display: true,
                 text: percentages[0] + '%', // Display the calculated total percentage for the first value
                 position: 'top', // Center the title at the top of the pie chart
-                y: 0.5 // Adjust the y property to center the title
+                y: 0.5, // Adjust the y property to center the title
+                fontSize: 25 // Adjust the font size as needed
             }
         }
     });
