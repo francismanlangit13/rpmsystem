@@ -8,6 +8,10 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/notification.php') !== false)  { echo 'active'; } ?>" href="notification">
+                        <div class="sb-nav-link-icon"><i class="fas fa-bell"></i></div>
+                        Notification
+                    </a>
                     <div class="sb-sidenav-menu-heading">Accounts</div>
                     <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/renter.php') !== false)  {  } else{ echo'collapsed'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAccounts" aria-expanded="false" aria-controls="collapseAccounts">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
