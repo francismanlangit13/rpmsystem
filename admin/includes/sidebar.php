@@ -57,7 +57,7 @@
                     </a>
                     <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/utilities.php') !== false)  { echo 'active'; } ?>" href="utilities">
                         <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
-                        Utilities
+                        Other Bills
                     </a>
                     <div class="sb-sidenav-menu-heading">Reports</div>
                     <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/generate_utilities.php') !== false)  {  } else{ echo'collapsed'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">

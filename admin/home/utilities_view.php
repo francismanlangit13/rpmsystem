@@ -11,11 +11,11 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">View Utilities</h1>
+        <h1 class="mt-4">View Other Bills</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./utilities" class="text-decoration-none">Utilities</a></li>
-            <li class="breadcrumb-item">View Utilities</li>
+            <li class="breadcrumb-item active"><a href="./utilities" class="text-decoration-none">Other Bills</a></li>
+            <li class="breadcrumb-item">View Other Bills</li>
         </ol>
         <?php
             if(isset($_GET['id'])) {
@@ -36,7 +36,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Utilities form</h4>
+                            <h4>Other Bills form</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -61,12 +61,12 @@
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="utilities_amount">Utilities Amount</label>
+                                    <label for="utilities_amount">Bill Amount</label>
                                     <input type="text" class="form-control" id="utilities_amount" value="<?= $row['utilities_amount']; ?>" disabled>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="utilities_date">Utilities Date</label>
+                                    <label for="utilities_date">Bill Date</label>
                                     <input type="text" class="form-control" id="utilities_date" value="<?= $row['utilities_date']; ?>" disabled>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Utilities info</h4>
+                            <h4>Other Bills info</h4>
                         </div>
                         <div class="card-body">
                             <h4>No records found.</h4>

@@ -6,22 +6,22 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Utilities
+        <h1 class="mt-4">Other Bills
             <a href="utilities_add" class="btn btn-success btn-icon-split float-end mt-2"> 
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Add Utility</span>
+                <span class="text">Add Other Bills</span>
             </a>
         </h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item">Utilities</li>
+            <li class="breadcrumb-item">Other Bills</li>
         </ol>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                DataTable Utilities
+                DataTable Other Bills
             </div>
             <div class="card-body">
                 <table class="text-center" id="datatablesSimple">
@@ -32,8 +32,8 @@
                             <th>Location</th>
                             <th>Phone</th>
                             <th>Type</th>
-                            <th>Amount</th>
-                            <th>Date utilities</th>
+                            <th>Bill Amount</th>
+                            <th>Date of billed</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
@@ -44,8 +44,8 @@
                             <th>Location</th>
                             <th>Phone</th>
                             <th>Type</th>
-                            <th>Amount</th>
-                            <th>Date utilities</th>
+                            <th>Bill Amount</th>
+                            <th>Date billed</th>
                             <th>Buttons</th>
                         </tr>
                     </tfoot>
@@ -106,7 +106,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Utilities</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete Other Bills</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

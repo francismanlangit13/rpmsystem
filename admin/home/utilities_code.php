@@ -96,13 +96,13 @@
                 curl_close($ch);
                 echo $output;
 
-                $_SESSION['status'] = "Utilities added successfully";
+                $_SESSION['status'] = "Other Bills added successfully";
                 $_SESSION['status_code'] = "success";
                 header("Location: " . base_url . "admin/home/utilities");
                 exit(0);
             }
             else{
-                $_SESSION['status'] = "Utilities was not added";
+                $_SESSION['status'] = "Other Bills was not added";
                 $_SESSION['status_code'] = "error";
                 header("Location: " . base_url . "admin/home/utilities");
                 exit(0);
@@ -121,13 +121,13 @@
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
-            $_SESSION['status'] = "Utilities updated successfully";
+            $_SESSION['status'] = "Other Bills updated successfully";
             $_SESSION['status_code'] = "success";
             header("Location: " . base_url . "admin/home/utilities");
             exit(0);
         }
         else{
-            $_SESSION['status'] = "Utilities was not update";
+            $_SESSION['status'] = "Other Bills was not update";
             $_SESSION['status_code'] = "error";
             header("Location: " . base_url . "admin/home/utilities");
             exit(0);
@@ -141,13 +141,13 @@
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
-            $_SESSION['status'] = "Utilities deleted successfully";
+            $_SESSION['status'] = "Other Bills deleted successfully";
             $_SESSION['status_code'] = "success";
             header("Location: " . base_url . "admin/home/utilities");
             exit(0);
         }
         else{
-            $_SESSION['status'] = "Utilities was not delete";
+            $_SESSION['status'] = "Other Bills was not delete";
             $_SESSION['status_code'] = "error";
             header("Location: " . base_url . "admin/home/utilities");
             exit(0);

@@ -11,18 +11,18 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Add Utilities</h1>
+        <h1 class="mt-4">Add Other Bills</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./utilities" class="text-decoration-none">Utilities</a></li>
-            <li class="breadcrumb-item">Add Utilities</li>
+            <li class="breadcrumb-item active"><a href="./utilities" class="text-decoration-none">Other Bills</a></li>
+            <li class="breadcrumb-item">Add Other Bills</li>
         </ol>
         <form action="utilities_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Utilities form
+                            <h4>Other Bills form
                                 <div class="float-end">
                                     <button type="submit" name="add_utilities" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
                                 </div>
@@ -77,7 +77,7 @@
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="utilities_amount" class="required">Utilities Amount</label>
+                                    <label for="utilities_amount" class="required">Bill Amount</label>
                                     <input type="text" class="form-control" placeholder="Enter Utilities Amount" name="utilities_amount" id="utilities_amount" required>
                                     <div id="utilities_amount-error"></div>
                                 </div>
