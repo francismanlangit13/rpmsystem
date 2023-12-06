@@ -13,6 +13,10 @@
         } catch (PDOException $e){
            echo $e->getMessage();
         }
+        // PHP Mailer
+        include ("../../assets/vendor/PHPMailer/PHPMailerAutoload.php");
+        include ("../../assets/vendor/PHPMailer/class.phpmailer.php");
+        include ("../../assets/vendor/PHPMailer/class.smtp.php");
     }
 
     // Add payment
@@ -27,6 +31,18 @@
         $status = 'Active';
         $check_billing_sql = "SELECT * FROM `payment` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'";
         $check_billing_sql_run = mysqli_query($con, $check_billing_sql);
+
+        // SQL for getting the database
+        $sql_query = $con->query("SELECT * FROM utilities_type WHERE utilities_type_id = '$utilities_type_id'");
+        $utilities_type_result = $sql_query->fetch_assoc();
+
+        $stmt_query = $con->query("SELECT * FROM user WHERE user_id = '$add_renter'");
+        $user = $stmt_query->fetch_assoc();
+
+        $fullname = $user['fname'] .' '. $user['mname'] .' '. $user['lname'] .' '. $user['suffix'];
+        $utilities_type_name = $utilities_type_result['utilities_type_name'];
+        $email = $user['email'];
+        $phone = $user['phone'];
 
         if (mysqli_num_rows($check_billing_sql_run) > 0) {
             $_SESSION['status'] = "The selected user has already paid this month.";
@@ -72,8 +88,52 @@
 
         $query = "INSERT INTO `payment`(`user_id`, `utilities_type_id`, `payment_type_id`, `payment_amount`, `payment_remaining`, `payment_date`, `payment_status`, `status`) VALUES ('$add_renter','$utilities_type_id','$payment_type_id','$payment_amount','$payment_remaining','$payment_date','$payment_status','$status')";
         $query_run = mysqli_query($con, $query);
+        $get_sql = $con->query("SELECT * FROM `payment` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'");
+        $status_paid = $get_sql->fetch_assoc();
+        $status_paid_name = strtolower($status_paid['payment_status']);
 
         if($query_run){
+            $YearandMonth = date('F Y');
+            // PHP Compose Mail
+            $name = 'Rental Properties Management System';
+            $subject = htmlentities(date('F Y').' Payment Notice - ' . $name);
+            $message = nl2br("Dear $fullname \r\n \r\n Thanks for paying your $utilities_type_name bill. The amount you $status_paid_name is &#8369;$payment_amount, for the month of $YearandMonth.");
+            //PHP Mailer Gmail
+            $mail = new PHPMailer();
+            $mail->IsSMTP();
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = 'TLS/STARTTLS';
+            $mail->Host = 'smtp.gmail.com'; // Enter your host here
+            $mail->Port = '587';
+            $mail->IsHTML();
+            $mail->Username = emailuser; // Enter your email here
+            $mail->Password = emailpass; //Enter your passwrod here
+            $mail->setFrom($email, $name);
+            $mail->addAddress($email);
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+            $mail->send();
+
+            // SMS API (Semaphore Message)
+            $url = base_url;
+            $string = <<<EOD
+            Dear $fullname\r\nThanks for paying your $utilities_type_name bill. The amount you $status_paid_name is ₱$payment_amount, for the month of $YearandMonth.
+            EOD;
+            $ch = curl_init();
+            $parameters = array(
+            'apikey' => smsapikey, // Your API KEY
+            'number' => $phone,
+            'message' => $string,
+            'sendername' => smsapiname
+            );
+            curl_setopt($ch, CURLOPT_URL, 'https://semaphore.co/api/v4/messages');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            echo $output;
+
             $_SESSION['status'] = "Payment added successfully";
             $_SESSION['status_code'] = "success";
             header("Location: " . base_url . "admin/home/payment");
