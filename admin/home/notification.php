@@ -14,8 +14,7 @@
         <h1 class="mt-4">Notification</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./notification" class="text-decoration-none">Notification</a></li>
-            <li class="breadcrumb-item">Send Notification</li>
+            <li class="breadcrumb-item">Notification</li>
         </ol>
         <form action="notification_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
