@@ -31,8 +31,8 @@
                 header("Location: " . base_url . "staff");
                 exit(0);
             }
-            elseif( $_SESSION['auth_role'] == 'Client'){
-                header("Location: " . base_url . "client");
+            elseif( $_SESSION['auth_role'] == 'Renter'){
+                header("Location: " . base_url . "renter");
                 exit(0);
             }
         }
