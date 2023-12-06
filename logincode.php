@@ -4,8 +4,7 @@
     if(isset($_POST['btn_login'])){
         $email = mysqli_real_escape_string($con, $_POST['email']);
         $password = mysqli_real_escape_string($con, $_POST['password']);
-        $hashed_password = md5($password);
-        $login_query = "SELECT * FROM user WHERE `email` = '$email' AND password = '$hashed_password' AND `status` = 'Active' LIMIT 1";
+        $login_query = "SELECT * FROM user WHERE `email` = '$email' AND password = '$password' AND `status` = 'Active' LIMIT 1";
         $login_query_run = mysqli_query($con, $login_query);
 
         if(mysqli_num_rows($login_query_run) > 0){

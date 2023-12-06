@@ -22,7 +22,7 @@
         }
         @media print{
             body{
-                margin-top: -30px;
+                margin-top: -70px;
             }
             .bg-success-print {
                 background-color: #28a745 !important; /* Green color for success */
@@ -32,17 +32,17 @@
                 display: none;
             }
             .print-adjust {
-                margin-top:-50px;
+                margin-top:-5px;
             }
             .print-table-adjust{
-                zoom: 50%;
+                zoom: 65%;
             }
             .noprint-scroll{
             overflow-x: unset !important;
             }
             @page {
                 size: auto;
-                margin: 0mm;
+                margin: 1mm;
             }
         }
         #sys_logo{
@@ -55,13 +55,13 @@
 </head>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Generate Payments</h1>
-        <ol class="breadcrumb mb-4 mt-3">
+        <h1 class="mt-4 noprint">Generate Payments</h1>
+        <ol class="breadcrumb mb-4 mt-3 noprint">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item">Generate Payments</li>
         </ol>
         <form action="generate_payments.php" method="post" autocomplete="off" enctype="multipart/form-data">
-            <div class="row">
+            <div class="row noprint">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
@@ -69,7 +69,7 @@
                                 <div class="float-end">
                                     <button type="submit" name="submit-btn" class="btn btn-sm btn-primary"><i class="fas fa-filter"></i> Filter</button>
                                     <button class="btn btn-sm btn-flat btn-secondary" type="button" onclick="window.print()" <?php if(isset($_POST['submit-btn'])) { } else { echo "disabled";} ?>><i class="fa fa-print"></i> Print</button>
-							        <button class="btn btn-sm btn-flat btn-success" type="button" id="export-btn-csv" <?php if(isset($_POST['submit-btn'])) { } else { echo "disabled";} ?>><i class="fas fa-file-csv"></i> CSV</button>
+							        <!-- <button class="btn btn-sm btn-flat btn-success" type="button" id="export-btn-csv" <?php if(isset($_POST['submit-btn'])) { } else { echo "disabled";} ?>><i class="fas fa-file-csv"></i> CSV</button> -->
                                 </div>
                             </h4>
                         </div>
@@ -132,7 +132,7 @@
             </div>
             <?php if(isset($_POST['submit-btn'])) { ?>
             <h3 class="text-center mt-5">Rental Properties Management System</h3>
-            <table class="table text-center table-hover table-striped mt-1">
+            <table class="table text-center table-hover table-striped mt-1 print-table-adjust">
                 <colgroup>
                     <col width="5%">
                     <col width="20%">
@@ -145,7 +145,7 @@
                     <col width="10%">
                 </colgroup>
                 <thead>
-                    <tr class="bg-success text-light">
+                    <tr class="bg-secondary text-light">
                         <th>No.</th>
                         <th>Renter</th>
                         <th>Date Payment</th>
@@ -159,16 +159,20 @@
                 </thead>
                 <tbody>
                     <?php
-                        $renter = $_POST['renter'];
-                        $type = $_POST['payment_type'];
+                        $renter = isset($_POST['renter']) ? $_POST['renter'] : '';
+                        $type = isset($_POST['payment_type']) ? $_POST['payment_type'] : '';
+                        
                         $qry = $con->query("SELECT *,
-                        DATE_FORMAT(payment_date, '%m-%d-%Y') as new_payment_date
-                        FROM payment 
-                        INNER JOIN `user` ON user.user_id = payment.user_id
-                        INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id
-                        INNER JOIN `payment_type` ON payment_type.payment_type_id = payment.payment_type_id
-                        WHERE DATE(payment_date) BETWEEN '{$from}' AND '{$to}' 
-                        ORDER BY UNIX_TIMESTAMP(payment_date) ASC;");
+                            DATE_FORMAT(payment_date, '%m-%d-%Y') as new_payment_date
+                            FROM payment 
+                            INNER JOIN `user` ON user.user_id = payment.user_id
+                            INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id
+                            INNER JOIN `payment_type` ON payment_type.payment_type_id = payment.payment_type_id
+                            WHERE DATE(payment_date) BETWEEN '{$from}' AND '{$to}' " . 
+                            ($renter != '' ? "AND user.user_id = '{$renter}' " : "") . 
+                            ($type != '' ? "AND payment.utilities_type_id = '{$type}' " : "") . "
+                            ORDER BY UNIX_TIMESTAMP(payment_date) ASC
+                        ");                        
                         while($row = $qry->fetch_assoc()):
                     ?>
                         <tr>

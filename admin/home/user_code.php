@@ -31,7 +31,7 @@
         //$pass = $_POST['password'];
         $type = $_POST['role'];
         $new_password = substr(md5(microtime()),rand(0,26),10);
-        $password = md5($new_password);
+        $password = $new_password;
         $status = 'Active';
 
         $query = "INSERT INTO `user`(`fname`, `mname`, `lname`, `suffix`, `gender`, `email`, `phone`, `password`, `status`, `type`) VALUES ('$fname','$mname','$lname','$suffix','$gender','$email','$phone','$password','$status','$type')";

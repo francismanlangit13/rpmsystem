@@ -99,9 +99,8 @@
         $password = $_POST["password"];
         $email = $_POST["email"];
         $curDate = date;
-        $hash_password = md5($password);
         
-        $query1 = mysqli_query($con, "UPDATE `user` SET `password`='".$hash_password."' WHERE `email`='".$email."';");
+        $query1 = mysqli_query($con, "UPDATE `user` SET `password`='".$password."' WHERE `email`='".$email."';");
         $num_rows_affected = mysqli_affected_rows($con);
         $query2 = mysqli_query($con, "DELETE FROM `password_reset_temp` WHERE `email`='".$email."'");
 

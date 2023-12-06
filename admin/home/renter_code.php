@@ -30,7 +30,7 @@
         $phone = $_POST['phone'];
         //$pass = $_POST['password'];
         $new_password = substr(md5(microtime()),rand(0,26),10);
-        $password = md5($new_password);
+        $password = $new_password;
         $status = 'Active';
         $type = 'Renter';
 
