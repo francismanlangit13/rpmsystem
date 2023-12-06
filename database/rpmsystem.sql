@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2023 at 02:20 PM
+-- Generation Time: Dec 06, 2023 at 02:35 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -61,7 +61,8 @@ CREATE TABLE `payment` (
 INSERT INTO `payment` (`payment_id`, `user_id`, `utilities_type_id`, `payment_type_id`, `payment_amount`, `payment_remaining`, `payment_reference`, `payment_date`, `payment_status`, `status`) VALUES
 (6, 5, 1, 1, 4000.00, 1000.00, '', '2023-12-05 11:55:14', 'Partial', 'Active'),
 (7, 5, 2, 1, 250.00, 250.00, '', '2023-12-05 11:55:46', 'Partial', 'Active'),
-(8, 6, 1, 1, 1500.00, 3500.00, '', '2023-12-05 06:08:44', 'Partial', 'Archive');
+(8, 6, 1, 1, 1500.00, 3500.00, '', '2023-12-05 06:08:44', 'Partial', 'Archive'),
+(9, 6, 1, 1, 5000.00, 0.00, '', '2023-12-05 10:52:14', 'Paid', 'Active');
 
 -- --------------------------------------------------------
 
@@ -109,7 +110,7 @@ CREATE TABLE `property` (
 INSERT INTO `property` (`property_id`, `user_id`, `rented_by`, `property_unit_code`, `property_location`, `property_type_id`, `property_amount`, `date_rented`, `property_status`) VALUES
 (1, 3, 5, 'Door 1 Green', 'Butuay', 1, 5000.00, '2023-12-02', 'Rented'),
 (2, 3, 6, 'Door 2 Yellow', 'Butuay', 1, 5000.00, '2023-12-01', 'Rented'),
-(3, 3, 0, 'Door 3 Red', 'Butuay', 1, 5000.00, '0000-00-00', 'Available'),
+(3, 3, 0, 'Door 3 Red', 'Butuay', 1, 5000.00, '2023-12-05', 'Available'),
 (4, 3, 0, 'Door 4 Orange', 'Butuay', 1, 5000.00, '0000-00-00', 'Renovating'),
 (5, 4, 0, 'Door 1 Black', 'Corrales', 2, 2500.00, '0000-00-00', 'Available'),
 (6, 4, 0, 'Door 2 Pink', 'Corrales', 2, 2500.00, '0000-00-00', 'Available'),
@@ -162,13 +163,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `fname`, `mname`, `lname`, `suffix`, `gender`, `email`, `phone`, `password`, `status`, `type`) VALUES
-(1, 'user', '', 'admin', '', '', 'admin@gmail.com', '', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
-(2, 'Riza', '', 'Mae', '', 'Female', 'riza@gmail.com', '09123456789', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Admin'),
-(3, 'Jay Lord', '', 'Galindo', '', 'Male', 'jaylord@gmail.com', '09123456781', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Staff'),
-(4, 'Nica', '', 'Ogapay', '', 'Female', 'nica@gmail.com', '09123456782', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Staff'),
-(5, 'Joshua', '', 'Ebarat', '', 'Male', 'joshua@gmail.com', '09435576491', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Renter'),
-(6, 'Princess', '', 'Galindo', '', 'Female', 'princess@gmail.com', '09664582138', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Renter'),
-(7, 'Jerome', 'Ambe', 'Maghuyop', '', 'Male', 'jerome@gmail.com', '09431256884', '21232f297a57a5a743894a0e4a801fc3', 'Active', 'Renter');
+(1, 'user', '', 'admin', '', '', 'admin@gmail.com', '', 'admin', 'Active', 'Admin'),
+(2, 'Riza', '', 'Mae', '', 'Female', 'riza@gmail.com', '09123456789', 'riza', 'Active', 'Admin'),
+(3, 'Jay Lord', '', 'Galindo', '', 'Male', 'jaylord@gmail.com', '09123456781', 'jaylord', 'Active', 'Staff'),
+(4, 'Nica', '', 'Ogapay', '', 'Female', 'nica@gmail.com', '09123456782', 'nica', 'Active', 'Staff'),
+(5, 'Joshua', '', 'Ebarat', '', 'Male', 'joshua@gmail.com', '09435576491', 'joshua', 'Active', 'Renter'),
+(6, 'Princess', '', 'Galindo', '', 'Female', 'princess@gmail.com', '09388360162', 'princess', 'Active', 'Renter'),
+(7, 'Jerome', 'Ambe', 'Maghuyop', '', 'Male', 'jerome@gmail.com', '09431256884', 'jerome', 'Active', 'Renter');
 
 -- --------------------------------------------------------
 
@@ -281,7 +282,7 @@ ALTER TABLE `utilities_type`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `payment_type`
@@ -305,13 +306,13 @@ ALTER TABLE `property_type`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `utilities`
 --
 ALTER TABLE `utilities`
-  MODIFY `utilities_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `utilities_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `utilities_type`
