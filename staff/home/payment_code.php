@@ -49,7 +49,7 @@
         if (mysqli_num_rows($check_billing_sql_run) > 0) {
             $_SESSION['status'] = "The selected user has already paid this month.";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/payment");
+            header("Location: " . base_url . "staff/home/payment");
             exit(0);
         } else {
             if ($utilities_type_id == '1'){
@@ -63,7 +63,7 @@
                     } else {
                         $_SESSION['status'] = "The selected user does not have in property rented.";
                         $_SESSION['status_code'] = "error";
-                        header("Location: " . base_url . "admin/home/payment");
+                        header("Location: " . base_url . "staff/home/payment");
                         exit(0);
                     }
                 } else {
@@ -75,7 +75,7 @@
                             if($payment_amount <= 0){
                                 $_SESSION['status'] = "The selected user does not have balance in cash advance.";
                                 $_SESSION['status_code'] = "error";
-                                header("Location: " . base_url . "admin/home/payment");
+                                header("Location: " . base_url . "staff/home/payment");
                                 exit(0);
                             }
                             $payment_remaining = $results_row['property_amount'] - $payment_amount;
@@ -85,7 +85,7 @@
                     } else {
                         $_SESSION['status'] = "The selected user does not have in property rented.";
                         $_SESSION['status_code'] = "error";
-                        header("Location: " . base_url . "admin/home/payment");
+                        header("Location: " . base_url . "staff/home/payment");
                         exit(0);
                     }
                     $run_query = mysqli_query($con, "UPDATE `property` SET `property_cash_advance` = '$payment_remaining' WHERE `rented_by` = '$add_renter' AND `property_status` = 'Rented'");
@@ -100,7 +100,7 @@
                 } else {
                     $_SESSION['status'] = "The selected user does not have in utilities payment.";
                     $_SESSION['status_code'] = "error";
-                    header("Location: " . base_url . "admin/home/payment");
+                    header("Location: " . base_url . "staff/home/payment");
                     exit(0);
                 }
             }
@@ -160,13 +160,13 @@
 
             $_SESSION['status'] = "Payment added successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/payment");
+            header("Location: " . base_url . "staff/home/payment");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Payment was not added";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/payment");
+            header("Location: " . base_url . "staff/home/payment");
             exit(0);
         }
     }
@@ -193,7 +193,7 @@
             } else {
                 $_SESSION['status'] = "The selected user does not have in property rented.";
                 $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/payment");
+                header("Location: " . base_url . "staff/home/payment");
                 exit(0);
             }
         } else {
@@ -207,7 +207,7 @@
             } else {
                 $_SESSION['status'] = "The selected user does not have in utilities payment.";
                 $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/payment");
+                header("Location: " . base_url . "staff/home/payment");
                 exit(0);
             }
         }
@@ -223,13 +223,13 @@
         if($query_run){
             $_SESSION['status'] = "Payment updated successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/payment");
+            header("Location: " . base_url . "staff/home/payment");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Payment was not update";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/payment");
+            header("Location: " . base_url . "staff/home/payment");
             exit(0);
         }
     }
@@ -243,13 +243,13 @@
         if($query_run){
             $_SESSION['status'] = "Payment deleted successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/payment");
+            header("Location: " . base_url . "staff/home/payment");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Payment was not delete";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/payment");
+            header("Location: " . base_url . "staff/home/payment");
             exit(0);
         }
     }

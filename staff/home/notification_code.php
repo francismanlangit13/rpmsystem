@@ -72,13 +72,13 @@
 
             $_SESSION['status'] = "Sent successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/notification");
+            header("Location: " . base_url . "staff/home/notification");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Was not sent";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/notification");
+            header("Location: " . base_url . "staff/home/notification");
             exit(0);
         }
     }
