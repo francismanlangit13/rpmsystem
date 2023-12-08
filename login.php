@@ -1,4 +1,40 @@
-<?php include ('db_conn.php'); ?>
+<?php
+    include ('db_conn.php');
+    if(isset($_SESSION['auth'])){
+        if ($_SESSION['auth_role'] == "Admin"){
+            if(!isset($_SESSION['status'])){
+            $_SESSION['status'] = "You are already logged in";
+            $_SESSION['status_code'] = "error";
+            }
+            header("Location: " . base_url . "admin");
+            exit(0);
+        }
+        elseif ($_SESSION['auth_role'] == "Staff"){
+            if(!isset($_SESSION['status'])){
+            $_SESSION['status'] = "You are already logged in";
+            $_SESSION['status_code'] = "error";
+            }
+            header("Location: " . base_url . "staff");
+            exit(0);
+        }
+        elseif ($_SESSION['auth_role'] == "Renter"){
+            if(!isset($_SESSION['status'])){
+            $_SESSION['status'] = "You are already logged in";
+            $_SESSION['status_code'] = "error";
+            }
+            header("Location: " . base_url . "renter");
+            exit(0);
+        }
+        else{
+            if(!isset($_SESSION['status'])){
+                $_SESSION['status'] = "Login first to access dashboard";
+                $_SESSION['status_code'] = "error";
+            }
+            header("Location: " . base_url . "login");
+            exit(0);
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
