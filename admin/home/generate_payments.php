@@ -139,6 +139,7 @@
                     <col width="8%">
                     <col width="8%">
                     <col width="10%">
+                    <col width="10%">
                     <col width="8%">
                     <col width="15%">
                     <col width="15%">
@@ -151,6 +152,7 @@
                         <th>Date Payment</th>
                         <th>Payment Type</th>
                         <th>Bill Type</th>
+                        <th>Paid by Cash Advance for rent?</th>
                         <th>Amount</th>
                         <th>Payment Remaining</th>
                         <th>Payment Reference No.</th>
@@ -181,6 +183,7 @@
                             <td class=""><?php echo $row['new_payment_date'] ?></td>
                             <td class=""><p class="m-0"><?php echo $row['payment_type_name'] ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row['utilities_type_name'] ?></p></td>
+                            <td class=""><p class="m-0"><?php if($row['is_cash_advance'] == 1){echo "Yes"; } else{ echo "No"; } ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row['payment_amount'] ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row['payment_remaining'] ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row['payment_reference'] ?></p></td>

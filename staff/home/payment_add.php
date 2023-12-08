@@ -25,6 +25,7 @@
                             <h4>Payment form
                                 <div class="float-end">
                                     <button type="submit" name="add_payment" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+                                    <input type="hidden" id="pay_cash_advance" name="pay_cash_advance" value="1">
                                 </div>
                             </h4>
                         </div>
@@ -47,6 +48,8 @@
                                         <?php } } ?>
                                     </select>
                                     <div id="add_renter-error"></div>
+                                    <input type="checkbox" id="pay_rent_cash_advance" name="pay_rent_cash_advance" value="1" onclick="toggleSelectPayCashAdvance()">
+                                    <label for="pay_rent_cash_advance"> Check this if the payment is Rent via Cash Advance</label><br>
                                 </div>
                                 <!-- Initialize Select2 -->
                                 <script>
@@ -56,7 +59,7 @@
                                     });
                                 </script>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-4 mb-3" id="Container">
                                     <?php
                                         $stmt = "SELECT * FROM `utilities_type` WHERE `utilities_type_id` != '1' AND `utilities_type_status` != 'Archive'";
                                         $stmt_run = mysqli_query($con,$stmt);
@@ -78,7 +81,7 @@
                                     <label for="pay_rent"> Check this if the payment is Rent</label><br>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-4 mb-3" id="Container1">
                                     <label for="payment_amount" class="required">Amount</label>
                                     <input type="number" class="form-control" placeholder="Enter Property Cost" name="payment_amount" id="payment_amount" required>
                                     <div id="payment_amount-error"></div>
@@ -104,6 +107,37 @@
     </div>
 </main>
 <script>
+    function toggleSelectPayCashAdvance() {
+        var utilities_type_id = document.getElementById('utilities_type_id');
+        var utilities_type_id1 = document.getElementById('utilities_type_id');
+        var payment_amount = document.getElementById('payment_amount');
+        var payment_amount1 = document.getElementById('payment_amount');
+        var checkbox = document.getElementById('pay_rent_cash_advance');
+        var uncheckbox = document.getElementById('pay_rent');
+        var pay_cash_advance = document.getElementById('pay_cash_advance');
+
+        if (checkbox.checked) {
+            Container.classList.add('d-none');
+            Container1.classList.add('d-none');
+
+            utilities_type_id.required = false;
+            payment_amount.required = false;
+            utilities_type_id1.disabled = true;
+            payment_amount1.disabled = true;
+            uncheckbox.checked = false;
+            pay_cash_advance.disabled = false;
+        } else {
+            Container.classList.remove('d-none');
+            Container1.classList.remove('d-none');
+
+            utilities_type_id.required = true;
+            payment_amount.required = true;
+            utilities_type_id1.disabled = false;
+            payment_amount1.disabled = false;
+            uncheckbox.checked = false;
+            pay_cash_advance.disabled = true;
+        }
+    }
     function toggleSelect() {
         var select = document.getElementById('utilities_type_id');
         var checkbox = document.getElementById('pay_rent');

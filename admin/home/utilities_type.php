@@ -41,13 +41,15 @@
                     </tfoot>
                     <tbody>
                         <?php
+                            $i = 0;
                             $query = "SELECT * FROM `utilities_type` WHERE utilities_type_id != '1' AND `utilities_type_status` != 'Archive'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
+                                    $i++;
                         ?>
                         <tr>
-                            <td><?= $row['utilities_type_id']; ?></td>
+                            <td><?= $i ?></td>
                             <td><?= $row['utilities_type_name']; ?></td>
                             <td>
                                 <div class="row d-inline-flex justify-content-center col-lg-4 col-xl-12">

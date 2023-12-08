@@ -36,6 +36,9 @@
         cursor: pointer;
         font-size: 20px;
     }
+    .table th, .table td {
+        white-space: nowrap;
+    }
 </style>
 <main>
     <div class="container-fluid px-4">
@@ -57,7 +60,7 @@
                 DataTable Locations
             </div>
             <div class="card-body">
-                <table class="text-center" id="datatablesSimple">
+                <table class="table table-bordered table-hover text-center" id="datatablesSimple">
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -67,7 +70,10 @@
                             <th>Amount</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
+                            <th>Cash Advance Balance</th>
+                            <th>Cash Deposits Balance</th>
                             <th>Rented By</th>
+                            <th>Date Rented</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
@@ -80,13 +86,16 @@
                             <th>Amount</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
+                            <th>Cash Advance Balance</th>
+                            <th>Cash Deposits Balance</th>
                             <th>Rented By</th>
+                            <th>Date Rented</th>
                             <th>Buttons</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `staff_fullname` FROM `property` INNER JOIN `user` ON `user`.`user_id` = `property`.`user_id` INNER JOIN `property_type` ON property.property_type_id = property_type.property_type_id WHERE `property_status` != 'Archive'";
+                            $query = "SELECT *, DATE_FORMAT(date_rented, '%m-%d-%Y') as new_date_rented, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `staff_fullname` FROM `property` INNER JOIN `user` ON `user`.`user_id` = `property`.`user_id` INNER JOIN `property_type` ON property.property_type_id = property_type.property_type_id WHERE `property_status` != 'Archive'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
@@ -99,6 +108,9 @@
                             <td>₱<?= $row['property_amount']; ?></td>
                             <td><?= $row['staff_fullname']; ?></td>
                             <td><?= $row['property_status']; ?></td>
+                            <td>₱<?= $row['property_cash_advance']; ?></td>
+                            <td>₱<?= $row['property_cash_deposit']; ?></td>
+                            <td><?= $row['new_date_rented']; ?></td>
                             <td>
                                 <?php
                                     $client_id = $row['rented_by'];
@@ -109,14 +121,14 @@
                                 <?= $client_data['renter_fullname']; ?>
                             </td>
                             <td>
-                                <div class="row d-inline-flex justify-content-center col-lg-4 col-xl-12">
-                                    <div class="col-md-4 mb-1">
+                                <div class="d-flex">
+                                    <div class="col-md-4 mb-1" style="margin-right: 0.2rem">
                                         <a href="property_view?id=<?=$row['property_id']?>" class="btn btn-info btn-icon-split" title="View"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
                                             <span class="text ml-2 mr-2"></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4 mb-1">
+                                    <div class="col-md-4 mb-1" style="margin-right: 0.15rem">
                                         <a href="property_edit?id=<?=$row['property_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>

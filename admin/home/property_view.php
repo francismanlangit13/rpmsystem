@@ -88,9 +88,19 @@
                                 <div id="property_status-error"></div>
                             </div>
 
-                            <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>" id="dateContainer">
+                            <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>">
                                 <label for="date_rented" class="required">Date Rented</label>
                                 <input type="date" class="form-control" id="date_rented" value="<?=$row['date_rented'];?>" disabled>
+                            </div>
+
+                            <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>">
+                                <label for="property_cash_advance" class="required">Cash Advance</label>
+                                <input type="text" class="form-control" id="property_cash_advance" value="<?=$row['property_cash_advance'];?>" disabled>
+                            </div>
+
+                            <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>">
+                                <label for="property_cash_deposit" class="required">Cash Deposit</label>
+                                <input type="text" class="form-control" id="property_cash_deposit" value="<?=$row['property_cash_deposit'];?>" disabled>
                             </div>
                         </div>
                     </div>

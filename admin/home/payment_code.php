@@ -22,13 +22,15 @@
     // Add payment
     if(isset($_POST["add_payment"])){
         $add_renter = $_POST['add_renter'];
-        $utilities_type_id = $_POST['pay_rent'] . $_POST['utilities_type_id'];
+        $pay_rent_cash_advance = $_POST['pay_rent_cash_advance'];
+        $utilities_type_id = $_POST['pay_rent'] . $_POST['utilities_type_id'] . $_POST['pay_cash_advance'];
         $payment_amount = $_POST['payment_amount'];
         $utilities_id = $_POST['utilities_id'];
         $payment_type_id = '1';
         $payment_date = date;
         $thismonth = date('Y-m');
         $status = 'Active';
+        $is_cash_advance = 0;
         $check_billing_sql = "SELECT * FROM `payment` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'";
         $check_billing_sql_run = mysqli_query($con, $check_billing_sql);
 
@@ -51,24 +53,47 @@
             exit(0);
         } else {
             if ($utilities_type_id == '1'){
-                $stmt = "SELECT * FROM `property` WHERE rented_by = '$add_renter' AND `property_status` = 'Rented'";
-                $stmt_run = mysqli_query($con,$stmt);
-                if (mysqli_num_rows($stmt_run) > 0){
-                    while ($renter_row = $stmt_run->fetch_assoc()) {
-                        $payment_remaining = $renter_row['property_amount'] - $payment_amount;
-                        break; // exit the loop after the first iteration
+                if(!$pay_rent_cash_advance){
+                    $stmt_run1 = mysqli_query($con, "SELECT * FROM `property` WHERE rented_by = '$add_renter' AND `property_status` = 'Rented'");
+                    if (mysqli_num_rows($stmt_run1) > 0){
+                        while ($renter_row = $stmt_run1->fetch_assoc()) {
+                            $payment_remaining = $renter_row['property_amount'] - $payment_amount;
+                            break; // exit the loop after the first iteration
+                        }
+                    } else {
+                        $_SESSION['status'] = "The selected user does not have in property rented.";
+                        $_SESSION['status_code'] = "error";
+                        header("Location: " . base_url . "admin/home/payment");
+                        exit(0);
                     }
                 } else {
-                    $_SESSION['status'] = "The selected user does not have in property rented.";
-                    $_SESSION['status_code'] = "error";
-                    header("Location: " . base_url . "admin/home/payment");
-                    exit(0);
+                    $check_balance_cash_advance = mysqli_query($con,"SELECT * FROM property WHERE rented_by = '$add_renter' AND `property_status` = 'Rented'");
+                    if (mysqli_num_rows($check_balance_cash_advance) > 0){
+                        $utilities_type_id = '1';
+                        while ($results_row = $check_balance_cash_advance->fetch_assoc()) {
+                            $payment_amount = $results_row['property_cash_advance'];
+                            if($payment_amount <= 0){
+                                $_SESSION['status'] = "The selected user does not have balance in cash advance.";
+                                $_SESSION['status_code'] = "error";
+                                header("Location: " . base_url . "admin/home/payment");
+                                exit(0);
+                            }
+                            $payment_remaining = $results_row['property_amount'] - $payment_amount;
+                            $is_cash_advance++;
+                            break; // exit the loop after the first iteration
+                        }
+                    } else {
+                        $_SESSION['status'] = "The selected user does not have in property rented.";
+                        $_SESSION['status_code'] = "error";
+                        header("Location: " . base_url . "admin/home/payment");
+                        exit(0);
+                    }
+                    $run_query = mysqli_query($con, "UPDATE `property` SET `property_cash_advance` = '$payment_remaining' WHERE `rented_by` = '$add_renter' AND `property_status` = 'Rented'");
                 }
             } else {
-                $stmt = "SELECT * FROM `utilities` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`utilities_date`, '%Y-%m') = '$thismonth' AND `utilities_status` != 'Archive'";
-                $stmt_run = mysqli_query($con,$stmt);
-                if (mysqli_num_rows($stmt_run) > 0){
-                    while ($renter_row = $stmt_run->fetch_assoc()) {
+                $stmt_run2 = mysqli_query($con, "SELECT * FROM `utilities` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`utilities_date`, '%Y-%m') = '$thismonth' AND `utilities_status` != 'Archive'");
+                if (mysqli_num_rows($stmt_run2) > 0){
+                    while ($renter_row = $stmt_run2->fetch_assoc()) {
                         $payment_remaining = $renter_row['utilities_amount'] - $payment_amount;
                         break; // exit the loop after the first iteration
                     }
@@ -86,8 +111,7 @@
             }
         }
 
-        $query = "INSERT INTO `payment`(`user_id`, `utilities_type_id`, `payment_type_id`, `payment_amount`, `payment_remaining`, `payment_date`, `payment_status`, `status`) VALUES ('$add_renter','$utilities_type_id','$payment_type_id','$payment_amount','$payment_remaining','$payment_date','$payment_status','$status')";
-        $query_run = mysqli_query($con, $query);
+        $query_run = mysqli_query($con, "INSERT INTO `payment`(`user_id`, `utilities_type_id`, `is_cash_advance`, `payment_type_id`, `payment_amount`, `payment_remaining`, `payment_date`, `payment_status`, `status`) VALUES ('$add_renter','$utilities_type_id','$is_cash_advance','$payment_type_id','$payment_amount','$payment_remaining','$payment_date','$payment_status','$status')");
         $get_sql = $con->query("SELECT * FROM `payment` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'");
         $status_paid = $get_sql->fetch_assoc();
         $status_paid_name = strtolower($status_paid['payment_status']);
@@ -173,7 +197,7 @@
                 exit(0);
             }
         } else {
-            $stmt = "SELECT * FROM `utilites` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND `utilities_date` = '$thismonth'";
+            $stmt = "SELECT * FROM `utilities` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND `utilities_date` = '$thismonth'";
             $stmt_run = mysqli_query($con,$stmt);
             if ($stmt_run){
                 while ($renter_row = $stmt_run->fetch_assoc()) {

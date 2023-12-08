@@ -1,7 +1,7 @@
 <?php
     $user = $user_qry->fetch_assoc();
 ?>
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-secondary noprint">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark noprint">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" style="font-size:15px" href="index.html">
         <!-- Sidebar Toggle-->

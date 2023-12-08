@@ -61,10 +61,24 @@
                                     });
                                 </script>
 
-                                <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
+                                    <div class="form-group">
+                                        <label for="property_status">Property Status</label>
+                                        <select class="form-control" name="property_status" id="property_status" required>
+                                            <option value="" selected disabled>Select Status</option>
+                                            <option value="Rented">Rented</option>
+                                            <option value="Available">Available</option>
+                                            <option value="Renovating">Renovating</option>
+                                            <option value="Reserve">Reserve</option>
+                                        </select>
+                                        <div id="property_status-error"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Select2 Example -->
+                                <div class="col-md-3 mb-3" id="Container">
                                     <?php
-                                        $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND `status` != 'Archive'";
+                                        $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND `is_rented` != '1' AND `status` != 'Archive'";
                                         $staff_result = $con->query($staff);
                                     ?>
                                     <label for="renter" class="required">Rented By</label>
@@ -144,27 +158,26 @@
 
                                 <div class="col-md-3 mb-3">
                                     <label for="property_amount" class="required">Property Cost</label>
-                                    <input type="text" class="form-control" placeholder="Enter Property Cost" name="property_amount" id="property_amount" required>
+                                    <input type="number" class="form-control" placeholder="Enter Property Cost" name="property_amount" id="property_amount" required>
                                     <div id="property_amount-error"></div>
                                 </div>
-
-                                <div class="col-md-3 mb-3">
-                                    <div class="form-group">
-                                        <label for="property_status">Property Status</label>
-                                        <select class="form-control" name="property_status" id="property_status" required>
-                                            <option value="" selected disabled>Select Status</option>
-                                            <option value="Rented">Rented</option>
-                                            <option value="Available">Available</option>
-                                            <option value="Renovating">Renovating</option>
-                                        </select>
-                                        <div id="property_status-error"></div>
-                                    </div>
-                                </div>
                                 
-                                <div class="col-md-3 mb-3 d-none" id="dateContainer">
+                                <div class="col-md-3 mb-3 d-none" id="Container1">
                                     <label for="date_rented" class="required">Date Rented</label>
                                     <input type="date" class="form-control" name="date_rented" id="date_rented">
                                     <div id="date_rented-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3 d-none" id="Container2">
+                                    <label for="property_cash_advance" class="required">Cash Advance</label>
+                                    <input type="number" class="form-control" placeholder="Enter Cash Advance" name="property_cash_advance" id="property_cash_advance">
+                                    <div id="property_cash_advance-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3 d-none" id="Container3">
+                                    <label for="property_cash_deposit" class="required">Cash Deposits</label>
+                                    <input type="number" class="form-control" placeholder="Enter Cash Advance" name="property_cash_deposit" id="property_cash_deposit">
+                                    <div id="property_cash_deposit-error"></div>
                                 </div>
                             </div>
                         </div>
@@ -176,15 +189,45 @@
 </main>
 <script>
     document.getElementById('property_status').addEventListener('change', function () {
-        var dateContainer = document.getElementById('dateContainer');
-        var propertyDate = document.getElementById('property_date');
+        var Container = document.getElementById('Container');
+        var Container1 = document.getElementById('Container1');
+        var Container2 = document.getElementById('Container2');
+        var Container3 = document.getElementById('Container3');
+        var renter = document.getElementById('renter');
+        var date_rented = document.getElementById('date_rented');
+        var property_cash_advance = document.getElementById('property_cash_advance');
+        var property_cash_deposit = document.getElementById('property_cash_deposit');
+        var renter1 = document.getElementById('renter');
+        var date_rented1 = document.getElementById('date_rented');
+        var property_cash_advance1 = document.getElementById('property_cash_advance');
+        var property_cash_deposit1 = document.getElementById('property_cash_deposit');
 
         if (this.value === 'Rented') {
-            dateContainer.classList.remove('d-none');
-            propertyDate.required = true;
+            Container.classList.remove('d-none');
+            Container1.classList.remove('d-none');
+            Container2.classList.remove('d-none');
+            Container3.classList.remove('d-none');
+            renter.required = true;
+            date_rented.required = true;
+            property_cash_advance.required = true;
+            property_cash_deposit.required = true;
+            renter1.disabled = false;
+            date_rented1.disabled = false;
+            property_cash_advance1.disabled = false;
+            property_cash_deposit1.disabled = false;
         } else {
-            dateContainer.classList.add('d-none');
-            propertyDate.required = false;
+            Container.classList.add('d-none');
+            Container1.classList.add('d-none');
+            Container2.classList.add('d-none');
+            Container3.classList.add('d-none');
+            renter.required = false;
+            date_rented.required = false;
+            property_cash_advance.required = false;
+            property_cash_deposit.required = false;
+            renter1.disabled = true;
+            date_rented1.disabled = true;
+            property_cash_advance1.disabled = true;
+            property_cash_deposit1.disabled = true;
         }
     });
 </script>
