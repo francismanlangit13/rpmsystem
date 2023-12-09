@@ -34,7 +34,7 @@
         if (mysqli_num_rows($check_billing_sql_run) > 0) {
             $_SESSION['status'] = "The selected user has already added bill this month.";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/utilities");
+            header("Location: " . base_url . "staff/home/utilities");
             exit(0);
         } else {
 
@@ -88,7 +88,7 @@
                 'message' => $string,
                 'sendername' => smsapiname
                 );
-                curl_setopt($ch, CURLOPT_URL, 'https://semaphore.co/api/v4/messages');
+                curl_setopt($ch, CURLOPT_URL, 'https://api.semaphore.co/api/v4/messages');
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -98,13 +98,13 @@
 
                 $_SESSION['status'] = "Other Bills added successfully";
                 $_SESSION['status_code'] = "success";
-                header("Location: " . base_url . "admin/home/utilities");
+                header("Location: " . base_url . "staff/home/utilities");
                 exit(0);
             }
             else{
                 $_SESSION['status'] = "Other Bills was not added";
                 $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/utilities");
+                header("Location: " . base_url . "staff/home/utilities");
                 exit(0);
             }
         }
@@ -123,13 +123,13 @@
         if($query_run){
             $_SESSION['status'] = "Other Bills updated successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/utilities");
+            header("Location: " . base_url . "staff/home/utilities");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Other Bills was not update";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/utilities");
+            header("Location: " . base_url . "staff/home/utilities");
             exit(0);
         }
     }
@@ -143,13 +143,13 @@
         if($query_run){
             $_SESSION['status'] = "Other Bills deleted successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/utilities");
+            header("Location: " . base_url . "staff/home/utilities");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Other Bills was not delete";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/utilities");
+            header("Location: " . base_url . "staff/home/utilities");
             exit(0);
         } 
     }

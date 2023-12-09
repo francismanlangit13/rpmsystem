@@ -77,7 +77,8 @@
                             <!-- Select2 Example -->
                             <div class="col-md-3 mb-3">
                                 <?php
-                                    $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND `status` != 'Archive'";
+                                    $user_id = $_SESSION['auth_user']['user_id'];
+                                    $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `property` INNER JOIN `user` ON property.rented_by = user.user_id WHERE property.user_id = '$user_id' AND `type` = 'Renter' AND `status` != 'Archive'";
                                     $staff_result = $con->query($staff);
                                 ?>
                                 <label for="renter" class="required">Rented By</label>
@@ -126,6 +127,20 @@
                                 <label for="to" class="control-label">Date To</label>
                                 <input type="date" name="to" id="to" value="<?= $to ?>" class="form-control form-control-sm rounded-0">
                             </div>
+
+                            <!-- <div class="col-md-4 mb-3">
+                                <div class="form-group">
+                                    <label for="status" class="required">Status</label>
+                                    <select class="form-control" name="status" id="status" required>
+                                        <option value="" selected disabled>Select Gender</option>
+                                        <option value="Archive">Archive</option>
+                                        <option value="Paid">Paid</option>
+                                        <option value="Partial">Partial</option>
+                                        <option value="Pending">Pending</option>
+                                    </select>
+                                    <div id="status-error"></div>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -170,7 +185,7 @@
                             INNER JOIN `user` ON user.user_id = payment.user_id
                             INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id
                             INNER JOIN `payment_type` ON payment_type.payment_type_id = payment.payment_type_id
-                            WHERE DATE(payment_date) BETWEEN '{$from}' AND '{$to}' " . 
+                            WHERE payment.status != 'Archive' AND DATE(payment_date) BETWEEN '{$from}' AND '{$to}' " . 
                             ($renter != '' ? "AND user.user_id = '{$renter}' " : "") . 
                             ($type != '' ? "AND payment.utilities_type_id = '{$type}' " : "") . "
                             ORDER BY UNIX_TIMESTAMP(payment_date) ASC

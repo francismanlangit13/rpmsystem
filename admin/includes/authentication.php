@@ -8,7 +8,7 @@
     }
     else{
         if ($_SESSION['auth_role'] != "Admin"){
-            $_SESSION['status'] = "You are not authorized as ADMIN";
+            $_SESSION['status'] = "You are not authorized as Admin";
             $_SESSION['status_code'] = "error";
             header("Location: " . base_url . "login");
             exit(0);

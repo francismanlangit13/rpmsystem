@@ -1,9 +1,9 @@
 <?php
     $user = $user_qry->fetch_assoc();
 ?>
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-secondary noprint">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark noprint">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" style="font-size:15px" href="index.html">
+    <a class="navbar-brand ps-3" style="font-size:15px" href="../home">
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         Rental Properties Management System

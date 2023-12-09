@@ -110,7 +110,6 @@
                             <td><?= $row['property_status']; ?></td>
                             <td>₱<?= $row['property_cash_advance']; ?></td>
                             <td>₱<?= $row['property_cash_deposit']; ?></td>
-                            <td><?= $row['new_date_rented']; ?></td>
                             <td>
                                 <?php
                                     $client_id = $row['rented_by'];
@@ -120,15 +119,16 @@
                                 ?>
                                 <?= $client_data['renter_fullname']; ?>
                             </td>
+                            <td><?= $row['new_date_rented']; ?></td>
                             <td>
                                 <div class="d-flex">
                                     <div class="col-md-4 mb-1" style="margin-right: 0.2rem">
-                                        <a href="property_view?id=<?=$row['property_id']?>" class="btn btn-info btn-icon-split" title="View"> 
+                                        <a href="property_view?id=<?=$row['property_id']?>" class="btn btn-dark btn-icon-split" title="View"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
                                             <span class="text ml-2 mr-2"></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4 mb-1" style="margin-right: 0.15rem">
+                                    <div class="col-md-4 mb-1" style="margin-right: 0.05rem">
                                         <a href="property_edit?id=<?=$row['property_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>

@@ -29,7 +29,7 @@
         $property_cash_deposit = $_POST['property_cash_deposit'];
         
         if($property_status == 'Rented'){
-            $stmt_run = mysqli_query($con,"UPDATE user SET `is_rented` = '1' WHERE user_id = '$temp_renter'");
+            $stmt_run = mysqli_query($con,"UPDATE user SET `is_rented` = '1' WHERE user_id = '$renter'");
         }
 
         $query = "INSERT INTO `property` (`user_id`, `rented_by`, `property_unit_code`, `property_location`, `property_type_id`, `property_amount`, `date_rented`, `property_cash_advance`, `property_cash_deposit`, `property_status`) VALUES ('$staff','$renter','$property_unit_code','$property_location','$property_type_id','$property_amount','$date_rented','$property_cash_advance','$property_cash_deposit','$property_status')";
@@ -52,7 +52,6 @@
     // Edit property
     if(isset($_POST["edit_property"])){
         $id = $_POST["id"];
-        $temp_renter = $_POST["temp_renter"];
         $property_unit_code = $_POST['property_unit_code'];
         $staff = $_POST['staff'];
         $renter = $_POST['renter'];
@@ -65,9 +64,9 @@
         $property_cash_deposit = $_POST['property_cash_deposit'];
 
         if($property_status == 'Rented'){
-            $stmt_run = mysqli_query($con,"UPDATE user SET `is_rented` = '1' WHERE user_id = '$temp_renter'");
+            $stmt_run = mysqli_query($con,"UPDATE user SET `is_rented` = '1' WHERE user_id = '$renter'");
         } else {
-            $stmt_run = mysqli_query($con,"UPDATE user SET `is_rented` = '0' WHERE user_id = '$temp_renter'");
+            $stmt_run = mysqli_query($con,"UPDATE user SET `is_rented` = '0' WHERE user_id = '$renter'");
         }
 
         $query = "UPDATE `property` SET `user_id`='$staff',`rented_by`='$renter',`property_unit_code`='$property_unit_code',`property_location`='$property_location',`property_type_id`='$property_type_id',`property_amount`='$property_amount',`date_rented`='$date_rented',`property_cash_advance`='$property_cash_advance',`property_cash_deposit`='$property_cash_deposit',`property_status`='$property_status' WHERE `property_id`='$id'";
@@ -89,8 +88,14 @@
 
     //Delete property
     if(isset($_POST['delete_property'])){
-        $property_id= $_POST['property_id'];
-        $query = "UPDATE `property` SET `property_status` = 'Archive' WHERE `property_id` = $property_id ";
+        $property_id = $_POST['property_id'];
+
+        $query = "
+            UPDATE `property` AS p
+            JOIN `user` AS u ON p.rented_by = u.user_id
+            SET p.`property_status` = 'Archive', u.`is_rented` = '0'
+            WHERE p.`property_id` = $property_id;
+        ";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){

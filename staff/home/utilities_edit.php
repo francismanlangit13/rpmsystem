@@ -43,7 +43,8 @@
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` INNER JOIN `property` ON property.rented_by = user.user_id WHERE `type` = 'Renter'";
+                                        $user_id = $_SESSION['auth_user']['user_id'];
+                                        $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `property` INNER JOIN `user` ON property.rented_by = user.user_id WHERE property.user_id = '$user_id' AND `type` = 'Renter' AND `status` != 'Archive'";
                                         $staff_result = $con->query($staff);
                                     ?>
                                     <label for="renter" class="required">Rented By</label>

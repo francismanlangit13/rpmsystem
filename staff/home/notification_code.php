@@ -32,23 +32,23 @@
             $fullname = $user['fname'] .' '. $user['mname'] .' '. $user['lname'] .' '. $user['suffix'];
             // PHP Compose Mail
             $name = 'Rental Properties Management System';
-            $subject = htmlentities('Important Message - ' . $name);
-            $message = $body;
-            //PHP Mailer Gmail
-            $mail = new PHPMailer();
-            $mail->IsSMTP();
-            $mail->SMTPAuth = true;
-            $mail->SMTPSecure = 'TLS/STARTTLS';
-            $mail->Host = 'smtp.gmail.com'; // Enter your host here
-            $mail->Port = '587';
-            $mail->IsHTML();
-            $mail->Username = emailuser; // Enter your email here
-            $mail->Password = emailpass; //Enter your passwrod here
-            $mail->setFrom($email, $name);
-            $mail->addAddress($email);
-            $mail->Subject = $subject;
-            $mail->Body = $message;
-            $mail->send();
+            // $subject = htmlentities('Important Message - ' . $name);
+            // $message = $body;
+            // //PHP Mailer Gmail
+            // $mail = new PHPMailer();
+            // $mail->IsSMTP();
+            // $mail->SMTPAuth = true;
+            // $mail->SMTPSecure = 'TLS/STARTTLS';
+            // $mail->Host = 'smtp.gmail.com'; // Enter your host here
+            // $mail->Port = '587';
+            // $mail->IsHTML();
+            // $mail->Username = emailuser; // Enter your email here
+            // $mail->Password = emailpass; //Enter your passwrod here
+            // $mail->setFrom($email, $name);
+            // $mail->addAddress($email);
+            // $mail->Subject = $subject;
+            // $mail->Body = $message;
+            // $mail->send();
 
             // SMS API (Semaphore Message)
             $url = base_url;
@@ -62,7 +62,7 @@
               'message' => $string,
               'sendername' => smsapiname
             );
-            curl_setopt($ch, CURLOPT_URL, 'https://semaphore.co/api/v4/messages');
+            curl_setopt($ch, CURLOPT_URL, 'https://api.semaphore.co/api/v4/messages');
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

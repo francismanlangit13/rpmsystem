@@ -3,6 +3,9 @@
     #datatablesSimple th:nth-child(7) {
         width: 15% !important;
     }
+    .table th, .table td {
+        white-space: nowrap;
+    }
 </style>
 <main>
     <div class="container-fluid px-4">
@@ -24,7 +27,7 @@
                 DataTable Payment Type
             </div>
             <div class="card-body">
-                <table class="text-center" id="datatablesSimple">
+                <table class="table table-bordered table-hover text-center" id="datatablesSimple">
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -52,14 +55,14 @@
                             <td><?= $i ?></td>
                             <td><?= $row['payment_type_name']; ?></td>
                             <td>
-                                <div class="row d-inline-flex justify-content-center col-lg-4 col-xl-12">
-                                    <div class="col-md-4 mb-1">
+                                <div class="d-flex">
+                                    <div class="col-md-6 mb-1" style="margin-right: 0.2rem">
                                         <a href="payment_type_edit?id=<?=$row['payment_type_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6" style="margin-right: 0.05rem">
                                         <button type="button" data-toggle="modal" value="<?=$row['payment_type_id']; ?>" data-target="#Modal_delete_payment_type" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>
