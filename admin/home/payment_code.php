@@ -78,6 +78,8 @@
                                 header("Location: " . base_url . "admin/home/payment");
                                 exit(0);
                             }
+                            $cash_advanced_balance = $payment_amount - $results_row['property_amount'];
+                            $cash_advanced_balance = max(0, $cash_advanced_balance);
                             $payment_remaining = $results_row['property_amount'] - $payment_amount;
                             $is_cash_advance++;
                             break; // exit the loop after the first iteration
@@ -88,7 +90,7 @@
                         header("Location: " . base_url . "admin/home/payment");
                         exit(0);
                     }
-                    $run_query = mysqli_query($con, "UPDATE `property` SET `property_cash_advance` = '$payment_remaining' WHERE `rented_by` = '$add_renter' AND `property_status` = 'Rented'");
+                    $run_query = mysqli_query($con, "UPDATE `property` SET `property_cash_advance` = '$cash_advanced_balance' WHERE `rented_by` = '$add_renter' AND `property_status` = 'Rented'");
                 }
             } else {
                 $stmt_run2 = mysqli_query($con, "SELECT * FROM `utilities` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`utilities_date`, '%Y-%m') = '$thismonth' AND `utilities_status` != 'Archive'");
