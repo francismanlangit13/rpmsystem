@@ -25,7 +25,7 @@
                             <h4>Payment form
                                 <div class="float-end">
                                     <button type="submit" name="add_payment" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
-                                    <input type="hidden" id="pay_cash_advance" name="pay_cash_advance" value="1">
+                                    <input type="hidden" id="pay_cash_advance" name="pay_cash_advance" value="1" disabled>
                                 </div>
                             </h4>
                         </div>

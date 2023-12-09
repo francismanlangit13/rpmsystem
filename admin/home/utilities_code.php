@@ -57,23 +57,23 @@
             if($query_run){
                 // PHP Compose Mail
                 $name = 'Rental Properties Management System';
-                $subject = htmlentities(date('F Y').' Billing Notice - ' . $name);
-                $message = nl2br("Dear $fullname \r\n \r\n This month $utilities_type_name bill is due. Please make a payment of &#8369;$utilities_amount online or in cash. Thank you.");
-                //PHP Mailer Gmail
-                $mail = new PHPMailer();
-                $mail->IsSMTP();
-                $mail->SMTPAuth = true;
-                $mail->SMTPSecure = 'TLS/STARTTLS';
-                $mail->Host = 'smtp.gmail.com'; // Enter your host here
-                $mail->Port = '587';
-                $mail->IsHTML();
-                $mail->Username = emailuser; // Enter your email here
-                $mail->Password = emailpass; //Enter your passwrod here
-                $mail->setFrom($email, $name);
-                $mail->addAddress($email);
-                $mail->Subject = $subject;
-                $mail->Body = $message;
-                $mail->send();
+                // $subject = htmlentities(date('F Y').' Billing Notice - ' . $name);
+                // $message = nl2br("Dear $fullname \r\n \r\n This month $utilities_type_name bill is due. Please make a payment of &#8369;$utilities_amount online or in cash. Thank you.");
+                // //PHP Mailer Gmail
+                // $mail = new PHPMailer();
+                // $mail->IsSMTP();
+                // $mail->SMTPAuth = true;
+                // $mail->SMTPSecure = 'TLS/STARTTLS';
+                // $mail->Host = 'smtp.gmail.com'; // Enter your host here
+                // $mail->Port = '587';
+                // $mail->IsHTML();
+                // $mail->Username = emailuser; // Enter your email here
+                // $mail->Password = emailpass; //Enter your passwrod here
+                // $mail->setFrom($email, $name);
+                // $mail->addAddress($email);
+                // $mail->Subject = $subject;
+                // $mail->Body = $message;
+                // $mail->send();
 
                 // SMS API (Semaphore Message)
                 $url = base_url;

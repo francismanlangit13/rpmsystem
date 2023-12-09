@@ -64,16 +64,7 @@
                     <div class="chart-pie mb-4"><canvas id="myPieChart" width="100%" height="20"></canvas></div>
                 </div>
             </div>
-            <div class="col-xl-4">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-chart-bar me-1"></i>
-                        Gross Income (Monthly)
-                    </div>
-                    <div class="card-body"><canvas id="gross_expected" width="100%" height="40"></canvas></div>
-                </div>
-            </div>
-            <div class="col-xl-4">
+            <div class="col-xl-6">
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-chart-bar me-1"></i>
@@ -82,7 +73,7 @@
                     <div class="card-body"><canvas id="payment_recieved" width="100%" height="40"></canvas></div>
                 </div>
             </div>
-            <div class="col-xl-4">
+            <div class="col-xl-6">
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-chart-bar me-1"></i>

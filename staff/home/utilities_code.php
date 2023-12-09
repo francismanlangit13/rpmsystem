@@ -34,7 +34,7 @@
         if (mysqli_num_rows($check_billing_sql_run) > 0) {
             $_SESSION['status'] = "The selected user has already added bill this month.";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "staff/home/utilities");
+            header("Location: " . base_url . "admin/home/utilities");
             exit(0);
         } else {
 
@@ -57,23 +57,23 @@
             if($query_run){
                 // PHP Compose Mail
                 $name = 'Rental Properties Management System';
-                $subject = htmlentities(date('F Y').' Billing Notice - ' . $name);
-                $message = nl2br("Dear $fullname \r\n \r\n This month $utilities_type_name bill is due. Please make a payment of &#8369;$utilities_amount online or in cash. Thank you.");
-                //PHP Mailer Gmail
-                $mail = new PHPMailer();
-                $mail->IsSMTP();
-                $mail->SMTPAuth = true;
-                $mail->SMTPSecure = 'TLS/STARTTLS';
-                $mail->Host = 'smtp.gmail.com'; // Enter your host here
-                $mail->Port = '587';
-                $mail->IsHTML();
-                $mail->Username = emailuser; // Enter your email here
-                $mail->Password = emailpass; //Enter your passwrod here
-                $mail->setFrom($email, $name);
-                $mail->addAddress($email);
-                $mail->Subject = $subject;
-                $mail->Body = $message;
-                $mail->send();
+                // $subject = htmlentities(date('F Y').' Billing Notice - ' . $name);
+                // $message = nl2br("Dear $fullname \r\n \r\n This month $utilities_type_name bill is due. Please make a payment of &#8369;$utilities_amount online or in cash. Thank you.");
+                // //PHP Mailer Gmail
+                // $mail = new PHPMailer();
+                // $mail->IsSMTP();
+                // $mail->SMTPAuth = true;
+                // $mail->SMTPSecure = 'TLS/STARTTLS';
+                // $mail->Host = 'smtp.gmail.com'; // Enter your host here
+                // $mail->Port = '587';
+                // $mail->IsHTML();
+                // $mail->Username = emailuser; // Enter your email here
+                // $mail->Password = emailpass; //Enter your passwrod here
+                // $mail->setFrom($email, $name);
+                // $mail->addAddress($email);
+                // $mail->Subject = $subject;
+                // $mail->Body = $message;
+                // $mail->send();
 
                 // SMS API (Semaphore Message)
                 $url = base_url;
@@ -98,13 +98,13 @@
 
                 $_SESSION['status'] = "Other Bills added successfully";
                 $_SESSION['status_code'] = "success";
-                header("Location: " . base_url . "staff/home/utilities");
+                header("Location: " . base_url . "admin/home/utilities");
                 exit(0);
             }
             else{
                 $_SESSION['status'] = "Other Bills was not added";
                 $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "staff/home/utilities");
+                header("Location: " . base_url . "admin/home/utilities");
                 exit(0);
             }
         }
@@ -123,13 +123,13 @@
         if($query_run){
             $_SESSION['status'] = "Other Bills updated successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "staff/home/utilities");
+            header("Location: " . base_url . "admin/home/utilities");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Other Bills was not update";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "staff/home/utilities");
+            header("Location: " . base_url . "admin/home/utilities");
             exit(0);
         }
     }
@@ -143,13 +143,13 @@
         if($query_run){
             $_SESSION['status'] = "Other Bills deleted successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "staff/home/utilities");
+            header("Location: " . base_url . "admin/home/utilities");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Other Bills was not delete";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "staff/home/utilities");
+            header("Location: " . base_url . "admin/home/utilities");
             exit(0);
         } 
     }

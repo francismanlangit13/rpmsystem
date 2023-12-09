@@ -28,8 +28,8 @@
         $gender = $_POST['gender'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
-        //$pass = $_POST['password'];
-        $new_password = substr(md5(microtime()),rand(0,26),10);
+        $pass = $_POST['password'];
+        $new_password = $pass; //substr(md5(microtime()),rand(0,26),10);
         $password = $new_password;
         $status = 'Active';
         $type = 'Renter';
@@ -39,25 +39,25 @@
 
         if($query_run){
             $fullname = $fname .' '. $mname .' '. $lname .' '. $suffix;
-            // PHP Compose Mail
+            // // PHP Compose Mail
             $name = 'Rental Properties Management System';
-            $subject = htmlentities('Email and Password Credentials - ' . $name);
-            $message = nl2br("Dear $fullname \r\n \r\n Welcome to ".$name."! \r\n \r\n This is your account information \r\n Email: $email \r\n Password: $new_password \r\n \r\n Please change your password immediately. \r\n \r\n Thanks, \r\n ".$name);
-            //PHP Mailer Gmail
-            $mail = new PHPMailer();
-            $mail->IsSMTP();
-            $mail->SMTPAuth = true;
-            $mail->SMTPSecure = 'TLS/STARTTLS';
-            $mail->Host = 'smtp.gmail.com'; // Enter your host here
-            $mail->Port = '587';
-            $mail->IsHTML();
-            $mail->Username = emailuser; // Enter your email here
-            $mail->Password = emailpass; //Enter your passwrod here
-            $mail->setFrom($email, $name);
-            $mail->addAddress($email);
-            $mail->Subject = $subject;
-            $mail->Body = $message;
-            $mail->send();
+            // $subject = htmlentities('Email and Password Credentials - ' . $name);
+            // $message = nl2br("Dear $fullname \r\n \r\n Welcome to ".$name."! \r\n \r\n This is your account information \r\n Email: $email \r\n Password: $new_password \r\n \r\n Please change your password immediately. \r\n \r\n Thanks, \r\n ".$name);
+            // //PHP Mailer Gmail
+            // $mail = new PHPMailer();
+            // $mail->IsSMTP();
+            // $mail->SMTPAuth = true;
+            // $mail->SMTPSecure = 'TLS/STARTTLS';
+            // $mail->Host = 'smtp.gmail.com'; // Enter your host here
+            // $mail->Port = '587';
+            // $mail->IsHTML();
+            // $mail->Username = emailuser; // Enter your email here
+            // $mail->Password = emailpass; //Enter your passwrod here
+            // $mail->setFrom($email, $name);
+            // $mail->addAddress($email);
+            // $mail->Subject = $subject;
+            // $mail->Body = $message;
+            // $mail->send();
 
             // SMS API (Semaphore Message)
             $url = base_url;

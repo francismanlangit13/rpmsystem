@@ -31,6 +31,7 @@
         $thismonth = date('Y-m');
         $status = 'Active';
         $is_cash_advance = 0;
+
         $check_billing_sql = "SELECT * FROM `payment` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'";
         $check_billing_sql_run = mysqli_query($con, $check_billing_sql);
 
@@ -78,8 +79,11 @@
                                 header("Location: " . base_url . "admin/home/payment");
                                 exit(0);
                             }
+                            // Balance deduction
                             $cash_advanced_balance = $payment_amount - $results_row['property_amount'];
                             $cash_advanced_balance = max(0, $cash_advanced_balance);
+
+                            // Reamining Balance
                             $payment_remaining = $results_row['property_amount'] - $payment_amount;
                             $is_cash_advance++;
                             break; // exit the loop after the first iteration
@@ -122,23 +126,23 @@
             $YearandMonth = date('F Y');
             // PHP Compose Mail
             $name = 'Rental Properties Management System';
-            $subject = htmlentities(date('F Y').' Payment Notice - ' . $name);
-            $message = nl2br("Dear $fullname \r\n \r\n Thanks for paying your $utilities_type_name bill. The amount you $status_paid_name is &#8369;$payment_amount, for the month of $YearandMonth.");
-            //PHP Mailer Gmail
-            $mail = new PHPMailer();
-            $mail->IsSMTP();
-            $mail->SMTPAuth = true;
-            $mail->SMTPSecure = 'TLS/STARTTLS';
-            $mail->Host = 'smtp.gmail.com'; // Enter your host here
-            $mail->Port = '587';
-            $mail->IsHTML();
-            $mail->Username = emailuser; // Enter your email here
-            $mail->Password = emailpass; //Enter your passwrod here
-            $mail->setFrom($email, $name);
-            $mail->addAddress($email);
-            $mail->Subject = $subject;
-            $mail->Body = $message;
-            $mail->send();
+            // $subject = htmlentities(date('F Y').' Payment Notice - ' . $name);
+            // $message = nl2br("Dear $fullname \r\n \r\n Thanks for paying your $utilities_type_name bill. The amount you $status_paid_name is &#8369;$payment_amount, for the month of $YearandMonth.");
+            // //PHP Mailer Gmail
+            // $mail = new PHPMailer();
+            // $mail->IsSMTP();
+            // $mail->SMTPAuth = true;
+            // $mail->SMTPSecure = 'TLS/STARTTLS';
+            // $mail->Host = 'smtp.gmail.com'; // Enter your host here
+            // $mail->Port = '587';
+            // $mail->IsHTML();
+            // $mail->Username = emailuser; // Enter your email here
+            // $mail->Password = emailpass; //Enter your passwrod here
+            // $mail->setFrom($email, $name);
+            // $mail->addAddress($email);
+            // $mail->Subject = $subject;
+            // $mail->Body = $message;
+            // $mail->send();
 
             // SMS API (Semaphore Message)
             $url = base_url;

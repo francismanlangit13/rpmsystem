@@ -86,11 +86,11 @@
                                     <div id="phone-error"></div>
                                 </div>
 
-                                <!-- <div class="col-md-4 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label for="password" class="required">Password</label>
                                     <input type="password" class="form-control" placeholder="Enter Password" name="password" id="password" required>
                                     <div id="password-error"></div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>

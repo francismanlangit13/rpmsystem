@@ -30,6 +30,7 @@
                             <th>No.</th>
                             <th>Full Name</th>
                             <th>Gender</th>
+                            <th>Address</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Role</th>
@@ -42,6 +43,7 @@
                             <th>No.</th>
                             <th>Full Name</th>
                             <th>Gender</th>
+                            <th>Address</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Role</th>
@@ -61,6 +63,7 @@
                             <td><?= $row['user_id']; ?></td>
                             <td><?= $row['fname']; ?> <?= $row['mname']; ?> <?= $row['lname']; ?></td>
                             <td><?= $row['gender']; ?></td>
+                            <td><?= $row['address']; ?></td>
                             <td><?= $row['email']; ?></td>
                             <td><?= $row['phone']; ?></td>
                             <td><?= $row['type']; ?></td>
