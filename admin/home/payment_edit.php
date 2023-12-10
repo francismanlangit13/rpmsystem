@@ -26,7 +26,7 @@
                 if(mysqli_num_rows($sql_run) > 0) {
                     foreach($sql_run as $row){
         ?>
-        <?php if($row['payment_status'] == 'Pending' || $row['payment_reference']){ ?>
+        <?php if($row['payment_type_id'] != '1'){ ?>
             <form action="payment_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-12">
@@ -37,6 +37,7 @@
                                         <button type="submit" name="edit_payment" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
                                         <input type="hidden" name="payment_id" value="<?=$row['payment_id']?>">
                                         <input type="hidden" name="payment_amount" value="<?= $row['payment_amount']; ?>">
+                                        <input type="hidden" name="payment_type_id" value="<?= $row['payment_type_id']; ?>">
                                     </div>
                                 </h4>
                             </div>
@@ -70,7 +71,7 @@
 
                                     <div class="col-md-12 mb-3 d-none" id="Container">
                                         <label for="payment_comment">Note if rejected</label>
-                                        <input type="text" class="form-control" id="payment_comment" value="<?= $row['payment_comment']; ?>">
+                                        <input type="text" class="form-control" id="payment_comment" name="payment_comment" value="<?= $row['payment_comment']; ?>">
                                     </div>
                                 </div>
                             </div>

@@ -92,6 +92,11 @@
                                     <label for="payment_status">Payment Status</label>
                                     <input type="text" class="form-control" id="payment_status" value="<?= $row['payment_status']; ?>" disabled>
                                 </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="payment_comment">Comments for reject</label>
+                                    <input type="text" class="form-control" id="payment_comment" value="<?= $row['payment_comment']; ?>" disabled>
+                                </div>
                             </div>
                         </div>
                     </div>

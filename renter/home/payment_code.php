@@ -36,13 +36,7 @@
             header("Location: " . base_url . "renter/home/payment");
             exit(0);
         } else {
-            $check_billing_type = mysqli_query($con, "SELECT * FROM `utilities_type` WHERE `utilities_type_id` = '$utilities_type_id'");
-            $billing_type = $check_billing_type->fetch_assoc();
-            $bill = strtolower($billing_type['utilities_type_name']);
-
-            $stmt_run2 = mysqli_query($con, "SELECT * FROM `utilities` WHERE user_id = '$renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`utilities_date`, '%Y-%m') = '$thismonth' AND `utilities_status` != 'Archive'");
-            if (mysqli_num_rows($stmt_run2) > 0){
-                $query_run_update = mysqli_query($con, "UPDATE `utilities` SET `is_payment_made` = '1' WHERE `user_id` = '$renter' AND `utilities_type_id` = '$utilities_type_id'");
+            if($utilities_type_id == '1'){
                 $query_run = mysqli_query($con, "INSERT INTO `payment`(`user_id`, `utilities_type_id`, `payment_type_id`, `payment_amount`, `payment_reference`, `payment_date`, `payment_status`, `status`) VALUES ('$renter','$utilities_type_id','$payment_type_id','$payment_amount','$payment_reference','$payment_date','$payment_status','$status')");
 
                 if($query_run){
@@ -58,10 +52,34 @@
                     exit(0);
                 }
             } else {
-                $_SESSION['status'] = "You have not have billing in $bill.";
-                $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "renter/home/payment");
-                exit(0);
+                // Getting the data from utilities_type
+                $check_billing_type = mysqli_query($con, "SELECT * FROM `utilities_type` WHERE `utilities_type_id` = '$utilities_type_id'");
+                $billing_type = $check_billing_type->fetch_assoc();
+                $bill = strtolower($billing_type['utilities_type_name']);
+
+                $stmt_run2 = mysqli_query($con, "SELECT * FROM `utilities` WHERE user_id = '$renter' AND `utilities_type_id` = '$utilities_type_id' AND DATE_FORMAT(`utilities_date`, '%Y-%m') = '$thismonth' AND `utilities_status` != 'Archive'");
+                if (mysqli_num_rows($stmt_run2) > 0){
+                    $query_run_update = mysqli_query($con, "UPDATE `utilities` SET `is_payment_made` = '1' WHERE `user_id` = '$renter' AND `utilities_type_id` = '$utilities_type_id'");
+                    $query_run = mysqli_query($con, "INSERT INTO `payment`(`user_id`, `utilities_type_id`, `payment_type_id`, `payment_amount`, `payment_reference`, `payment_date`, `payment_status`, `status`) VALUES ('$renter','$utilities_type_id','$payment_type_id','$payment_amount','$payment_reference','$payment_date','$payment_status','$status')");
+
+                    if($query_run){
+                        $_SESSION['status'] = "Payment added successfully";
+                        $_SESSION['status_code'] = "success";
+                        header("Location: " . base_url . "renter/home/payment");
+                        exit(0);
+                    }
+                    else{
+                        $_SESSION['status'] = "Payment was not added";
+                        $_SESSION['status_code'] = "error";
+                        header("Location: " . base_url . "renter/home/payment");
+                        exit(0);
+                    }
+                } else {
+                    $_SESSION['status'] = "You have not have billing in $bill.";
+                    $_SESSION['status_code'] = "error";
+                    header("Location: " . base_url . "renter/home/payment");
+                    exit(0);
+                }
             }
         }
     }
@@ -92,12 +110,17 @@
     if(isset($_POST['delete_payment'])){
         $payment_id= $_POST['payment_id'];
 
-        $update_status = mysqli_query($con, "UPDATE `utilities` SET `is_payment_made` = '0' WHERE `user_id` = '$user_id'");
+        // Getting the data from utilities
+        $get_bill_type = mysqli_query($con, "SELECT * FROM `payment` INNER JOIN `utilities` ON utilities.user_id = payment.user_id WHERE `payment`.`user_id` = '$user_id'");
+        $billing_type = $get_bill_type->fetch_assoc();
+        $bill_id = strtolower($billing_type['utilities_type_id']);
 
-        $query = "UPDATE `payment` SET `status` = 'Archive' WHERE payment_id = $payment_id ";
+        $query = "DELETE FROM `payment` WHERE `payment_id` = '$payment_id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
+            $update_status = mysqli_query($con, "UPDATE `utilities` SET `is_payment_made` = '0' WHERE `user_id` = '$user_id' AND `utilities_type_id` = '$bill_id'");
+
             $_SESSION['status'] = "Payment deleted successfully";
             $_SESSION['status_code'] = "success";
             header("Location: " . base_url . "renter/home/payment");

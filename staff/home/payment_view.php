@@ -71,12 +71,7 @@
                                         <label for="expected_amount">Expected Amount</label>
                                         <input type="number" class="form-control" id="expected_amount" value="<?= $row['property_amount']; ?>" disabled>
                                     </div>
-                                <?php } else { ?>
-                                    <div class="col-md-3 mb-3">
-                                        <label for="expected_amount">Expected Amount</label>
-                                        <input type="number" class="form-control" id="expected_amount" value="<?= $row['utilities_amount']; ?>" disabled>
-                                    </div>
-                                <?php } ?>
+                                <?php } else { } ?>
 
                                 <div class="col-md-3 mb-3">
                                     <label for="payment_amount">Paid Amount</label>

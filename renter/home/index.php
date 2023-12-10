@@ -23,7 +23,7 @@
                         <strong>Attention! </strong> When making online payments, please ensure only one transaction per bill. Attach your reference number and select your desired type of bills. Thank you for your cooperation.
                     </div>
                     <?php
-                        $check_rent_amount = mysqli_query($con, "SELECT * FROM property INNER JOIN payment ON property.rented_by = payment.user_id WHERE rented_by = '$user_id' AND `property_status` = 'Rented'");
+                        $check_rent_amount = mysqli_query($con, "SELECT * FROM property WHERE rented_by = '$user_id' AND `property_status` = 'Rented'");
                         $thismonth = date('Y-m');
                         $check_sql = mysqli_query($con, "SELECT * FROM payment WHERE user_id = '$user_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `payment_status` NOT IN ('Reject') AND `status` != 'Archive'");
                         $check_status = $check_sql->fetch_assoc();
@@ -31,12 +31,12 @@
                         $check_rent_sql = mysqli_query($con, "SELECT * FROM payment WHERE user_id = '$user_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'");
                         $check_rent_status = $check_rent_sql->fetch_assoc();
                         
-                        if(!$check_status){
+                        if($check_status <= 1){
                     ?>
                     
                     <?php while ($results_row = $check_rent_amount->fetch_assoc()) { ?>
                         <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-                            <strong><?= date('F') .' 01, '. date('Y'); ?></strong> You Have bill for <b>rent</b> amount ₱<?= $results_row['property_amount']; ?> in this month please pay.
+                            <strong><?= date('F') .' 01, '. date('Y'); ?></strong> You have bill for <b>rent</b> amount ₱<?= $results_row['property_amount']; ?> in this month please pay.
                         </div>
                     <?php break; } } else { if($check_rent_status['payment_status'] == "Pending") { ?>
                         <div class="alert alert-success alert-dismissible fade show m-1" role="alert">                          

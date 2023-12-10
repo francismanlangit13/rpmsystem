@@ -369,12 +369,16 @@
     // Calculate percentages
     $payment_receive_percentage = ($new_total_sql_payment_received_results / $new_total_sql_arrears_results) * 100;
     $arrears_percentage = ($new_total_sql_arrears_results / $new_total_sql_payment_received_results) * 100;
+
+    // Select data from the payment table
+    $sql = "SELECT * FROM payment";
+    $result = $con->query($sql);
 ?>
 
 <script>
     // Pie Chart Example
     var ctx = document.getElementById("myPieChart");
-    var dataValues = [<?=$payment_receive_percentage?>, <?=$arrears_percentage?>]; // Set the values to add up to 100
+    var dataValues = <?php if ($result->num_rows > 0) { ?> [<?=$payment_receive_percentage?>, <?=$arrears_percentage?>]; <?php } else { ?> [0, 0]; <?php } ?> // Set the values to add up to 100
     var total = dataValues.reduce(function (previousValue, currentValue) {
         return previousValue + currentValue;
     });

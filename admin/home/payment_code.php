@@ -182,49 +182,118 @@
         $payment_id = $_POST["payment_id"];
         $payment_amount = $_POST['payment_amount'];
 
+        // For online payment
+        $payment_status = $_POST['payment_status'];
+        $payment_comment = $_POST['payment_comment'];
+        $payment_type_id = $_POST['payment_type_id'];
+        $YearandMonth = date('F Y');
+
         $stmt = "SELECT * FROM `payment` WHERE payment_id = '$payment_id'";
         $stmt_run = mysqli_query($con, $stmt);
         $status_row = $stmt_run->fetch_assoc();
         $add_renter = $status_row['user_id'];
         $utilities_type_id = $status_row['utilities_type_id'];
 
-        if ($utilities_type_id == '1') {
-            $stmt = "SELECT * FROM `property` WHERE rented_by = '$add_renter' AND `property_status` = 'Rented'";
-            $stmt_run = mysqli_query($con,$stmt);
-            if ($stmt_run){
-                while ($renter_row = $stmt_run->fetch_assoc()) {
-                    $payment_remaining = $renter_row['property_amount'] - $payment_amount;
-                    break; // exit the loop after the first iteration
-                }
-            } else {
-                $_SESSION['status'] = "The selected user does not have in property rented.";
-                $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/payment");
-                exit(0);
-            }
-        } else {
-            $stmt = "SELECT * FROM `utilities` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND `utilities_date` = '$thismonth'";
-            $stmt_run = mysqli_query($con,$stmt);
-            if ($stmt_run){
-                while ($renter_row = $stmt_run->fetch_assoc()) {
-                    $payment_remaining = $renter_row['utilities_amount'] - $payment_amount;
-                    break; // exit the loop after the first iteration
-                }
-            } else {
-                $_SESSION['status'] = "The selected user does not have in utilities payment.";
-                $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/payment");
-                exit(0);
-            }
-        }
-        if($payment_remaining > 0){
-            $payment_status = 'Partial';
-        } else {
-            $payment_status = 'Paid';
-        }
+        // Retrieve the full name of user renter
+        // SQL for getting the database
+        $sql_query = $con->query("SELECT * FROM utilities_type WHERE utilities_type_id = '$utilities_type_id'");
+        $utilities_type_result = $sql_query->fetch_assoc();
 
-        $query = "UPDATE `payment` SET `payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status' WHERE `payment_id`='$payment_id'";
-        $query_run = mysqli_query($con, $query);
+        $stmt_query = $con->query("SELECT * FROM user WHERE user_id = '$add_renter'");
+        $user = $stmt_query->fetch_assoc();
+
+        $fullname = $user['fname'] .' '. $user['mname'] .' '. $user['lname'] .' '. $user['suffix'];
+        $utilities_type_name = $utilities_type_result['utilities_type_name'];
+        $email = $user['email'];
+        $phone = $user['phone'];
+
+        if($payment_type_id == '1'){ // For Cash payment
+
+            if ($utilities_type_id == '1') {
+                $stmt = "SELECT * FROM `property` WHERE rented_by = '$add_renter' AND `property_status` = 'Rented'";
+                $stmt_run = mysqli_query($con,$stmt);
+                if ($stmt_run){
+                    while ($renter_row = $stmt_run->fetch_assoc()) {
+                        $payment_remaining = $renter_row['property_amount'] - $payment_amount;
+                        break; // exit the loop after the first iteration
+                    }
+                } else {
+                    $_SESSION['status'] = "The selected user does not have in property rented.";
+                    $_SESSION['status_code'] = "error";
+                    header("Location: " . base_url . "admin/home/payment");
+                    exit(0);
+                }
+            } else {
+                $stmt = "SELECT * FROM `utilities` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND `utilities_date` = '$thismonth'";
+                $stmt_run = mysqli_query($con,$stmt);
+                if ($stmt_run){
+                    while ($renter_row = $stmt_run->fetch_assoc()) {
+                        $payment_remaining = $renter_row['utilities_amount'] - $payment_amount;
+                        break; // exit the loop after the first iteration
+                    }
+                } else {
+                    $_SESSION['status'] = "The selected user does not have in utilities payment.";
+                    $_SESSION['status_code'] = "error";
+                    header("Location: " . base_url . "admin/home/payment");
+                    exit(0);
+                }
+            }
+            if($payment_remaining > 0){
+                $payment_status = 'Partial';
+            } else {
+                $payment_status = 'Paid';
+            }
+
+            $query = "UPDATE `payment` SET `payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status' WHERE `payment_id`='$payment_id'";
+            $query_run = mysqli_query($con, $query);
+
+        } else { // For online payment
+            if($payment_status == 'Reject'){
+                $query = "UPDATE `payment` SET `payment_status`='$payment_status', `payment_comment`='$payment_comment' WHERE `payment_id`='$payment_id'";
+                $query_run = mysqli_query($con, $query);
+
+                $sms_body = <<<EOD
+                Dear $fullname\r\nYour payment on your $utilities_type_name bill was rejected.
+                EOD;
+
+                $ch = curl_init();
+                $parameters = array(
+                'apikey' => smsapikey, // Your API KEY
+                'number' => $phone,
+                'message' => $sms_body,
+                'sendername' => smsapiname
+                );
+                curl_setopt($ch, CURLOPT_URL, 'https://api.semaphore.co/api/v4/messages');
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $output = curl_exec($ch);
+                curl_close($ch);
+                echo $output;
+            } else {
+                $query = "UPDATE `payment` SET `payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status' WHERE `payment_id`='$payment_id'";
+                $query_run = mysqli_query($con, $query);
+
+                $sms_body = <<<EOD
+                Dear $fullname\r\nThanks for paying your $utilities_type_name bill was approved. The amount you $payment_status is ₱$payment_amount, for the month of $YearandMonth.
+                EOD;
+
+                $ch = curl_init();
+                $parameters = array(
+                'apikey' => smsapikey, // Your API KEY
+                'number' => $phone,
+                'message' => $sms_body,
+                'sendername' => smsapiname
+                );
+                curl_setopt($ch, CURLOPT_URL, 'https://api.semaphore.co/api/v4/messages');
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $output = curl_exec($ch);
+                curl_close($ch);
+                echo $output;
+            }
+        }
 
         if($query_run){
             $_SESSION['status'] = "Payment updated successfully";
