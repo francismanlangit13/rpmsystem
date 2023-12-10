@@ -38,7 +38,6 @@
                                 <label for="renter" class="required">Rented By</label>
                                 <select class="form-control select3" id="renter" name="renter" style="width: 100%;" required>
                                     <option value="">Select Rented By</option>
-                                    <option value=" ">None</option>
                                     <?php 
                                         if ($staff_result->num_rows > 0) {
                                         while($staffrow = $staff_result->fetch_assoc()) {

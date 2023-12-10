@@ -34,7 +34,7 @@
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $client = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter'";
+                                        $client = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND `status` != 'Archive'";
                                         $client_result = $con->query($client);
                                     ?>
                                     <label for="add_renter" class="required">Renter</label>

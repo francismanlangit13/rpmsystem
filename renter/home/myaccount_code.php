@@ -25,12 +25,12 @@
         if ($query_run) {
             $_SESSION['status'] = "Account updated successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "staff/home/myaccount");
+            header("Location: " . base_url . "renter/home/myaccount");
             exit(0);
         } else {
             $_SESSION['status'] = "Account was not updated";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "staff/home/myaccount");
+            header("Location: " . base_url . "renter/home/myaccount");
             exit(0);
         }
     }
@@ -55,18 +55,18 @@
                 if ($query_run) {
                     $_SESSION['status'] = "Password updated successfully";
                     $_SESSION['status_code'] = "success";
-                    header("Location: " . base_url . "staff/home/myaccount");
+                    header("Location: " . base_url . "renter/home/myaccount");
                     exit(0);
                 } else {
                     $_SESSION['status'] = "Password was not updated";
                     $_SESSION['status_code'] = "error";
-                    header("Location: " . base_url . "staff/home/myaccount");
+                    header("Location: " . base_url . "renter/home/myaccount");
                     exit(0);
                 }
             } else{
                 $_SESSION['status'] = "Incorrect current password";
                 $_SESSION['status_code'] = "warning";
-                header("Location: " . base_url . "staff/home/myaccount");
+                header("Location: " . base_url . "renter/home/myaccount");
                 exit(0);
             }
         }
