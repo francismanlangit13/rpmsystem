@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2023 at 02:35 PM
+-- Generation Time: Dec 10, 2023 at 05:16 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -45,24 +45,17 @@ CREATE TABLE `payment` (
   `payment_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `utilities_type_id` int(11) NOT NULL,
+  `is_cash_advance` int(11) NOT NULL,
+  `is_cash_deposit` int(11) NOT NULL,
   `payment_type_id` int(11) NOT NULL,
   `payment_amount` double(11,2) NOT NULL,
   `payment_remaining` double(11,2) NOT NULL,
   `payment_reference` varchar(255) NOT NULL,
   `payment_date` datetime NOT NULL,
   `payment_status` varchar(255) NOT NULL,
+  `payment_comment` varchar(250) NOT NULL,
   `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `payment`
---
-
-INSERT INTO `payment` (`payment_id`, `user_id`, `utilities_type_id`, `payment_type_id`, `payment_amount`, `payment_remaining`, `payment_reference`, `payment_date`, `payment_status`, `status`) VALUES
-(6, 5, 1, 1, 4000.00, 1000.00, '', '2023-12-05 11:55:14', 'Partial', 'Active'),
-(7, 5, 2, 1, 250.00, 250.00, '', '2023-12-05 11:55:46', 'Partial', 'Active'),
-(8, 6, 1, 1, 1500.00, 3500.00, '', '2023-12-05 06:08:44', 'Partial', 'Archive'),
-(9, 6, 1, 1, 5000.00, 0.00, '', '2023-12-05 10:52:14', 'Paid', 'Active');
 
 -- --------------------------------------------------------
 
@@ -82,8 +75,7 @@ CREATE TABLE `payment_type` (
 
 INSERT INTO `payment_type` (`payment_type_id`, `payment_type_name`, `payment_type_status`) VALUES
 (1, 'Cash', 'Active'),
-(2, 'GCash', 'Active'),
-(3, 'Maya', 'Active');
+(2, 'Gcash', 'Active');
 
 -- --------------------------------------------------------
 
@@ -100,6 +92,8 @@ CREATE TABLE `property` (
   `property_type_id` int(11) NOT NULL,
   `property_amount` double(11,2) NOT NULL,
   `date_rented` date NOT NULL,
+  `property_cash_advance` double(11,2) NOT NULL,
+  `property_cash_deposit` double(11,2) NOT NULL,
   `property_status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -107,15 +101,13 @@ CREATE TABLE `property` (
 -- Dumping data for table `property`
 --
 
-INSERT INTO `property` (`property_id`, `user_id`, `rented_by`, `property_unit_code`, `property_location`, `property_type_id`, `property_amount`, `date_rented`, `property_status`) VALUES
-(1, 3, 5, 'Door 1 Green', 'Butuay', 1, 5000.00, '2023-12-02', 'Rented'),
-(2, 3, 6, 'Door 2 Yellow', 'Butuay', 1, 5000.00, '2023-12-01', 'Rented'),
-(3, 3, 0, 'Door 3 Red', 'Butuay', 1, 5000.00, '2023-12-05', 'Available'),
-(4, 3, 0, 'Door 4 Orange', 'Butuay', 1, 5000.00, '0000-00-00', 'Renovating'),
-(5, 4, 0, 'Door 1 Black', 'Corrales', 2, 2500.00, '0000-00-00', 'Available'),
-(6, 4, 0, 'Door 2 Pink', 'Corrales', 2, 2500.00, '0000-00-00', 'Available'),
-(7, 4, 7, 'Door 3 Green', 'Corrales', 2, 2500.00, '2023-12-04', 'Rented'),
-(8, 4, 0, 'Door 4 Silver', 'Corrales', 2, 2500.00, '0000-00-00', 'Renovating');
+INSERT INTO `property` (`property_id`, `user_id`, `rented_by`, `property_unit_code`, `property_location`, `property_type_id`, `property_amount`, `date_rented`, `property_cash_advance`, `property_cash_deposit`, `property_status`) VALUES
+(1, 2, 5, 'Door 1 Green', 'Corrales', 1, 5000.00, '2023-12-05', 5000.00, 2000.00, 'Rented'),
+(2, 2, 0, 'Door 2 Black', 'Corrales', 1, 5000.00, '0000-00-00', 0.00, 0.00, 'Reserve'),
+(3, 2, 0, 'Door 3 Green', 'Corrales', 1, 5000.00, '0000-00-00', 0.00, 0.00, 'Available'),
+(4, 3, 4, 'Door 1 Grey', 'Butuay', 2, 2500.00, '2023-12-09', 2500.00, 1000.00, 'Rented'),
+(5, 3, 0, 'Door 2 Silver', 'Butuay', 2, 2500.00, '0000-00-00', 0.00, 0.00, 'Renovating'),
+(6, 3, 0, 'Door 3 Red', 'Corrales', 2, 2500.00, '0000-00-00', 0.00, 0.00, 'Available');
 
 -- --------------------------------------------------------
 
@@ -154,7 +146,8 @@ CREATE TABLE `user` (
   `email` varchar(50) NOT NULL,
   `phone` varchar(11) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `status` varchar(7) NOT NULL,
+  `is_rented` int(11) NOT NULL,
+  `status` varchar(250) NOT NULL,
   `type` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -162,14 +155,14 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `fname`, `mname`, `lname`, `suffix`, `gender`, `email`, `phone`, `password`, `status`, `type`) VALUES
-(1, 'user', '', 'admin', '', '', 'admin@gmail.com', '', 'admin', 'Active', 'Admin'),
-(2, 'Riza', '', 'Mae', '', 'Female', 'riza@gmail.com', '09123456789', 'riza', 'Active', 'Admin'),
-(3, 'Jay Lord', '', 'Galindo', '', 'Male', 'jaylord@gmail.com', '09123456781', 'jaylord', 'Active', 'Staff'),
-(4, 'Nica', '', 'Ogapay', '', 'Female', 'nica@gmail.com', '09123456782', 'nica', 'Active', 'Staff'),
-(5, 'Joshua', '', 'Ebarat', '', 'Male', 'joshua@gmail.com', '09435576491', 'joshua', 'Active', 'Renter'),
-(6, 'Princess', '', 'Galindo', '', 'Female', 'princess@gmail.com', '09388360162', 'princess', 'Active', 'Renter'),
-(7, 'Jerome', 'Ambe', 'Maghuyop', '', 'Male', 'jerome@gmail.com', '09431256884', 'jerome', 'Active', 'Renter');
+INSERT INTO `user` (`user_id`, `fname`, `mname`, `lname`, `suffix`, `gender`, `email`, `phone`, `password`, `is_rented`, `status`, `type`) VALUES
+(1, 'user', '', 'admin', '', '', 'admin@gmail.com', '', 'admin', 0, 'Active', 'Admin'),
+(2, 'Jaylord', '', 'Galindo', ' ', 'Male', 'jayjayjaylord16@gmail.com', '09063554173', 'jaylord', 0, 'Active', 'Staff'),
+(3, 'Riza Mae', '', 'Trestiza', ' ', 'Female', 'trestizarizamae@gmail.com', '09061269981', 'riza', 0, 'Active', 'Staff'),
+(4, 'John Mark', '', 'Ebarat', ' ', 'Male', 'john@gmail.com', '09524856482', 'john', 1, 'Active', 'Renter'),
+(5, 'Marilou', '', 'Nobleza', 'I', 'Female', 'marilou@gmail.com', '09543854685', 'marilou', 1, 'Active', 'Renter'),
+(6, 'Nica', '', 'Nica Ogapay', ' ', 'Female', 'nica@gmail.com', '09954844898', 'nica', 0, 'Active', 'Staff'),
+(7, 'Abigail', '', 'Maghuyop', ' ', 'Female', 'abigail@gmail.com', '09554856548', 'abigail', 0, 'Active', 'Renter');
 
 -- --------------------------------------------------------
 
@@ -183,16 +176,9 @@ CREATE TABLE `utilities` (
   `utilities_type_id` int(11) NOT NULL,
   `utilities_amount` decimal(11,2) NOT NULL,
   `utilities_date` datetime NOT NULL,
+  `is_payment_made` int(11) NOT NULL,
   `utilities_status` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `utilities`
---
-
-INSERT INTO `utilities` (`utilities_id`, `user_id`, `utilities_type_id`, `utilities_amount`, `utilities_date`, `utilities_status`) VALUES
-(1, 5, 2, '500.00', '2023-12-05 11:38:53', 'Active'),
-(2, 5, 3, '100.00', '2023-12-05 12:49:32', 'Active');
 
 -- --------------------------------------------------------
 
@@ -213,7 +199,8 @@ CREATE TABLE `utilities_type` (
 INSERT INTO `utilities_type` (`utilities_type_id`, `utilities_type_name`, `utilities_type_status`) VALUES
 (1, 'Rent', 'Active'),
 (2, 'Electricity', 'Active'),
-(3, 'Water', 'Active');
+(3, 'Water', 'Active'),
+(4, 'Penalty', 'Active');
 
 --
 -- Indexes for dumped tables
@@ -282,19 +269,19 @@ ALTER TABLE `utilities_type`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payment_type`
 --
 ALTER TABLE `payment_type`
-  MODIFY `payment_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `payment_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `property`
 --
 ALTER TABLE `property`
-  MODIFY `property_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `property_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `property_type`
@@ -306,19 +293,19 @@ ALTER TABLE `property_type`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `utilities`
 --
 ALTER TABLE `utilities`
-  MODIFY `utilities_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `utilities_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `utilities_type`
 --
 ALTER TABLE `utilities_type`
-  MODIFY `utilities_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `utilities_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

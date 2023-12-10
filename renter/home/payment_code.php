@@ -113,7 +113,7 @@
         // Getting the data from utilities
         $get_bill_type = mysqli_query($con, "SELECT * FROM `payment` INNER JOIN `utilities` ON utilities.user_id = payment.user_id WHERE `payment`.`user_id` = '$user_id'");
         $billing_type = $get_bill_type->fetch_assoc();
-        $bill_id = strtolower($billing_type['utilities_type_id']);
+        $bill_id = $billing_type['utilities_type_id'];
 
         $query = "DELETE FROM `payment` WHERE `payment_id` = '$payment_id'";
         $query_run = mysqli_query($con, $query);

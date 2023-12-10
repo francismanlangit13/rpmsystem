@@ -69,7 +69,7 @@
                                         <div id="payment_status-error"></div>
                                     </div>
 
-                                    <div class="col-md-12 mb-3 d-none" id="Container">
+                                    <div class="col-md-12 mb-3 <?php if($row['payment_status'] == 'Reject') { } else { echo"d-none"; }?>" id="Container">
                                         <label for="payment_comment">Note if rejected</label>
                                         <input type="text" class="form-control" id="payment_comment" name="payment_comment" value="<?= $row['payment_comment']; ?>">
                                     </div>

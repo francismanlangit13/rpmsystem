@@ -28,10 +28,10 @@
                         $check_sql = mysqli_query($con, "SELECT * FROM payment WHERE user_id = '$user_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `payment_status` NOT IN ('Reject') AND `status` != 'Archive'");
                         $check_status = $check_sql->fetch_assoc();
 
-                        $check_rent_sql = mysqli_query($con, "SELECT * FROM payment WHERE user_id = '$user_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'");
+                        $check_rent_sql = mysqli_query($con, "SELECT * FROM payment WHERE user_id = '$user_id' AND `utilities_type_id` = '1' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'");
                         $check_rent_status = $check_rent_sql->fetch_assoc();
                         
-                        if($check_status <= 1){
+                        if(!$check_status){
                     ?>
                     
                     <?php while ($results_row = $check_rent_amount->fetch_assoc()) { ?>
@@ -42,11 +42,16 @@
                         <div class="alert alert-success alert-dismissible fade show m-1" role="alert">                          
                             Thank you for your payment for <b>rent</b>. It is currently being processed, and you will be notified through SMS once the payment is complete.
                         </div>
-                    <?php } elseif($check_rent_status['payment_status'] == "Paid" || $check_rent_status['payment_status'] == "Partial") { } elseif($check_rent_status['payment_status'] == "Reject") { ?>
+                    <?php } elseif($check_rent_status['payment_status'] == "Paid" || $check_rent_status['payment_status'] == "Partial") { }  elseif($check_rent_status['payment_status'] == "Reject") { ?>
                         <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
                             Your payment for <b>rent</b>. Was rejected please see on the <a href="payment">payments</a>.
                         </div>
-                    <?php } } ?>
+                    <?php } else { ?>
+                        <?php while ($results_row = $check_rent_amount->fetch_assoc()) { ?>
+                        <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
+                            <strong><?= date('F') .' 01, '. date('Y'); ?></strong> You have bill for <b>rent</b> amount ₱<?= $results_row['property_amount']; ?> in this month please pay.
+                        </div>
+                    <?php } } } ?>
                     <?php
                         $query = "SELECT *, DATE_FORMAT(utilities_date, '%M %d, %Y') as new_utilities_date
                             FROM `utilities`

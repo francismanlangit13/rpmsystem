@@ -210,6 +210,7 @@
         if($payment_type_id == '1'){ // For Cash payment
 
             if ($utilities_type_id == '1') {
+                // SQL Query
                 $stmt = "SELECT * FROM `property` WHERE rented_by = '$add_renter' AND `property_status` = 'Rented'";
                 $stmt_run = mysqli_query($con,$stmt);
                 if ($stmt_run){
@@ -224,6 +225,7 @@
                     exit(0);
                 }
             } else {
+                // SQL Query
                 $stmt = "SELECT * FROM `utilities` WHERE user_id = '$add_renter' AND `utilities_type_id` = '$utilities_type_id' AND `utilities_date` = '$thismonth'";
                 $stmt_run = mysqli_query($con,$stmt);
                 if ($stmt_run){
@@ -252,6 +254,13 @@
                 $query = "UPDATE `payment` SET `payment_status`='$payment_status', `payment_comment`='$payment_comment' WHERE `payment_id`='$payment_id'";
                 $query_run = mysqli_query($con, $query);
 
+                // Getting the data from utilities
+                $get_bill_type = mysqli_query($con, "SELECT * FROM `payment` INNER JOIN `utilities` ON utilities.user_id = payment.user_id WHERE `payment`.`user_id` = '$add_renter'");
+                $billing_type = $get_bill_type->fetch_assoc();
+                $bill_id = $billing_type['utilities_type_id'];
+                // SQL Query
+                $update_status = mysqli_query($con, "UPDATE `utilities` SET `is_payment_made` = '3' WHERE `user_id` = '$add_renter' AND `utilities_type_id` = '$bill_id'");
+
                 $sms_body = <<<EOD
                 Dear $fullname\r\nYour payment on your $utilities_type_name bill was rejected.
                 EOD;
@@ -273,6 +282,13 @@
             } else {
                 $query = "UPDATE `payment` SET `payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status' WHERE `payment_id`='$payment_id'";
                 $query_run = mysqli_query($con, $query);
+
+                // Getting the data from utilities
+                $get_bill_type = mysqli_query($con, "SELECT * FROM `payment` INNER JOIN `utilities` ON utilities.user_id = payment.user_id WHERE `payment`.`user_id` = '$add_renter'");
+                $billing_type = $get_bill_type->fetch_assoc();
+                $bill_id = $billing_type['utilities_type_id'];
+                // SQL Query
+                $update_status = mysqli_query($con, "UPDATE `utilities` SET `is_payment_made` = '2' WHERE `user_id` = '$add_renter' AND `utilities_type_id` = '$bill_id'");
 
                 $sms_body = <<<EOD
                 Dear $fullname\r\nThanks for paying your $utilities_type_name bill was approved. The amount you $payment_status is ₱$payment_amount, for the month of $YearandMonth.
