@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>RPM System - Admin Dashboard</title>
+        <title>RPM System - Renter Dashboard</title>
         <!-- Favicons -->
         <link rel="shortcut icon" href="<?php echo base_url ?>assets/files/system/system_logo.jpg" type="image/x-icon">
         <link rel="apple-touch-icon" sizes="120x120" href="<?php echo base_url ?>assets/files/system/system_logo.jpg">
@@ -25,4 +25,5 @@
             include('topbar.php');
             include('sidebar.php');
             include ('../../message.php');
+            $user_id = $_SESSION['auth_user']['user_id'];
         ?>

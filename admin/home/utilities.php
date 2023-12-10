@@ -77,7 +77,6 @@
                                     <div class="col-md-4 mb-1" style="margin-right: 0.2rem">
                                         <a href="utilities_view?id=<?=$row['utilities_id']?>" class="btn btn-dark btn-icon-split" title="View"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
-                                            <span class="text ml-2 mr-2"></span>
                                         </a>
                                     </div>
                                     <div class="col-md-4 mb-1" style="margin-right: 0.05rem">

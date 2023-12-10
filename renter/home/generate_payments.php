@@ -74,33 +74,7 @@
                             </h4>
                         </div>
                         <div class="card-body row">
-                            <!-- Select2 Example -->
-                            <div class="col-md-3 mb-3">
-                                <?php
-                                    $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND `status` != 'Archive'";
-                                    $staff_result = $con->query($staff);
-                                ?>
-                                <label for="renter" class="required">Rented By</label>
-                                <select class="form-control select3" id="renter" name="renter" style="width: 100%;">
-                                    <option value="">Select Rented By</option>
-                                    <?php 
-                                        if ($staff_result->num_rows > 0) {
-                                        while($staffrow = $staff_result->fetch_assoc()) {
-                                    ?>
-                                    <option value="<?=$staffrow['user_id'];?>"><?=$staffrow['fullname'];?></option>
-                                    <?php } } ?>
-                                </select>
-                                <div id="renter-error"></div>
-                            </div>
-                            <!-- Initialize Select2 -->
-                            <script>
-                                $(document).ready(function () {
-                                    // Initialize Select2 Elements
-                                    $('.select3').select2();
-                                });
-                            </script>
-
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <?php
                                     $stmt = "SELECT * FROM `utilities_type` WHERE `utilities_type_status` != 'Archive'";
                                     $stmt_run = mysqli_query($con,$stmt);
@@ -118,11 +92,11 @@
                                     ?>
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="from" class="control-label">Date From</label>
                                 <input type="date" name="from" id="from" value="<?= $from ?>" class="form-control form-control-sm rounded-0">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label for="to" class="control-label">Date To</label>
                                 <input type="date" name="to" id="to" value="<?= $to ?>" class="form-control form-control-sm rounded-0">
                             </div>
@@ -175,7 +149,7 @@
                 </thead>
                 <tbody>
                     <?php
-                        $renter = isset($_POST['renter']) ? $_POST['renter'] : '';
+                        $renter = $user_id;
                         $type = isset($_POST['payment_type']) ? $_POST['payment_type'] : '';
                         
                         $qry = $con->query("SELECT *,
@@ -184,7 +158,7 @@
                             INNER JOIN `user` ON user.user_id = payment.user_id
                             INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id
                             INNER JOIN `payment_type` ON payment_type.payment_type_id = payment.payment_type_id
-                            WHERE DATE(payment_date) BETWEEN '{$from}' AND '{$to}' " . 
+                            WHERE payment.status != 'Archive' AND DATE(payment_date) BETWEEN '{$from}' AND '{$to}' " . 
                             ($renter != '' ? "AND user.user_id = '{$renter}' " : "") . 
                             ($type != '' ? "AND payment.utilities_type_id = '{$type}' " : "") . "
                             ORDER BY UNIX_TIMESTAMP(payment_date) ASC
