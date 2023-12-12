@@ -10,7 +10,7 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `user` WHERE `user_id` = '$id' AND `status` != 'Archive' AND `type` != 'Renter'";
+                $sql = "SELECT * FROM `user` WHERE `user_id` = '$id' AND `status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -61,7 +61,7 @@
 
                             <div class="col-md-4 mb-3">
                                 <label for="role">Role</label>
-                                <input type="text" class="form-control" value="<?=$row['type']?>" id="role" disabled>
+                                <input type="text" class="form-control" value="<?php if($row['type'] == 'Renter'){ echo"Rentee";} else{ echo $row['type']; } ?>" id="role" disabled>
                             </div>
 
                             <div class="col-md-4 mb-3">

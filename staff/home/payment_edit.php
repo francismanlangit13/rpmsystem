@@ -37,7 +37,6 @@
                                         <button type="submit" name="edit_payment" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
                                         <input type="hidden" name="payment_id" value="<?=$row['payment_id']?>">
                                         <input type="hidden" name="payment_amount" value="<?= $row['payment_amount']; ?>">
-                                        <input type="hidden" name="payment_type_id" value="<?= $row['payment_type_id']; ?>">
                                     </div>
                                 </h4>
                             </div>

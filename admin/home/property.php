@@ -70,7 +70,7 @@
                             <th>Amount</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
-                            <th>Cash Advance Balance</th>
+                            <th>Advance Payment Balance</th>
                             <th>Cash Deposits Balance</th>
                             <th>Rented By</th>
                             <th>Date Rented</th>
@@ -86,7 +86,7 @@
                             <th>Amount</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
-                            <th>Cash Advance Balance</th>
+                            <th>Advance Payment Balance</th>
                             <th>Cash Deposits Balance</th>
                             <th>Rented By</th>
                             <th>Date Rented</th>

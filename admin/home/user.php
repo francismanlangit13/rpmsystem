@@ -55,7 +55,7 @@
                     <tbody>
                         <?php
                             $user_id = $_SESSION['auth_user']['user_id']; // The user logged in to the system.
-                            $query = "SELECT * FROM `user` WHERE `status` != 'Archive' AND `type` != 'Renter' AND `user_id` != $user_id";
+                            $query = "SELECT * FROM `user` WHERE `status` != 'Archive' AND `user_id` != $user_id";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
@@ -66,7 +66,7 @@
                             <td><?= $row['gender']; ?></td>
                             <td><?= $row['email']; ?></td>
                             <td><?= $row['phone']; ?></td>
-                            <td><?= $row['type']; ?></td>
+                            <td><?php if($row['type'] == 'Renter'){ echo"Rentee";} else{ echo $row['type']; } ?></td>
                             <td><?= $row['status']; ?></td>
                             <td>
                                 <div class="d-flex">

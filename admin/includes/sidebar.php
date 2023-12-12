@@ -21,7 +21,6 @@
                     <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false  || strpos($_SERVER['PHP_SELF'], 'home/renter.php') !== false)  { echo'show'; }?>" id="collapseAccounts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false)  { echo 'active'; } ?>" href="user">Users</a>
-                            <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/renter.php') !== false)  { echo 'active'; } ?>" href="renter">Renters</a>
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">Categories</div>
@@ -38,14 +37,6 @@
                         Utilities Type
                     </a>
                     <div class="sb-sidenav-menu-heading">Properties</div>
-                    <!-- <a class="nav-link" href="location">
-                        <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
-                        Locations
-                    </a> -->
-                    <!-- <a class="nav-link" href="contract">
-                        <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
-                        Contracts
-                    </a> -->
                     <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/property.php') !== false)  { echo 'active'; } ?>" href="property">
                         <div class="sb-nav-link-icon"><i class="fas fa-house-user"></i></div>
                         Property
@@ -68,7 +59,7 @@
                     <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false  || strpos($_SERVER['PHP_SELF'], 'home/generate_utilities.php') !== false)  { echo'show'; }?>" id="collapseReports" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false)  { echo 'active'; } ?>" href="generate_payments">Payments</a>
-                            <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_utilities.php') !== false)  { echo 'active'; } ?>" href="generate_utilities">Utilities</a>
+                            <!-- <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_utilities.php') !== false)  { echo 'active'; } ?>" href="generate_utilities">Utilities</a> -->
                         </nav>
                     </div>
                 </div>

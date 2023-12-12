@@ -88,4 +88,26 @@
         </form>
     </div>
 </main>
+
+<script>
+    $(document).ready(function(){
+        $('#utilities_type_id').change(function(){
+            var utilities_type_id = $(this).val();
+
+            // Make an AJAX request to payment_get.php
+            $.ajax({
+                type: 'POST',
+                url: 'payment_get.php',
+                data: { utilities_type_id: utilities_type_id },
+                success: function(response){
+                    // Update the max attribute
+                    $('#payment_amount').attr('max', response);
+                },
+                error: function(){
+                    alert('Error fetching amount');
+                }
+            });
+        });
+    });
+</script>
 <?php include ('../includes/bottom.php'); ?>

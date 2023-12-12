@@ -84,28 +84,6 @@
         }
     }
 
-    // Edit payment
-    if(isset($_POST["edit_payment"])){
-        $payment_id = $_POST["payment_id"];
-        $payment_reference = $_POST['payment_reference'];
-
-        $query = "UPDATE `payment` SET `payment_reference`='$payment_reference' WHERE `payment_id`='$payment_id'";
-        $query_run = mysqli_query($con, $query);
-
-        if($query_run){
-            $_SESSION['status'] = "Payment updated successfully";
-            $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "renter/home/payment");
-            exit(0);
-        }
-        else{
-            $_SESSION['status'] = "Payment was not update";
-            $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "renter/home/payment");
-            exit(0);
-        }
-    }
-
     //Delete payment
     if(isset($_POST['delete_payment'])){
         $payment_id= $_POST['payment_id'];

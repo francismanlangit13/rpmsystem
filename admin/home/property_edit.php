@@ -184,14 +184,14 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>" id="Container2">
-                                    <label for="property_cash_advance" class="required">Cash Advance</label>
-                                    <input type="number" class="form-control" placeholder="Enter Cash Advance" name="property_cash_advance" id="property_cash_advance" value="<?=$row['property_cash_advance'];?>">
+                                    <label for="property_cash_advance" class="required">Advance Payment</label>
+                                    <input type="number" class="form-control" placeholder="Enter Advance Payment" name="property_cash_advance" id="property_cash_advance" value="<?=$row['property_cash_advance'];?>">
                                     <div id="property_cash_advance-error"></div>
                                 </div>
 
                                 <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>" id="Container3">
-                                    <label for="property_cash_deposit" class="required">Cash Deposits</label>
-                                    <input type="number" class="form-control" placeholder="Enter Cash Advance" name="property_cash_deposit" id="property_cash_deposit" value="<?=$row['property_cash_deposit'];?>">
+                                    <label for="property_cash_deposit" class="required">Cash Deposit</label>
+                                    <input type="number" class="form-control" placeholder="Enter Cash Deposit" name="property_cash_deposit" id="property_cash_deposit" value="<?=$row['property_cash_deposit'];?>">
                                     <div id="property_cash_deposit-error"></div>
                                 </div>
                             </div>

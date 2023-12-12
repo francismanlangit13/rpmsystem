@@ -15,7 +15,7 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `user` WHERE `user_id` = '$id' AND `status` != 'Archive' AND `type` != 'Renter'";
+                $sql = "SELECT * FROM `user` WHERE `user_id` = '$id' AND `status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -103,6 +103,7 @@
                                             <option value="" selected disabled>Select Role</option>
                                             <option value="Admin" <?= isset($row['type']) && $row['type'] == 'Admin' ? 'selected' : '' ?>>Admin</option>
                                             <option value="Staff" <?= isset($row['type']) && $row['type'] == 'Staff' ? 'selected' : '' ?>>Staff</option>
+                                            <option value="Renter" <?= isset($row['type']) && $row['type'] == 'Renter' ? 'selected' : '' ?>>Rentee</option>
                                         </select>
                                         <div id="role-error"></div>
                                     </div>

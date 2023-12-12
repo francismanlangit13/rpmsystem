@@ -49,7 +49,7 @@
                                     </select>
                                     <div id="add_renter-error"></div>
                                     <input type="checkbox" id="pay_rent_cash_advance" name="pay_rent_cash_advance" value="1" onclick="toggleSelectPayCashAdvance()">
-                                    <label for="pay_rent_cash_advance"> Check this if the payment is Rent via Cash Advance</label><br>
+                                    <label for="pay_rent_cash_advance"> Check this if the payment is Rent via Payment Advance</label><br>
                                 </div>
                                 <!-- Initialize Select2 -->
                                 <script>

@@ -88,6 +88,9 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label for="password" class="required">Password</label>
+                                    <a href="javascript:void(0)" class="password-toggle float-end text-decoration-none" onclick="togglePassword('password')">
+                                        <i class="fa fa-eye"></i> Show
+                                    </a>
                                     <input type="password" class="form-control" placeholder="Enter Password" name="password" id="password" required>
                                     <div id="password-error"></div>
                                 </div>
@@ -99,6 +102,7 @@
                                             <option value="" selected>Select Role</option>
                                             <option value="Admin">Admin</option>
                                             <option value="Staff">Staff</option>
+                                            <option value="Renter">Rentee</option>
                                         </select>
                                         <div id="role-error"></div>
                                     </div>
@@ -111,4 +115,25 @@
         </form>
     </div>
 </main>
+<script type="text/javascript">
+    function togglePassword(inputId) {
+        const passwordInput = document.getElementById(inputId);
+
+        if (passwordInput) {
+            const passwordToggle = passwordInput.parentElement.querySelector('.password-toggle');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                if (passwordToggle) {
+                    passwordToggle.innerHTML = '<i class="fa fa-eye-slash"></i> Hide';
+                }
+            } else {
+                passwordInput.type = 'password';
+                if (passwordToggle) {
+                    passwordToggle.innerHTML = '<i class="fa fa-eye"></i> Show';
+                }
+            }
+        }
+    }
+</script>
 <?php include ('../includes/bottom.php'); ?>
