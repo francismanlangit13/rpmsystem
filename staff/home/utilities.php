@@ -58,7 +58,7 @@
                                 INNER JOIN `user` ON user.user_id = utilities.user_id
                                 INNER JOIN utilities_type ON utilities_type.utilities_type_id = utilities.utilities_type_id
                                 INNER JOIN property ON property.rented_by = utilities.user_id
-                                WHERE `utilities_status` != 'Archive'
+                                WHERE property.user_id = '$user_id' AND `utilities_status` != 'Archive'
                             ";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){

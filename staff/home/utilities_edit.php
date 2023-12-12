@@ -20,7 +20,7 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `utilities` WHERE `utilities_id` = '$id' AND `utilities_status` != 'Archive'";
+                $sql = "SELECT *, CONCAT(property.rented_by) AS renter_id FROM `utilities` INNER JOIN user ON user.user_id = utilities.user_id INNER JOIN property ON property.rented_by = utilities.user_id WHERE property.user_id = '$user_id' AND `utilities_id` = '$id' AND `utilities_status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -43,7 +43,6 @@
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $user_id = $_SESSION['auth_user']['user_id'];
                                         $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `property` INNER JOIN `user` ON property.rented_by = user.user_id WHERE property.user_id = '$user_id' AND `type` = 'Renter' AND `status` != 'Archive'";
                                         $staff_result = $con->query($staff);
                                     ?>
@@ -53,7 +52,7 @@
                                         <?php 
                                             if ($staff_result->num_rows > 0) {
                                             while($staffrow = $staff_result->fetch_assoc()) {
-                                                $selected = ($staffrow['rented_by'] == $row['user_id']) ? 'selected' : '';
+                                                $selected = ($staffrow['rented_by'] == $row['renter_id']) ? 'selected' : '';
                                         ?>
                                         <option value="<?=$staffrow['rented_by'];?>" <?=$selected;?>><?=$staffrow['fullname'];?></option>
                                         <?php } } ?>

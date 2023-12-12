@@ -25,7 +25,7 @@
                     INNER JOIN property ON payment.user_id = property.rented_by
                     INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id
                     INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id
-                    WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'
+                    WHERE `payment_id` = '$id' AND property.user_id = '$user_id' AND `payment`.`status` != 'Archive'
                 ";
                 $sql_run = mysqli_query($con, $sql);
 

@@ -58,7 +58,7 @@
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id WHERE `payment`.`status` != 'Archive'";
+                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id WHERE property.user_id = '$user_id' AND `payment`.`status` != 'Archive'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){

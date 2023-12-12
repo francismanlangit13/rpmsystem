@@ -25,4 +25,5 @@
             include('topbar.php');
             include('sidebar.php');
             include ('../../message.php');
+            $user_id = $_SESSION['auth_user']['user_id'];
         ?>
