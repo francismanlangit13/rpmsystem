@@ -76,7 +76,7 @@
                                 </div>
 
                                 <!-- Select2 Example -->
-                                <div class="col-md-3 mb-3" id="Container">
+                                <div class="col-md-3 mb-3 d-none" id="Container">
                                     <?php
                                         $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND `is_rented` != '1' AND `status` != 'Archive'";
                                         $staff_result = $con->query($staff);

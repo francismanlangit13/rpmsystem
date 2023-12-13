@@ -94,7 +94,7 @@
                             </div>
 
                             <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>">
-                                <label for="property_cash_advance" class="required">Cash Advance</label>
+                                <label for="property_cash_advance" class="required">Advance Payment</label>
                                 <input type="text" class="form-control" id="property_cash_advance" value="<?=$row['property_cash_advance'];?>" disabled>
                             </div>
 
