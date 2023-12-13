@@ -102,7 +102,7 @@
 
         $query_run2 = mysqli_query($con, $query2);
 
-        if($query_run1){
+        if($query_run1 || $query_run2){
             $_SESSION['status'] = "Property deleted successfully";
             $_SESSION['status_code'] = "success";
             header("Location: " . base_url . "admin/home/property");
