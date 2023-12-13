@@ -88,10 +88,13 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label for="password" class="required">Password</label>
-                                    <a href="javascript:void(0)" class="password-toggle float-end text-decoration-none" onclick="togglePassword('password')">
+                                    <!-- <a href="javascript:void(0)" class="password-toggle float-end text-decoration-none" onclick="togglePassword('password')">
                                         <i class="fa fa-eye"></i> Show
-                                    </a>
+                                    </a> -->
                                     <input type="password" class="form-control" placeholder="Enter Password" name="password" id="password" required>
+									<a href="javascript:void(0)"  style="position: relative; top: -2rem; left: -3%; cursor: pointer; color: black;" onclick="togglePassword('password')">
+                                        <span class="password-toggle float-end"><i class="fa fa-eye"></i> Show</span>
+                                    </a>
                                     <div id="password-error"></div>
                                 </div>
 
