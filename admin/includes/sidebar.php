@@ -13,29 +13,29 @@
                         Notification
                     </a>
                     <div class="sb-sidenav-menu-heading">Accounts</div>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/renter.php') !== false)  {  } else{ echo'collapsed'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAccounts" aria-expanded="false" aria-controls="collapseAccounts">
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/user_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/user_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/user_view.php') !== false)  {  } else{ echo'collapsed'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAccounts" aria-expanded="false" aria-controls="collapseAccounts">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Accounts
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false  || strpos($_SERVER['PHP_SELF'], 'home/renter.php') !== false)  { echo'show'; }?>" id="collapseAccounts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/user_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/user_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/user_view.php') !== false)  { echo'show'; }?>" id="collapseAccounts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false)  { echo 'active'; } ?>" href="user">Users</a>
+                            <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/user.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/user_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/user_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/user_view.php') !== false)  { echo 'active'; } ?>" href="user">Users</a>
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">Categories</div>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/payment_type.php') !== false)  { echo 'active'; } ?>" href="payment_type">
-                        <div class="sb-nav-link-icon"><i class="fab fa-paypal"></i></div>
-                        Payment Type
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/payment_type.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/payment_type_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/payment_type_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_type.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_type_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_type_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_type.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_type_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_type_edit.php') !== false)  {  } else{ echo'collapsed'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="false" aria-controls="collapseAccounts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
+                        Manage Category
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/property_type.php') !== false)  { echo 'active'; } ?>" href="property_type">
-                        <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
-                        Property Type
-                    </a>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/utilities_type.php') !== false)  { echo 'active'; } ?>" href="utilities_type">
-                        <div class="sb-nav-link-icon"><i class="fas fa-scroll"></i></div>
-                        Utilities Type
-                    </a>
+                    <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/payment_type.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/payment_type_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/payment_type_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_type.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_type_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_type_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_type.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_type_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_type_edit.php') !== false)  { echo'show'; }?>" id="collapseCategory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/payment_type.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/payment_type_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/payment_type_edit.php') !== false)  { echo 'active'; } ?>" href="payment_type">Payment Type</a>
+                            <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/property_type.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_type_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_type_edit.php') !== false)  { echo 'active'; } ?>" href="property_type">Property Type</a>
+                            <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/utility_type.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_type_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_type_edit.php') !== false)  { echo 'active'; } ?>" href="utility_type">Utility Type</a>
+                        </nav>
+                    </div>
                     <div class="sb-sidenav-menu-heading">Properties</div>
                     <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/property.php') !== false)  { echo 'active'; } ?>" href="property">
                         <div class="sb-nav-link-icon"><i class="fas fa-house-user"></i></div>
@@ -46,20 +46,20 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-file-invoice"></i></div>
                         Payments
                     </a>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/utilities.php') !== false)  { echo 'active'; } ?>" href="utilities">
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/utility.php') !== false)  { echo 'active'; } ?>" href="utility">
                         <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
                         Other Bills
                     </a>
                     <div class="sb-sidenav-menu-heading">Reports</div>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/generate_utilities.php') !== false)  {  } else{ echo'collapsed'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/generate_utility.php') !== false)  {  } else{ echo'collapsed'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
                         <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>
                         Generate
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false  || strpos($_SERVER['PHP_SELF'], 'home/generate_utilities.php') !== false)  { echo'show'; }?>" id="collapseReports" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false  || strpos($_SERVER['PHP_SELF'], 'home/generate_utility.php') !== false)  { echo'show'; }?>" id="collapseReports" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false)  { echo 'active'; } ?>" href="generate_payments">Payments</a>
-                            <!-- <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_utilities.php') !== false)  { echo 'active'; } ?>" href="generate_utilities">Utilities</a> -->
+                            <!-- <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_utility.php') !== false)  { echo 'active'; } ?>" href="generate_utility">Utility</a> -->
                         </nav>
                     </div>
                 </div>
