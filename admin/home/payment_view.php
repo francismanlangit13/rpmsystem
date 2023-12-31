@@ -22,9 +22,8 @@
                 $id = $_GET['id'];
                 $sql = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `renter_fullname` FROM `payment`
                     INNER JOIN `user` ON user.user_id = payment.user_id
-                    INNER JOIN property ON payment.user_id = property.rented_by
                     INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id
-                    INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id
+                    INNER JOIN `utility_type` ON utility_type.utility_type_id = payment.utility_type_id
                     WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'
                 ";
                 $sql_run = mysqli_query($con, $sql);
@@ -47,18 +46,13 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="property_location">Property Location</label>
-                                    <input type="text" class="form-control" id="property_location" value="<?= $row['property_location']; ?>" disabled>
-                                </div>
-
-                                <div class="col-md-3 mb-3">
                                     <label for="phone">Phone</label>
                                     <input type="text" class="form-control" id="phone" value="<?= $row['phone']; ?>" disabled>
                                 </div>
 
                                 <div class="col-md-3 mb-3">
                                     <label for="utilities_type">Bills Type</label>
-                                    <input type="text" class="form-control" id="utilities_type" value="<?= $row['utilities_type_name']; ?>" disabled>
+                                    <input type="text" class="form-control" id="utilities_type" value="<?= $row['utility_type_name']; ?>" disabled>
                                 </div>
 
                                 <div class="col-md-3 mb-3">
@@ -66,7 +60,7 @@
                                     <input type="text" class="form-control" id="payment_type" value="<?= $row['payment_type_name']; ?>" disabled>
                                 </div>
 
-                                <?php if ($row['utilities_type_id'] == '1'){ ?>
+                                <?php if ($row['utility_type_id'] == '1'){ ?>
                                     <div class="col-md-3 mb-3">
                                         <label for="expected_amount">Expected Amount</label>
                                         <input type="number" class="form-control" id="expected_amount" value="<?= $row['property_amount']; ?>" disabled>

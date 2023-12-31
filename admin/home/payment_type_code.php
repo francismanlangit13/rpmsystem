@@ -41,8 +41,9 @@
     if(isset($_POST["edit_payment_type"])){
         $payment_type_id = $_POST["payment_type_id"];
         $payment_type_name = $_POST['payment_type_name'];
+        $status = $_POST['status'];
 
-        $query = "UPDATE `payment_type` SET `payment_type_name`='$payment_type_name' WHERE `payment_type_id`='$payment_type_id'";
+        $query = "UPDATE `payment_type` SET `payment_type_name`='$payment_type_name', `payment_type_status`='$status' WHERE `payment_type_id`='$payment_type_id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){

@@ -41,8 +41,9 @@
     if(isset($_POST["edit_utility_type"])){
         $utility_type_id = $_POST["utility_type_id"];
         $utility_type_name = $_POST['utility_type_name'];
+        $status = $_POST['status'];
 
-        $query = "UPDATE `utility_type` SET `utility_type_name`='$utility_type_name' WHERE `utility_type_id`='$utility_type_id'";
+        $query = "UPDATE `utility_type` SET `utility_type_name`='$utility_type_name', `utility_type_status`='$status' WHERE `utility_type_id`='$utility_type_id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){

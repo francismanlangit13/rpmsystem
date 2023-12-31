@@ -32,6 +32,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Payment Type</th>
+                            <th>Status</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
@@ -39,6 +40,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Payment Type</th>
+                            <th>Status</th>
                             <th>Buttons</th>
                         </tr>
                     </tfoot>
@@ -54,15 +56,16 @@
                         <tr>
                             <td><?= $i ?></td>
                             <td><?= $row['payment_type_name']; ?></td>
+                            <td><?= $row['payment_type_status']; ?></td>
                             <td>
                                 <div class="d-flex">
-                                    <div class="col-md-6 mb-1" style="margin-right: 0.2rem">
+                                    <div class="col-md-12 mb-1" style="margin-right: 0.2rem">
                                         <a href="payment_type_edit?id=<?=$row['payment_type_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-6" style="margin-right: 0.05rem">
+                                    <div class="col-md-6 d-none" style="margin-right: 0.05rem">
                                         <button type="button" data-toggle="modal" value="<?=$row['payment_type_id']; ?>" data-target="#Modal_delete_payment_type" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>

@@ -32,7 +32,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Full Name</th>
-                            <th>Location</th>
                             <th>Phone</th>
                             <th>Bills Type</th>
                             <th>Payment Type</th>
@@ -46,7 +45,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Full Name</th>
-                            <th>Location</th>
                             <th>Phone</th>
                             <th>Bills Type</th>
                             <th>Payment Type</th>
@@ -58,7 +56,7 @@
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utilities_type` ON utilities_type.utilities_type_id = payment.utilities_type_id WHERE `payment`.`status` != 'Archive'";
+                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utility_type` ON utility_type.utility_type_id = payment.utility_type_id WHERE `payment`.`status` != 'Archive'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
@@ -66,27 +64,26 @@
                         <tr>
                             <td><?= $row['payment_id']; ?></td>
                             <td><?= $row['fname']; ?> <?= $row['mname']; ?> <?= $row['lname']; ?></td>
-                            <td><?= $row['property_location']; ?></td>
                             <td><?= $row['phone']; ?></td>
-                            <td><?= $row['utilities_type_name']; ?></td>
+                            <td><?= $row['utility_type_name']; ?></td>
                             <td><?= $row['payment_type_name']; ?></td>
                             <td><?= $row['payment_amount']; ?></td>
                             <td><?= $row['payment_status']; ?></td>
                             <td><?= $row['new_payment_date']; ?></td>
                             <td>
                                 <div class="d-flex">
-                                    <div class="col-md-4 mb-1" style="margin-right: 0.2rem">
+                                    <div class="col-md-6 mb-1" style="margin-right: 0.2rem">
                                         <a href="payment_view?id=<?=$row['payment_id']?>" class="btn btn-dark btn-icon-split" title="View"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4 mb-1" style="margin-right: 0.05rem">
+                                    <div class="col-md-6 mb-1" style="margin-right: 0.05rem">
                                         <a href="payment_edit?id=<?=$row['payment_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 d-none">
                                         <button type="button" data-toggle="modal" value="<?=$row['payment_id']; ?>" data-target="#Modal_delete_payment" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>

@@ -20,7 +20,7 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT *, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `renter_fullname` FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN property ON payment.user_id = property.rented_by WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
+                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -93,33 +93,6 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <!-- Select2 Example -->
-                                    <div class="col-md-4 mb-3">
-                                        <?php
-                                            $client = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter'";
-                                            $client_result = $con->query($client);
-                                        ?>
-                                        <label for="renter" class="required">Renter</label>
-                                        <select class="form-control select3" id="renter" style="width: 100%;" disabled>
-                                            <option value="">Select Renter</option>
-                                            <?php 
-                                            if ($client_result->num_rows > 0) {
-                                                while ($clientrow = $client_result->fetch_assoc()) {
-                                                    $selected = ($clientrow['user_id'] == $row['rented_by']) ? 'selected' : '';
-                                            ?>
-                                            <option value="<?=$clientrow['user_id'];?>" <?=$selected;?>><?=$clientrow['fullname'];?></option>
-                                            <?php } } ?>
-                                        </select>
-                                        <div id="renter-error"></div>
-                                    </div>
-                                    <!-- Initialize Select2 -->
-                                    <script>
-                                        $(document).ready(function () {
-                                            // Initialize Select2 Elements
-                                            $('.select3').select2();
-                                        });
-                                    </script>
-
                                     <div class="col-md-3 mb-3">
                                         <label for="payment_amount" class="required">Amount</label>
                                         <input type="number" class="form-control" placeholder="Enter Property Cost" name="payment_amount" id="payment_amount" value="<?= $row['payment_amount']; ?>" required>

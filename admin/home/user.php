@@ -70,18 +70,18 @@
                             <td><?= $row['status']; ?></td>
                             <td>
                                 <div class="d-flex">
-                                    <div class="col-md-4 mb-1" style="margin-right: 0.2rem">
+                                    <div class="col-md-6 mb-1" style="margin-right: 0.2rem">
                                         <a href="user_view?id=<?=$row['user_id']?>" class="btn btn-dark btn-icon-split" title="View"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4 mb-1" style="margin-right: 0.05rem">
+                                    <div class="col-md-6 mb-1" style="margin-right: 0.05rem">
                                         <a href="user_edit?id=<?=$row['user_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 d-none">
                                         <button type="button" data-toggle="modal" value="<?=$row['user_id']; ?>" data-target="#Modal_delete_user" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>

@@ -35,10 +35,22 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-12 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label for="payment_type_name" class="required">Payment Type</label>
                                     <input type="text" class="form-control" placeholder="Enter Payment Type" name="payment_type_name" id="payment_type_name" value="<?= $row['payment_type_name']; ?>" required>
                                     <div id="payment_type_name-error"></div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="status" class="required">Status</label>
+                                        <select class="form-control" name="status" id="status" required>
+                                            <option value="" selected disabled>Select Status</option>
+                                            <option value="Active" <?= isset($row['payment_type_status']) && $row['payment_type_status'] == 'Active' ? 'selected' : '' ?>>Active</option>
+                                            <option value="Inactive" <?= isset($row['payment_type_status']) && $row['payment_type_status'] == 'Inactive' ? 'selected' : '' ?>>Inactive</option>
+                                        </select>
+                                        <div id="status-error"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

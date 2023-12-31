@@ -41,8 +41,9 @@
     if(isset($_POST["edit_property_type"])){
         $property_type_id = $_POST["property_type_id"];
         $property_type_name = $_POST['property_type_name'];
+        $status = $_POST['status'];
 
-        $query = "UPDATE `property_type` SET `property_type_name`='$property_type_name' WHERE `property_type_id`='$property_type_id'";
+        $query = "UPDATE `property_type` SET `property_type_name`='$property_type_name', `property_type_status`='$status' WHERE `property_type_id`='$property_type_id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){

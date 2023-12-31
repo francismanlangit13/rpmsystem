@@ -32,7 +32,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Full Name</th>
-                            <th>Location</th>
                             <th>Phone</th>
                             <th>Type</th>
                             <th>Bill Amount</th>
@@ -44,7 +43,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Full Name</th>
-                            <th>Location</th>
                             <th>Phone</th>
                             <th>Type</th>
                             <th>Bill Amount</th>
@@ -57,7 +55,6 @@
                             $query = "SELECT *, DATE_FORMAT(utility_date, '%M %d, %Y %h:%i %p') as new_utility_date FROM `utility`
                                 INNER JOIN `user` ON user.user_id = utility.user_id
                                 INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
-                                INNER JOIN property ON property.rented_by = utility.user_id
                                 WHERE `utility_status` != 'Archive'
                             ";
                             $query_run = mysqli_query($con, $query);
@@ -67,25 +64,24 @@
                         <tr>
                             <td><?= $row['utility_id']; ?></td>
                             <td><?= $row['fname']; ?> <?= $row['mname']; ?> <?= $row['lname']; ?></td>
-                            <td><?= $row['property_location']; ?></td>
                             <td><?= $row['phone']; ?></td>
                             <td><?= $row['utility_type_name']; ?></td>
                             <td><?= $row['utility_amount']; ?></td>
                             <td><?= $row['new_utility_date']; ?></td>
                             <td>
                                 <div class="d-flex">
-                                    <div class="col-md-4 mb-1" style="margin-right: 0.2rem">
+                                    <div class="col-md-6 mb-1" style="margin-right: 0.2rem">
                                         <a href="utility_view?id=<?=$row['utility_id']?>" class="btn btn-dark btn-icon-split" title="View"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4 mb-1" style="margin-right: 0.05rem">
+                                    <div class="col-md-6 mb-1" style="margin-right: 0.05rem">
                                         <a href="utility_edit?id=<?=$row['utility_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 d-none">
                                         <button type="button" data-toggle="modal" value="<?=$row['utility_id']; ?>" data-target="#Modal_delete_utility" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>
