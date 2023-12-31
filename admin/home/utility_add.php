@@ -14,17 +14,17 @@
         <h1 class="mt-4">Add Other Bills</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./utilities" class="text-decoration-none">Other Bills</a></li>
+            <li class="breadcrumb-item active"><a href="./utility" class="text-decoration-none">Other Bills</a></li>
             <li class="breadcrumb-item">Add Other Bills</li>
         </ol>
-        <form action="utilities_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form action="utility_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Other Bills form
                                 <div class="float-end">
-                                    <button type="submit" name="add_utilities" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+                                    <button type="submit" name="add_utility" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
                                 </div>
                             </h4>
                         </div>
@@ -58,28 +58,28 @@
 
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $stmt = "SELECT * FROM `utilities_type` WHERE `utilities_type_id` != '1' AND `utilities_type_status` != 'Archive'";
+                                        $stmt = "SELECT * FROM `utility_type` WHERE `utility_type_id` != '1' AND `utility_type_status` != 'Archive'";
                                         $stmt_run = mysqli_query($con,$stmt);
                                     ?>
-                                    <label for="utilities_type_id" class="required">Utilities Type</label>
-                                    <select class="form-control" id="utilities_type_id" name="utilities_type_id" required>
-                                        <option value="">Select Utilities Type</option>
+                                    <label for="utility_type_id" class="required">Utility Type</label>
+                                    <select class="form-control" id="utility_type_id" name="utility_type_id" required>
+                                        <option value="">Select Utility Type</option>
                                         <?php
                                             // use a while loop to fetch data
-                                            while ($utilities_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):;
+                                            while ($utility_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):;
                                         ?>
-                                            <option value="<?= $utilities_type["utilities_type_id"]; ?>"><?= $utilities_type["utilities_type_name"]; ?></option>
+                                            <option value="<?= $utility_type["utility_type_id"]; ?>"><?= $utility_type["utility_type_name"]; ?></option>
                                         <?php
                                             endwhile; // While loop must be terminated
                                         ?>
                                     </select>
-                                    <div id="utilities_type_id-error"></div>
+                                    <div id="utility_type_id-error"></div>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="utilities_amount" class="required">Bill Amount</label>
-                                    <input type="text" class="form-control" placeholder="Enter Utilities Amount" name="utilities_amount" id="utilities_amount" required>
-                                    <div id="utilities_amount-error"></div>
+                                    <label for="utility_amount" class="required">Bill Amount</label>
+                                    <input type="text" class="form-control" placeholder="Enter Utility Amount" name="utility_amount" id="utility_amount" required>
+                                    <div id="utility_amount-error"></div>
                                 </div>
                             </div>
                         </div>

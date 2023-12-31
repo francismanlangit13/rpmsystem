@@ -35,25 +35,25 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label for="fname" class="required">First Name</label>
                                     <input type="text" class="form-control" placeholder="Enter First Name" name="fname" id="fname" value="<?=$row['fname']?>" required>
                                     <div id="fname-error"></div>
                                 </div>
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label for="mname">Middle Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Middle Name" name="mname" id="mname" value="<?=$row['mname']?>">
                                     <div id="mname-error"></div>
                                 </div>
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label for="lname" class="required">Last Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Last Name" name="lname" id="lname" value="<?=$row['lname']?>" required>
                                     <div id="lname-error"></div>
                                 </div>
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-group">
                                         <label for="suffix">Suffix</label>
                                         <select class="form-control" id="suffix" name="suffix">
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-group">
                                         <label for="gender" class="required">Gender</label>
                                         <select class="form-control" name="gender" id="gender" required>
@@ -120,6 +120,50 @@
                                         <div id="status-error"></div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-12 mb-3 <?php if($row['type'] == 'Admin'){ echo "d-none";} ?>" id="Container">
+                                    <label for="address" class="required">Address</label>
+                                    <textarea type="text" class="form-control" placeholder="Enter Address" rows="3" name="address" id="address" autocomplete="off"><?=$row['address']?></textarea>
+                                    <div id="address-error"></div>
+                                </div>
+
+                                <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container1">
+                                    <label for="civil_status" class="required">Civil Status</label>
+                                    <select class="form-control" name="civil_status" id="civil_status" <?php if($row['type'] == 'Renter'){ echo "required";} ?>>
+                                        <option value="" selected>Select Civil Status</option>
+                                        <option value="Single" <?= isset($row['civil_status']) && $row['civil_status'] == 'Single' ? 'selected' : '' ?>>Single</option>
+                                        <option value="Married" <?= isset($row['civil_status']) && $row['civil_status'] == 'Married' ? 'selected' : '' ?>>Married</option>
+                                        <option value="Widowed" <?= isset($row['civil_status']) && $row['civil_status'] == 'Widowed' ? 'selected' : '' ?>>Widowed</option>
+                                        <option value="Separated" <?= isset($row['civil_status']) && $row['civil_status'] == 'Separated' ? 'selected' : '' ?>>Separated</option>
+                                    </select>
+                                    <div id="civil_status-error"></div>
+                                </div>
+
+                                <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container2">
+                                    <label for="occupation" class="required">Occupation</label>
+                                    <input type="text" class="form-control" placeholder="Enter Occupation" name="occupation" id="occupation" autocomplete="off" value="<?=$row['occupation']?>">
+                                    <div id="occupation-error"></div>
+                                </div>
+
+                                <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container3">
+                                    <label for="company" class="required">Company</label>
+                                    <input type="text" class="form-control" placeholder="Enter Company" name="company" id="company" autocomplete="off" value="<?=$row['company']?>">
+                                    <div id="company-error"></div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="dp" class="required">Valid ID Attachment</label>
+                                    <input type="file" name="image1" class="form-control btn btn-secondary" style="padding-bottom:2.2rem;" id="image1" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'image1')">
+                                </div>
+
+                                <div class="col-md-8">
+                                </div>
+
+                                <div class="col-md-4 text-center">
+                                    <br>
+                                    <h6>JPG or PNG no larger than 5 MB</h6> 
+                                    <img class="mt-2" id="frame1" src ="<?php echo base_url ?>assets/files/system/no-image.png" alt="Valid ID" width="240px" height="180px"/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -142,4 +186,30 @@
         <?php } } ?>
     </div>
 </main>
+<script>
+    document.getElementById('role').addEventListener('change', function () {
+        var Container = document.getElementById('Container');
+        var Container1 = document.getElementById('Container1');
+        var Container2 = document.getElementById('Container2');
+        var Container3 = document.getElementById('Container3');
+        var civil_status = document.getElementById('civilstatus');
+        var civil_status1 = document.getElementById('civilstatus');
+
+        if (this.value === 'Renter') {
+            Container.classList.remove('d-none');
+            Container1.classList.remove('d-none');
+            Container2.classList.remove('d-none');
+            Container3.classList.remove('d-none');
+            civil_status.required = true;
+            civil_status1.disabled = false;
+        } else {
+            Container.classList.add('d-none');
+            Container1.classList.add('d-none');
+            Container2.classList.add('d-none');
+            Container3.classList.add('d-none');
+            civil_status.required = false;
+            civil_status1.disabled = true;
+        }
+    });
+</script>
 <?php include ('../includes/bottom.php'); ?>

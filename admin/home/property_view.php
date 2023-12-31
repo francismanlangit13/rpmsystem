@@ -53,54 +53,27 @@
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <?php
-                                    $client_id = $row['rented_by'];
-                                    $client = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS `renter_fullname` FROM `user` WHERE `user_id` = '$client_id'";
-                                    $client_result = $con->query($client);
-                                    $client_data = $client_result->fetch_assoc();
-                                ?>
-                                <label for="renter_fullname" class="required">Rented By</label>
-                                <input type="text" class="form-control" id="renter_fullname" value="<?=$client_data['renter_fullname']?>" disabled>
-                                <div id="renter_fullname-error"></div>
-                            </div>
-
-                            <div class="col-md-3 mb-3">
                                 <label for="property_type" class="required">Property Type</label>
                                 <input type="text" class="form-control" id="property_type" value="<?=$row['property_type_name']?>" disabled>
                                 <div id="property_type-error"></div>
                             </div>
 
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="property_location" class="required">Barangay</label>
                                 <input type="text" class="form-control" id="property_location" value="<?=$row['property_location']?>" disabled>
                                 <div id="property_location-error"></div>
                             </div>
 
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="property_amount" class="required">Property Amount</label>
                                 <input type="text" class="form-control" id="property_amount" value="₱<?=$row['property_amount']?>" disabled>
                                 <div id="property_amount-error"></div>
                             </div>
 
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="property_status" class="required">Property Status</label>
                                 <input type="text" class="form-control" id="property_status" value="<?=$row['property_status']?>" disabled>
                                 <div id="property_status-error"></div>
-                            </div>
-
-                            <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>">
-                                <label for="date_rented" class="required">Date Rented</label>
-                                <input type="date" class="form-control" id="date_rented" value="<?=$row['date_rented'];?>" disabled>
-                            </div>
-
-                            <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>">
-                                <label for="property_cash_advance" class="required">Advance Payment</label>
-                                <input type="text" class="form-control" id="property_cash_advance" value="<?=$row['property_cash_advance'];?>" disabled>
-                            </div>
-
-                            <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>">
-                                <label for="property_cash_deposit" class="required">Cash Deposit</label>
-                                <input type="text" class="form-control" id="property_cash_deposit" value="<?=$row['property_cash_deposit'];?>" disabled>
                             </div>
                         </div>
                     </div>

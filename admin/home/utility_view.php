@@ -14,24 +14,24 @@
         <h1 class="mt-4">View Other Bills</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./utilities" class="text-decoration-none">Other Bills</a></li>
+            <li class="breadcrumb-item active"><a href="./utility" class="text-decoration-none">Other Bills</a></li>
             <li class="breadcrumb-item">View Other Bills</li>
         </ol>
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS rent_fullname FROM `utilities`
-                    INNER JOIN utilities_type ON utilities_type.utilities_type_id = utilities.utilities_type_id
-                    INNER JOIN user ON user.user_id = utilities.user_id
-                    INNER JOIN property ON property.rented_by = utilities.user_id
-                    WHERE `utilities_id` = '$id' AND `utilities_status` != 'Archive'
+                $sql = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS rent_fullname FROM `utility`
+                    INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
+                    INNER JOIN user ON user.user_id = utility.user_id
+                    INNER JOIN property ON property.rented_by = utility.user_id
+                    WHERE `utility_id` = '$id' AND `utility_status` != 'Archive'
                 ";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
                     foreach($sql_run as $row){
         ?>
-        <form action="utilities_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form action="utility_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -57,17 +57,17 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label for="bill_type">Bill Type</label>
-                                    <input type="text" class="form-control" id="bill_type" value="<?= $row['utilities_type_name']; ?>" disabled>
+                                    <input type="text" class="form-control" id="bill_type" value="<?= $row['utility_type_name']; ?>" disabled>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="utilities_amount">Bill Amount</label>
-                                    <input type="text" class="form-control" id="utilities_amount" value="<?= $row['utilities_amount']; ?>" disabled>
+                                    <label for="utility_amount">Bill Amount</label>
+                                    <input type="text" class="form-control" id="utility_amount" value="<?= $row['utility_amount']; ?>" disabled>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="utilities_date">Bill Date</label>
-                                    <input type="text" class="form-control" id="utilities_date" value="<?= $row['utilities_date']; ?>" disabled>
+                                    <label for="utility_date">Bill Date</label>
+                                    <input type="text" class="form-control" id="utility_date" value="<?= $row['utility_date']; ?>" disabled>
                                 </div>
                             </div>
                         </div>

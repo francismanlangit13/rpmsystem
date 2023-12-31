@@ -25,7 +25,6 @@
 
                 if(mysqli_num_rows($sql_run) > 0) {
                     foreach($sql_run as $row){
-                        $rented_temp_selected = $row['rented_by'];
         ?>
         <form action="property_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
@@ -88,35 +87,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Select2 Example -->
-                                <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>" id="Container">
-                                    <?php
-                                        $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE (`type` = 'Renter' AND `status` != 'Archive' AND (`is_rented` != '1' OR user_id = $rented_temp_selected))";
-                                        $staff_result = $con->query($staff);
-                                    ?>
-                                    <label for="renter" class="required">Rented By</label>
-                                    <select class="form-control select3" id="renter" name="renter" style="width: 100%;">
-                                        <option value="">Select Rented By</option>
-                                        <option value="0" <?= isset($row['rented_by']) && $row['rented_by'] == '0' ? 'selected' : '' ?>>None</option>
-                                        <?php 
-                                        if ($staff_result->num_rows > 0) {
-                                            while ($staffrow = $staff_result->fetch_assoc()) {
-                                                $selected = ($staffrow['user_id'] == $row['rented_by']) ? 'selected' : '';
-                                        ?>
-                                        <option value="<?=$staffrow['user_id'];?>" <?=$selected;?>><?=$staffrow['fullname'];?></option>
-                                        <?php } } ?>
-                                    </select>
-                                    <div id="renter-error"></div>
-                                </div>
-                                <!-- Initialize Select2 -->
-                                <script>
-                                    $(document).ready(function () {
-                                        // Initialize Select2 Elements
-                                        $('.select3').select2();
-                                    });
-                                </script>
-
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <?php
                                         $stmt = "SELECT * FROM `property_type` WHERE property_type_status != 'Archive'";
                                         $stmt_run = mysqli_query($con,$stmt);
@@ -137,63 +108,19 @@
                                     <div id="property_type_id-error"></div>
                                 </div>
 
-                                <div class="col-md-3 mb-3">
-                                    <div class="form-group">
-                                        <label for="property_location" class="required">Barangay</label>
-                                        <select class="form-control" name="property_location" id="property_location" required>
-                                            <option value="" selected disabled>Select Barangay</option>
-                                            <option value="Adorable" <?= isset($row['property_location']) && $row['property_location'] == 'Adorable' ? 'selected' : '' ?>>Adorable</option>    
-                                            <option value="Butuay" <?= isset($row['property_location']) && $row['property_location'] == 'Butuay' ? 'selected' : '' ?>>Butuay</option> 
-                                            <option value="Carmen" <?= isset($row['property_location']) && $row['property_location'] == 'Carmen' ? 'selected' : '' ?>>Carmen</option> 
-                                            <option value="Corrales" <?= isset($row['property_location']) && $row['property_location'] == 'Corrales' ? 'selected' : '' ?>>Corrales</option> 
-                                            <option value="Dicoloc" <?= isset($row['property_location']) && $row['property_location'] == 'Dicoloc' ? 'selected' : '' ?>>Dicoloc</option> 
-                                            <option value="Gata" <?= isset($row['property_location']) && $row['property_location'] == 'Gata' ? 'selected' : '' ?>>Gata</option> 
-                                            <option value="Guintomoyan" <?= isset($row['property_location']) && $row['property_location'] == 'Guintomoyan' ? 'selected' : '' ?>>Guintomoyan</option> 
-                                            <option value="Malibacsan" <?= isset($row['property_location']) && $row['property_location'] == 'Malibacsan' ? 'selected' : '' ?>>Malibacsan</option> 
-                                            <option value="Macabayao" <?= isset($row['property_location']) && $row['property_location'] == 'Macabayao' ? 'selected' : '' ?>>Macabayao</option> 
-                                            <option value="Matugas Alto" <?= isset($row['property_location']) && $row['property_location'] == 'Matugas Alto' ? 'selected' : '' ?>>Matugas Alto</option> 
-                                            <option value="Matugas Bajo" <?= isset($row['property_location']) && $row['property_location'] == 'Matugas Bajo' ? 'selected' : '' ?>>Matugas Bajo</option> 
-                                            <option value="Mialem" <?= isset($row['property_location']) && $row['property_location'] == 'Mialem' ? 'selected' : '' ?>>Mialem</option> 
-                                            <option value="Naga" <?= isset($row['property_location']) && $row['property_location'] == 'Naga' ? 'selected' : '' ?>>Naga</option> 
-                                            <option value="Palilan" <?= isset($row['property_location']) && $row['property_location'] == 'Palilan' ? 'selected' : '' ?>>Palilan</option> 
-                                            <option value="Nacional" <?= isset($row['property_location']) && $row['property_location'] == 'Nacional' ? 'selected' : '' ?>>Nacional</option> 
-                                            <option value="Rizal" <?= isset($row['property_location']) && $row['property_location'] == 'Rizal' ? 'selected' : '' ?>>Rizal</option>
-                                            <option value="San Isidro" <?= isset($row['property_location']) && $row['property_location'] == 'San Isidro' ? 'selected' : '' ?>>San Isidro</option> 
-                                            <option value="Santa Cruz" <?= isset($row['property_location']) && $row['property_location'] == 'Santa Cruz' ? 'selected' : '' ?>>Santa Cruz</option>
-                                            <option value="Sibaroc" <?= isset($row['property_location']) && $row['property_location'] == 'Sibaroc' ? 'selected' : '' ?>>Sibaroc</option>
-                                            <option value="Sinara Alto" <?= isset($row['property_location']) && $row['property_location'] == 'Sinara Alto' ? 'selected' : '' ?>>Sinara Alto</option>
-                                            <option value="Sinara Bajo" <?= isset($row['property_location']) && $row['property_location'] == 'Sinara Bajo' ? 'selected' : '' ?>>Sinara Bajo</option>
-                                            <option value="Seti" <?= isset($row['property_location']) && $row['property_location'] == 'Seti' ? 'selected' : '' ?>>Seti</option>
-                                            <option value="Tabo-o" <?= isset($row['property_location']) && $row['property_location'] == 'Tabo-o' ? 'selected' : '' ?>>Tabo-o</option>
-                                            <option value="Taraka" <?= isset($row['property_location']) && $row['property_location'] == 'Taraka' ? 'selected' : '' ?>>Taraka</option>
-                                        </select>
-                                        <div id="property_location-error"></div>
-                                    </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="property_location" class="required">Property Location</label>
+                                    <input type="text" class="form-control" placeholder="Enter Property Location" name="property_location" id="property_location" value="<?=$row['property_location']?>" required>
+                                    <div id="property_location-error"></div>
                                 </div>
 
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label for="property_amount" class="required">Property Amount</label>
                                     <input type="text" class="form-control" placeholder="Enter Property Cost" name="property_amount" id="property_amount" value="<?=$row['property_amount']?>" required>
                                     <div id="property_amount-error"></div>
                                 </div>
 
-                                <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>" id="Container1">
-                                    <label for="date_rented" class="required">Date Rented</label>
-                                    <input type="date" class="form-control" name="date_rented" id="date_rented" value="<?=$row['date_rented'];?>">
-                                    <div id="date_rented-error"></div>
-                                </div>
-
-                                <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>" id="Container2">
-                                    <label for="property_cash_advance" class="required">Advance Payment</label>
-                                    <input type="number" class="form-control" placeholder="Enter Advance Payment" name="property_cash_advance" id="property_cash_advance" value="<?=$row['property_cash_advance'];?>">
-                                    <div id="property_cash_advance-error"></div>
-                                </div>
-
-                                <div class="col-md-3 mb-3 <?php if($row['property_status'] != 'Rented'){ echo "d-none";} ?>" id="Container3">
-                                    <label for="property_cash_deposit" class="required">Cash Deposit</label>
-                                    <input type="number" class="form-control" placeholder="Enter Cash Deposit" name="property_cash_deposit" id="property_cash_deposit" value="<?=$row['property_cash_deposit'];?>">
-                                    <div id="property_cash_deposit-error"></div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>

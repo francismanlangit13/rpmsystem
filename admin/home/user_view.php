@@ -24,27 +24,27 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="fname">First Name</label>
                                 <input type="text" class="form-control" value="<?=$row['fname']?>" id="fname" disabled>
                             </div>
 
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="mname">Middle Name</label>
                                 <input type="text" class="form-control" value="<?=$row['mname']?>" id="mname" disabled>
                             </div>
 
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="lname">Last Name</label>
                                 <input type="text" class="form-control" value="<?=$row['lname']?>" id="lname" disabled>
                             </div>
 
-                            <!-- <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="suffix">Suffix</label>
                                 <input type="text" class="form-control" value="<?=$row['suffix']?>" id="suffix" disabled>
-                            </div> -->
+                            </div>
 
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label for="gender">Gender</label>
                                 <input type="text" class="form-control" value="<?=$row['gender']?>" id="gender" disabled>
                             </div>
@@ -67,6 +67,50 @@
                             <div class="col-md-4 mb-3">
                                 <label for="status">Status</label>
                                 <input type="text" class="form-control" value="<?=$row['status']?>" id="status" disabled>
+                            </div>
+
+                            <div class="col-md-12 mb-3 <?php if($row['type'] == 'Admin'){ echo "d-none";} ?>" id="Container">
+                                <label for="address" class="required">Address</label>
+                                <textarea type="text" class="form-control" rows="3" id="address" autocomplete="off" disabled><?=$row['address']?></textarea>
+                            </div>
+
+                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container1">
+                                <label for="civilstatus" class="required">Civil Status</label>
+                                <input type="text" class="form-control" value="<?=$row['civil_status']?>" id="civilstatus" disabled>
+                            </div>
+
+                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container2">
+                                <label for="occupation" class="required">Occupation</label>
+                                <input type="text" class="form-control" name="occupation" id="occupation" autocomplete="off" value="<?=$row['occupation']?>" disabled>
+                                <div id="occupation-error"></div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container3">
+                                <label for="company" class="required">Company</label>
+                                <input type="text" class="form-control" name="company" id="company" autocomplete="off" value="<?=$row['company']?>" disabled>
+                                <div id="company-error"></div>
+                            </div>
+
+                            <div class="col-md-4 text-center">
+                                <br>
+                                <h6>Valid ID Attachment</h6> 
+                                <a href="
+                                    <?php
+                                        if(isset($row['valid_id'])){
+                                            if(!empty($row['valid_id'])){ 
+                                                echo base_url . 'assets/files/attachment/' . $row['valid_id'];
+                                        } else { echo base_url . 'assets/files/system/no-image.png'; } }
+                                    ?>" class="glightbox d-block" data-gallery="QRCode">
+                                    <img class="zoom img-fluid img-bordered-sm" id="frame1"
+                                    src="
+                                        <?php
+                                            if(isset($row['valid_id'])){
+                                                if(!empty($row['valid_id'])) {
+                                                    echo base_url . 'assets/files/attachment/' . $row['valid_id'];
+                                            } else { echo base_url . 'assets/files/system/no-image.png'; } }
+                                        ?>
+                                    " alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">
+                                </a>
                             </div>
                         </div>
                     </div>

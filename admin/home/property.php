@@ -70,10 +70,6 @@
                             <th>Amount</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
-                            <th>Advance Payment Balance</th>
-                            <th>Cash Deposits Balance</th>
-                            <th>Rented By</th>
-                            <th>Date Rented</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
@@ -86,16 +82,12 @@
                             <th>Amount</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
-                            <th>Advance Payment Balance</th>
-                            <th>Cash Deposits Balance</th>
-                            <th>Rented By</th>
-                            <th>Date Rented</th>
                             <th>Buttons</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, DATE_FORMAT(date_rented, '%m-%d-%Y') as new_date_rented, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `staff_fullname` FROM `property` INNER JOIN `user` ON `user`.`user_id` = `property`.`user_id` INNER JOIN `property_type` ON property.property_type_id = property_type.property_type_id WHERE `property_status` != 'Archive'";
+                            $query = "SELECT *, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `staff_fullname` FROM `property` INNER JOIN `user` ON `user`.`user_id` = `property`.`user_id` INNER JOIN `property_type` ON property.property_type_id = property_type.property_type_id WHERE `property_status` != 'Archive'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
@@ -108,18 +100,6 @@
                             <td>₱<?= $row['property_amount']; ?></td>
                             <td><?= $row['staff_fullname']; ?></td>
                             <td><?= $row['property_status']; ?></td>
-                            <td>₱<?= $row['property_cash_advance']; ?></td>
-                            <td>₱<?= $row['property_cash_deposit']; ?></td>
-                            <td>
-                                <?php
-                                    $client_id = $row['rented_by'];
-                                    $client = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS `renter_fullname` FROM `user` WHERE `user_id` = '$client_id'";
-                                    $client_result = $con->query($client);
-                                    $client_data = $client_result->fetch_assoc();
-                                ?>
-                                <?= $client_data['renter_fullname']; ?>
-                            </td>
-                            <td><?= $row['new_date_rented']; ?></td>
                             <td>
                                 <div class="d-flex">
                                     <div class="col-md-4 mb-1" style="margin-right: 0.2rem">
