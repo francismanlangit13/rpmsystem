@@ -65,7 +65,7 @@
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="property_amount" class="required">Property Amount</label>
+                                <label for="property_amount" class="required">Unit Cost</label>
                                 <input type="text" class="form-control" id="property_amount" value="₱<?=$row['property_amount']?>" disabled>
                                 <div id="property_amount-error"></div>
                             </div>

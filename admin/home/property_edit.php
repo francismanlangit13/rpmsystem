@@ -115,8 +115,8 @@
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="property_amount" class="required">Property Amount</label>
-                                    <input type="text" class="form-control" placeholder="Enter Property Cost" name="property_amount" id="property_amount" value="<?=$row['property_amount']?>" required>
+                                    <label for="property_amount" class="required">Unit Cost</label>
+                                    <input type="text" class="form-control" placeholder="Enter Unit Cost" name="property_amount" id="property_amount" value="<?=$row['property_amount']?>" required>
                                     <div id="property_amount-error"></div>
                                 </div>
 
