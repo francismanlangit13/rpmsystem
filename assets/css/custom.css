@@ -1,0 +1,7 @@
+body{
+    color: black;
+}
+.required:after {
+    content:" *";
+    color: red;
+}

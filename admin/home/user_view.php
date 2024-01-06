@@ -10,7 +10,7 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `user` WHERE `user_id` = '$id' AND `status` != 'Archive'";
+                $sql = "SELECT *, DATE_FORMAT(birthday, '%M %d, %Y') as new_birthday FROM `user` WHERE `user_id` = '$id' AND `status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -24,76 +24,69 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="fname">First Name</label>
-                                <input type="text" class="form-control" value="<?=$row['fname']?>" id="fname" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="fname"><b>First Name</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['fname']?>" id="fname" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label for="mname">Middle Name</label>
-                                <input type="text" class="form-control" value="<?=$row['mname']?>" id="mname" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="mname"><b>Middle Name</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['mname']?>" id="mname" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label for="lname">Last Name</label>
-                                <input type="text" class="form-control" value="<?=$row['lname']?>" id="lname" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="lname"><b>Last Name</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['lname']?>" id="lname" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label for="suffix">Suffix</label>
-                                <input type="text" class="form-control" value="<?=$row['suffix']?>" id="suffix" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="suffix"><b>Suffix</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['suffix']?>" id="suffix" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label for="gender">Gender</label>
-                                <input type="text" class="form-control" value="<?=$row['gender']?>" id="gender" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="gender"><b>Gender</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['gender']?>" id="gender" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label for="email">Email</label>
-                                <input type="text" class="form-control" value="<?=$row['email']?>" id="email" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="civil_status"><b>Civil Status</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['civil_status']?>" id="civil_status" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label for="phone">Phone Number</label>
-                                <input type="text" class="form-control" value="<?=$row['phone']?>" id="phone" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="birthday"><b>Birthday</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['new_birthday']?>" id="birthday" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label for="role">Role</label>
-                                <input type="text" class="form-control" value="<?php if($row['type'] == 'Renter'){ echo"Rentee";} else{ echo $row['type']; } ?>" id="role" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="email"><b>Email</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['email']?>" id="email" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <label for="status">Status</label>
-                                <input type="text" class="form-control" value="<?=$row['status']?>" id="status" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="phone"><b>Phone Number</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['phone']?>" id="phone" disabled>
                             </div>
 
-                            <div class="col-md-12 mb-3 <?php if($row['type'] == 'Admin'){ echo "d-none";} ?>" id="Container">
-                                <label for="address" class="required">Address</label>
-                                <textarea type="text" class="form-control" rows="3" id="address" autocomplete="off" disabled><?=$row['address']?></textarea>
+                            <div class="col-md-3 mb-3">
+                                <label for="role"><b>Role</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?php if($row['type'] == 'Renter'){ echo"Rentee";} else{ echo $row['type']; } ?>" id="role" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container1">
-                                <label for="civilstatus" class="required">Civil Status</label>
-                                <input type="text" class="form-control" value="<?=$row['civil_status']?>" id="civilstatus" disabled>
+                            <div class="col-md-3 mb-3">
+                                <label for="status"><b>Status</b></label>
+                                <input type="text" class="form-control-plaintext" value="<?=$row['status']?>" id="status" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container2">
-                                <label for="occupation" class="required">Occupation</label>
-                                <input type="text" class="form-control" name="occupation" id="occupation" autocomplete="off" value="<?=$row['occupation']?>" disabled>
-                                <div id="occupation-error"></div>
-                            </div>
-
-                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container3">
-                                <label for="company" class="required">Company</label>
-                                <input type="text" class="form-control" name="company" id="company" autocomplete="off" value="<?=$row['company']?>" disabled>
-                                <div id="company-error"></div>
+                            <div class="col-md-12 mb-3">
+                                <label for="address"><b>Address</b></label>
+                                <textarea type="text" class="form-control-plaintext" rows="3" id="address" autocomplete="off" disabled><?=$row['address']?></textarea>
                             </div>
 
                             <div class="col-md-4 text-center">
                                 <br>
-                                <h6>Valid ID Attachment</h6> 
+                                <h6><b>Valid ID Attachment</b></h6> 
                                 <a href="
                                     <?php
                                         if(isset($row['valid_id'])){
@@ -111,6 +104,16 @@
                                         ?>
                                     " alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">
                                 </a>
+                            </div>
+
+                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container2">
+                                <label for="occupation"><b>Occupation</b></label>
+                                <input type="text" class="form-control-plaintext" name="occupation" id="occupation" autocomplete="off" value="<?=$row['occupation']?>" disabled>
+                            </div>
+
+                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container3">
+                                <label for="company"><b>Company</b></label>
+                                <input type="text" class="form-control-plaintext" name="company" id="company" autocomplete="off" value="<?=$row['company']?>" disabled>
                             </div>
                         </div>
                     </div>

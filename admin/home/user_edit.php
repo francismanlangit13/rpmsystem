@@ -35,25 +35,25 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="fname" class="required">First Name</label>
                                     <input type="text" class="form-control" placeholder="Enter First Name" name="fname" id="fname" value="<?=$row['fname']?>" required>
                                     <div id="fname-error"></div>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="mname">Middle Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Middle Name" name="mname" id="mname" value="<?=$row['mname']?>">
                                     <div id="mname-error"></div>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="lname" class="required">Last Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Last Name" name="lname" id="lname" value="<?=$row['lname']?>" required>
                                     <div id="lname-error"></div>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label for="suffix">Suffix</label>
                                         <select class="form-control" id="suffix" name="suffix">
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label for="gender" class="required">Gender</label>
                                         <select class="form-control" name="gender" id="gender" required>
@@ -83,20 +83,38 @@
                                         <div id="gender-error"></div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="civil_status" class="required">Civil Status</label>
+                                    <select class="form-control" name="civil_status" id="civil_status" <?php if($row['type'] == 'Renter'){ echo "required";} ?>>
+                                        <option value="" selected>Select Civil Status</option>
+                                        <option value="Single" <?= isset($row['civil_status']) && $row['civil_status'] == 'Single' ? 'selected' : '' ?>>Single</option>
+                                        <option value="Married" <?= isset($row['civil_status']) && $row['civil_status'] == 'Married' ? 'selected' : '' ?>>Married</option>
+                                        <option value="Widowed" <?= isset($row['civil_status']) && $row['civil_status'] == 'Widowed' ? 'selected' : '' ?>>Widowed</option>
+                                        <option value="Separated" <?= isset($row['civil_status']) && $row['civil_status'] == 'Separated' ? 'selected' : '' ?>>Separated</option>
+                                    </select>
+                                    <div id="civil_status-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="birthday" class="required">Birthday</label>
+                                    <input type="date" class="form-control" name="birthday" id="birthday" value="<?=$row['birthday']?>" required>
+                                    <div id="birthday-error"></div>
+                                </div>
     
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="email" class="required">Email</label>
                                     <input type="email" class="form-control" placeholder="Enter Email" name="email" id="email" value="<?=$row['email']?>" required>
                                     <div id="email-error"></div>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="phone" class="required">Phone Number</label>
                                     <input type="text" class="form-control" placeholder="Enter Phone" name="phone" maxlength="11" id="phone" value="<?=$row['phone']?>" required>
                                     <div id="phone-error"></div>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label for="role" class="required">Role</label>
                                         <select class="form-control" name="role" id="role" required>
@@ -109,7 +127,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label for="status" class="required">Status</label>
                                         <select class="form-control" name="status" id="status" required>
@@ -125,18 +143,6 @@
                                     <label for="address" class="required">Address</label>
                                     <textarea type="text" class="form-control" placeholder="Enter Address" rows="3" name="address" id="address" autocomplete="off"><?=$row['address']?></textarea>
                                     <div id="address-error"></div>
-                                </div>
-
-                                <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container1">
-                                    <label for="civil_status" class="required">Civil Status</label>
-                                    <select class="form-control" name="civil_status" id="civil_status" <?php if($row['type'] == 'Renter'){ echo "required";} ?>>
-                                        <option value="" selected>Select Civil Status</option>
-                                        <option value="Single" <?= isset($row['civil_status']) && $row['civil_status'] == 'Single' ? 'selected' : '' ?>>Single</option>
-                                        <option value="Married" <?= isset($row['civil_status']) && $row['civil_status'] == 'Married' ? 'selected' : '' ?>>Married</option>
-                                        <option value="Widowed" <?= isset($row['civil_status']) && $row['civil_status'] == 'Widowed' ? 'selected' : '' ?>>Widowed</option>
-                                        <option value="Separated" <?= isset($row['civil_status']) && $row['civil_status'] == 'Separated' ? 'selected' : '' ?>>Separated</option>
-                                    </select>
-                                    <div id="civil_status-error"></div>
                                 </div>
 
                                 <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container2">
