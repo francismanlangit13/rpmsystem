@@ -58,7 +58,7 @@
                 // PHP Compose Mail
                 $name = 'Rental Properties Management System';
                 // $subject = htmlentities(date('F Y').' Billing Notice - ' . $name);
-                // $message = nl2br("Dear $fullname \r\n \r\n This month $utility_type_name bill is due. Please make a payment of &#8369;$utility_amount online or in cash. Thank you.");
+                // $message = nl2br("Dear $fullname \r\n \r\n This month $utility_type_ name bill is due. Please make a payment of &#8369;$utility_amount online or in cash. Thank you.");
                 // //PHP Mailer Gmail
                 // $mail = new PHPMailer();
                 // $mail->IsSMTP();

@@ -20,11 +20,18 @@
         $property_unit_code = $_POST['property_unit_code'];
         $staff = $_POST['staff'];
         $property_type_id = $_POST['property_type_id'];
-        $property_location = $_POST['property_location'];
+        $property_purok = $_POST['property_purok'];
+        $property_barangay = $_POST['property_barangay'];
+        $property_city = $_POST['property_city'];
+        $property_zipcode = $_POST['property_zipcode'];
         $property_amount = $_POST['property_amount'];
+        $has_electrical_meter = $_POST['has_electrical_meter'];
+        $has_water_meter = $_POST['has_water_meter'];
+        $has_parking_space = $_POST['has_parking_space'];
+        $has_conectivity = $_POST['has_conectivity'];
         $property_status = $_POST['property_status'];
 
-        $query = "INSERT INTO `property` (`user_id`, `property_unit_code`, `property_location`, `property_type_id`, `property_amount`, `property_status`) VALUES ('$staff','$property_unit_code','$property_location','$property_type_id','$property_amount','$property_status')";
+        $query = "INSERT INTO `property` (`user_id`, `property_unit_code`, `property_purok`, `property_barangay`, `property_city`, `property_zipcode`, `property_type_id`, `has_electrical_meter`, `has_water_meter`, `has_parking_space`, `has_conectivity`, `property_amount`, `property_status`) VALUES ('$staff','$property_unit_code','$property_purok','$property_barangay','$property_city','$property_zipcode','$property_type_id','$has_electrical_meter','$has_water_meter','$has_parking_space','$has_conectivity','$property_amount','$property_status')";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
@@ -47,11 +54,19 @@
         $property_unit_code = $_POST['property_unit_code'];
         $staff = $_POST['staff'];
         $property_type_id = $_POST['property_type_id'];
-        $property_location = $_POST['property_location'];
+        $property_purok = $_POST['property_purok'];
+        $property_barangay = $_POST['property_barangay'];
+        $property_city = $_POST['property_city'];
+        $property_zipcode = $_POST['property_zipcode'];
         $property_amount = $_POST['property_amount'];
+        $has_electrical_meter = $_POST['has_electrical_meter'];
+        $has_water_meter = $_POST['has_water_meter'];
+        $has_parking_space = $_POST['has_parking_space'];
+        $has_conectivity = $_POST['has_conectivity'];
         $property_status = $_POST['property_status'];
+        $status = $_POST['status'];
 
-        $query = "UPDATE `property` SET `user_id`='$staff',`property_unit_code`='$property_unit_code',`property_location`='$property_location',`property_type_id`='$property_type_id',`property_amount`='$property_amount',`property_status`='$property_status' WHERE `property_id`='$id'";
+        $query = "UPDATE `property` SET `user_id`='$staff',`property_unit_code`='$property_unit_code',`property_purok`='$property_purok',`property_barangay`='$property_barangay',`property_city`='$property_city',`property_zipcode`='$property_zipcode',`property_type_id`='$property_type_id',`has_electrical_meter`='$has_electrical_meter',`has_water_meter`='$has_water_meter',`has_parking_space`='$has_parking_space',`has_conectivity`='$has_conectivity',`property_amount`='$property_amount',`property_status`='$property_status',`p_status`='$status' WHERE `property_id`='$id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){

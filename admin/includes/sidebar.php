@@ -41,6 +41,10 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-house-user"></i></div>
                         Property
                     </a>
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/rentee.php') !== false)  { echo 'active'; } ?>" href="rentee">
+                        <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                        Rentee
+                    </a>
                     <div class="sb-sidenav-menu-heading">Billing</div>
                     <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/payment.php') !== false)  { echo 'active'; } ?>" href="payment">
                         <div class="sb-nav-link-icon"><i class="fas fa-file-invoice"></i></div>

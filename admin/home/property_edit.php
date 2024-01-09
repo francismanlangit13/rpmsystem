@@ -109,15 +109,77 @@
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="property_location" class="required">Property Location</label>
-                                    <input type="text" class="form-control" placeholder="Enter Property Location" name="property_location" id="property_location" value="<?=$row['property_location']?>" required>
-                                    <div id="property_location-error"></div>
+                                    <label for="property_purok" class="required">Purok</label>
+                                    <input type="number" class="form-control" placeholder="Enter Purok" name="property_purok" id="property_purok" value="<?=$row['property_purok']?>" required>
+                                    <div id="property_purok-error"></div>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
+                                    <label for="property_barangay" class="required">Barangay</label>
+                                    <input type="text" class="form-control" placeholder="Enter Barangay" name="property_barangay" id="property_barangay" value="<?=$row['property_barangay']?>" required>
+                                    <div id="property_barangay-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="property_city" class="required">City</label>
+                                    <input type="text" class="form-control" placeholder="Enter City" name="property_city" id="property_city" value="<?=$row['property_city']?>" required>
+                                    <div id="property_city-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="property_zipcode" class="required">Zipcode</label>
+                                    <input type="number" class="form-control" placeholder="Enter Zipcode" name="property_zipcode" id="property_zipcode" value="<?=$row['property_zipcode']?>" required>
+                                    <div id="property_zipcode-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
                                     <label for="property_amount" class="required">Unit Cost</label>
                                     <input type="text" class="form-control" placeholder="Enter Unit Cost" name="property_amount" id="property_amount" value="<?=$row['property_amount']?>" required>
                                     <div id="property_amount-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <div class="form-group">
+                                        <label for="status" class="required">Status</label>
+                                        <select class="form-control" name="status" id="status" required>
+                                            <option value="" selected>Select Status</option>
+                                            <option value="Active" <?= isset($row['p_status']) && $row['p_status'] == 'Active' ? 'selected' : '' ?>>Active</option>
+                                            <option value="Inactive" <?= isset($row['p_status']) && $row['p_status'] == 'Inactive' ? 'selected' : '' ?>>Inactive</option>
+                                        </select>
+                                        <div id="status-error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="electrical_meter_Yes" class="required">Does unit have it own electrical meter?</label>
+                                    <br>
+                                    <input required class="ml-2" type="radio" id="electrical_meter_Yes" name="has_electrical_meter" value="Yes" <?php if($row['has_electrical_meter']=="Yes") {?> <?php echo "checked";?> <?php }?>> Yes
+                                    <input required class="ml-2"  type="radio" id="electrical_meter_No" name="has_electrical_meter" value="No" <?php if($row['has_electrical_meter']=="No") {?> <?php echo "checked";?> <?php }?>> No
+                                    <div id="has_electrical_meter-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="water_meter_Yes" class="required">Does unit have it own water meter?</label>
+                                    <br>
+                                    <input required class="ml-2" type="radio" id="water_meter_Yes" name="has_water_meter" value="Yes" <?php if($row['has_water_meter']=="Yes") {?> <?php echo "checked";?> <?php }?>> Yes
+                                    <input required class="ml-2"  type="radio" id="water_meter_No" name="has_water_meter" value="No" <?php if($row['has_water_meter']=="No") {?> <?php echo "checked";?> <?php }?>> No
+                                    <div id="has_water_meter-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="parking_space_Yes" class="required">Does unit has a parking space?</label>
+                                    <br>
+                                    <input required class="ml-2" type="radio" id="parking_space_Yes" name="has_parking_space" value="Yes" <?php if($row['has_parking_space']=="Yes") {?> <?php echo "checked";?> <?php }?>> Yes
+                                    <input required class="ml-2"  type="radio" id="parking_space_No" name="has_parking_space" value="No" <?php if($row['has_parking_space']=="No") {?> <?php echo "checked";?> <?php }?>> No
+                                    <div id="has_parking_space-error"></div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="conectivity_Yes" class="required">Does unit has a conectivity?</label>
+                                    <br>
+                                    <input required class="ml-2" type="radio" id="conectivity_Yes" name="has_conectivity" value="Yes" <?php if($row['has_conectivity']=="Yes") {?> <?php echo "checked";?> <?php }?>> Yes
+                                    <input required class="ml-2"  type="radio" id="conectivity_No" name="has_conectivity" value="No" <?php if($row['has_conectivity']=="No") {?> <?php echo "checked";?> <?php }?>> No
+                                    <div id="has_conectivity-error"></div>
                                 </div>
                             </div>
                         </div>
@@ -197,23 +259,55 @@
         var debouncedCheckStaff = _.debounce(checkStaff, 500);
         var debouncedCheckPropertystatus = _.debounce(checkPropertystatus, 500);
         var debouncedCheckPropertytype = _.debounce(checkPropertytype, 500);
-        var debouncedCheckPropertylocation = _.debounce(checkPropertylocation, 500);
+        var debouncedCheckPropertypurok = _.debounce(checkPropertypurok, 500);
+        var debouncedCheckPropertybarangay = _.debounce(checkPropertybarangay, 500);
+        var debouncedCheckPropertycity = _.debounce(checkPropertycity, 500);
+        var debouncedCheckPropertyzipcode = _.debounce(checkPropertyzipcode, 500);
         var debouncedCheckPropertyamount = _.debounce(checkPropertyamount, 500);
+        var debouncedCheckStatus = _.debounce(checkStatus, 500);
+        var debouncedCheckHaselectricalmeter = _.debounce(checkHaselectricalmeter, 500);
+        var debouncedCheckHaswatermeter = _.debounce(checkHaswatermeter, 500);
+        var debouncedCheckHasparkingspace = _.debounce(checkHasparkingspace, 500);
+        var debouncedCheckHasconectivity = _.debounce(checkHasconectivity, 500);
 
         // attach event listeners for each input field
         $('#property_unit_code').on('input', debouncedCheckPropertyunitcode);
         $('#staff').on('change', debouncedCheckStaff);
         $('#property_status').on('input', debouncedCheckPropertystatus);
         $('#property_type_id').on('input', debouncedCheckPropertytype);
-        $('#property_location').on('input', debouncedCheckPropertylocation);
+        $('#property_purok').on('input', debouncedCheckPropertypurok);
+        $('#property_barangay').on('input', debouncedCheckPropertybarangay);
+        $('#property_city').on('input', debouncedCheckPropertycity);
+        $('#property_zipcode').on('input', debouncedCheckPropertyzipcode);
         $('#property_amount').on('input', debouncedCheckPropertyamount);
+        $('#status').on('input', debouncedCheckStatus);
+        $('#electrical_meter_Yes').on('input', debouncedCheckHaselectricalmeter);
+        $('#electrical_meter_No').on('input', debouncedCheckHaselectricalmeter);
+        $('#water_meter_Yes').on('input', debouncedCheckHaswatermeter);
+        $('#water_meter_No').on('input', debouncedCheckHaswatermeter);
+        $('#parking_space_Yes').on('input', debouncedCheckHasparkingspace);
+        $('#parking_space_No').on('input', debouncedCheckHasparkingspace);
+        $('#conectivity_Yes').on('input', debouncedCheckHasconectivity);
+        $('#conectivity_No').on('input', debouncedCheckHasconectivity);
 
         $('#property_unit_code').on('blur', debouncedCheckPropertyunitcode);
         $('#staff').on('blur', debouncedCheckStaff);
         $('#property_status').on('blur', debouncedCheckPropertystatus);
         $('#property_type_id').on('blur', debouncedCheckPropertytype);
-        $('#property_location').on('blur', debouncedCheckPropertylocation);
+        $('#property_purok').on('blur', debouncedCheckPropertypurok);
+        $('#property_barangay').on('blur', debouncedCheckPropertybarangay);
+        $('#property_city').on('blur', debouncedCheckPropertycity);
+        $('#property_zipcode').on('blur', debouncedCheckPropertyzipcode);
         $('#property_amount').on('blur', debouncedCheckPropertyamount);
+        $('#status').on('blur', debouncedCheckStatus);
+        $('#electrical_meter_Yes').on('blur', debouncedCheckHaselectricalmeter);
+        $('#electrical_meter_No').on('blur', debouncedCheckHaselectricalmeter);
+        $('#water_meter_Yes').on('blur', debouncedCheckHaswatermeter);
+        $('#water_meter_No').on('blur', debouncedCheckHaswatermeter);
+        $('#parking_space_Yes').on('blur', debouncedCheckHasparkingspace);
+        $('#parking_space_No').on('blur', debouncedCheckHasparkingspace);
+        $('#conectivity_Yes').on('blur', debouncedCheckHasconectivity);
+        $('#conectivity_No').on('blur', debouncedCheckHasconectivity);
 
         // Initialize Select2 Elements
         $('.select2').select2();
@@ -245,8 +339,16 @@
                  $('#staff-error').is(':empty') &&
                  $('#property_status-error').is(':empty') &&
                  $('#property_type_id-error').is(':empty') &&
-                 $('#property_location-error').is(':empty') &&
-                 $('#property_amount-error').is(':empty') ) {
+                 $('#property_purok-error').is(':empty') &&
+                 $('#property_barangay-error').is(':empty') &&
+                 $('#property_city-error').is(':empty') &&
+                 $('#property_zipcode-error').is(':empty') &&
+                 $('#property_amount-error').is(':empty') &&
+                 $('#status-error').is(':empty') &&
+                 $('#has_electrical_meter-error').is(':empty') &&
+                 $('#has_water_meter-error').is(':empty') &&
+                 $('#has_parking_space-error').is(':empty') &&
+                 $('#has_conectivity-error').is(':empty') ) {
                 $('#submit-btn').prop('disabled', false);
             } else {
                 $('#submit-btn').prop('disabled', true);
@@ -329,21 +431,75 @@
             checkIfAllFieldsValid();
         }
 
-        function checkPropertylocation() {
-            var property_location = $('#property_location').val().trim();
+        function checkPropertypurok() {
+            var property_purok = $('#property_purok').val().trim();
             
-            // show error if property location is empty
-            if (property_location === '') {
-                $('#property_location-error').text('Please input property location').css('color', 'red');
-                $('#property_location').addClass('is-invalid');
+            // show error if property purok is empty
+            if (property_purok === '') {
+                $('#property_purok-error').text('Please input purok').css('color', 'red');
+                $('#property_purok').addClass('is-invalid');
                 checkIfAllFieldsValid();
                 return;
             }
             
-            // Perform additional validation for property location if needed
+            // Perform additional validation for property purok if needed
             
-            $('#property_location-error').empty();
-            $('#property_location').removeClass('is-invalid');
+            $('#property_purok-error').empty();
+            $('#property_purok').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkPropertybarangay() {
+            var property_barangay = $('#property_barangay').val().trim();
+            
+            // show error if property barangay is empty
+            if (property_barangay === '') {
+                $('#property_barangay-error').text('Please input barangay').css('color', 'red');
+                $('#property_barangay').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for property barangay if needed
+            
+            $('#property_barangay-error').empty();
+            $('#property_barangay').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkPropertycity() {
+            var property_city = $('#property_city').val().trim();
+            
+            // show error if property city is empty
+            if (property_city === '') {
+                $('#property_city-error').text('Please input city').css('color', 'red');
+                $('#property_city').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for property city if needed
+            
+            $('#property_city-error').empty();
+            $('#property_city').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkPropertyzipcode() {
+            var property_zipcode = $('#property_zipcode').val().trim();
+            
+            // show error if property zipcode is empty
+            if (property_zipcode === '') {
+                $('#property_zipcode-error').text('Please input zipcode').css('color', 'red');
+                $('#property_zipcode').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for property zipcode if needed
+            
+            $('#property_zipcode-error').empty();
+            $('#property_zipcode').removeClass('is-invalid');
             checkIfAllFieldsValid();
         }
 
@@ -362,6 +518,104 @@
             
             $('#property_amount-error').empty();
             $('#property_amount').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkStatus() {
+            var status = $('#status').val().trim();
+            
+            // show error if status is empty
+            if (status === '') {
+                $('#status-error').text('Please select status').css('color', 'red');
+                $('#status').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for status if needed
+            
+            $('#status-error').empty();
+            $('#status').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkHaselectricalmeter() {
+            var has_electrical_meter = $('input[name="has_electrical_meter"]:checked').val();
+
+            // show error if has_electrical_meter is not selected
+            if (!has_electrical_meter) {
+                $('#has_electrical_meter-error').text('Please choose electrical meter').css('color', 'red');
+                $('#electrical_meter_Yes').addClass('is-invalid');
+                $('#electrical_meter_No').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+
+            // Perform additional validation for has_electrical_meter if needed
+
+            $('#has_electrical_meter-error').empty();
+            $('#electrical_meter_Yes').removeClass('is-invalid');
+            $('#electrical_meter_No').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkHaswatermeter() {
+            var has_water_meter = $('input[name="has_water_meter"]:checked').val();
+
+            // show error if has_water_meter is not selected
+            if (!has_water_meter) {
+                $('#has_water_meter-error').text('Please choose water meter').css('color', 'red');
+                $('#water_meter_Yes').addClass('is-invalid');
+                $('#water_meter_No').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+
+            // Perform additional validation for has_water_meter if needed
+
+            $('#has_water_meter-error').empty();
+            $('#water_meter_Yes').removeClass('is-invalid');
+            $('#water_meter_No').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkHasparkingspace() {
+            var has_parking_space = $('input[name="has_parking_space"]:checked').val();
+
+            // show error if has_parking_space is not selected
+            if (!has_parking_space) {
+                $('#has_parking_space-error').text('Please choose parking space').css('color', 'red');
+                $('#parking_space_Yes').addClass('is-invalid');
+                $('#parking_space_No').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+
+            // Perform additional validation for has_parking_space if needed
+
+            $('#has_parking_space-error').empty();
+            $('#parking_space_Yes').removeClass('is-invalid');
+            $('#parking_space_No').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkHasconectivity() {
+            var has_conectivity = $('input[name="has_conectivity"]:checked').val();
+
+            // show error if has_conectivity is not selected
+            if (!has_conectivity) {
+                $('#has_conectivity-error').text('Please choose parking space').css('color', 'red');
+                $('#conectivity_Yes').addClass('is-invalid');
+                $('#conectivity_No').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+
+            // Perform additional validation for has_conectivity if needed
+
+            $('#has_conectivity-error').empty();
+            $('#conectivity_Yes').removeClass('is-invalid');
+            $('#conectivity_No').removeClass('is-invalid');
             checkIfAllFieldsValid();
         }
     });

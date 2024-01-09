@@ -35,8 +35,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="property_unit_code">Property Unit Code</label>
-                                <input type="text" class="form-control" id="property_unit_code" value="<?=$row['property_unit_code']?>" disabled>
+                                <label for="property_unit_code"><b>Property Unit Code</b></label>
+                                <input type="text" class="form-control-plaintext" id="property_unit_code" value="<?=$row['property_unit_code']?>" disabled>
                             </div>
 
                             <div class="col-md-4 mb-3">
@@ -46,28 +46,63 @@
                                     $staff_result = $con->query($staff);
                                     $staff_data = $staff_result->fetch_assoc();
                                 ?>
-                                <label for="staff_fullname">Landlady / Landlord</label>
-                                <input type="text" class="form-control" id="staff_fullname" value="<?=$staff_data['staff_fullname']?>" disabled>
+                                <label for="staff_fullname"><b>Landlady / Landlord</b></label>
+                                <input type="text" class="form-control-plaintext" id="staff_fullname" value="<?=$staff_data['staff_fullname']?>" disabled>
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="property_type">Property Type</label>
-                                <input type="text" class="form-control" id="property_type" value="<?=$row['property_type_name']?>" disabled>
+                                <label for="property_type"><b>Property Type</b></label>
+                                <input type="text" class="form-control-plaintext" id="property_type" value="<?=$row['property_type_name']?>" disabled>
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="property_status">Property Status</label>
-                                <input type="text" class="form-control" id="property_status" value="<?=$row['property_status']?>" disabled>
+                                <label for="property_status"><b>Property Status</b></label>
+                                <input type="text" class="form-control-plaintext" id="property_status" value="<?=$row['property_status']?>" disabled>
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="property_location">Property Location</label>
-                                <input type="text" class="form-control" id="property_location" value="<?=$row['property_location']?>" disabled>
+                                <label for="property_purok"><b>Purok</b></label>
+                                <input type="text" class="form-control-plaintext" name="property_purok" id="property_purok" value="<?=$row['property_purok']?>" disabled>
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="property_amount">Unit Cost</label>
-                                <input type="text" class="form-control" id="property_amount" value="₱<?=$row['property_amount']?>" disabled>
+                                <label for="property_barangay"><b>Barangay</b></label>
+                                <input type="text" class="form-control-plaintext" name="property_barangay" id="property_barangay" value="<?=$row['property_barangay']?>" disabled>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="property_city"><b>City</b></label>
+                                <input type="text" class="form-control-plaintext" name="property_city" id="property_city" value="<?=$row['property_city']?>" disabled>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="property_zipcode"><b>Zipcode</b></label>
+                                <input type="text" class="form-control-plaintext" name="property_zipcode" id="property_zipcode" value="<?=$row['property_zipcode']?>" disabled>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="property_amount"><b>Unit Cost</b></label>
+                                <input type="text" class="form-control-plaintext" id="property_amount" value="₱<?=$row['property_amount']?>" disabled>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="has_electrical_meter"><b>Does unit have it own electrical meter?</b></label>
+                                <input type="text" class="form-control-plaintext" id="has_electrical_meter" value="<?=$row['has_electrical_meter']?>" disabled>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="has_water_meter"><b>Does unit have it own water meter?</b></label>
+                                <input type="text" class="form-control-plaintext" id="has_water_meter" value="<?=$row['has_water_meter']?>" disabled>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="has_parking_space"><b>Does unit has a parking space?</b></label>
+                                <input type="text" class="form-control-plaintext" id="has_parking_space" value="<?=$row['has_parking_space']?>" disabled>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="has_conectivity"><b>Does unit has a conectivity?</b></label>
+                                <input type="text" class="form-control-plaintext" id="has_conectivity" value="<?=$row['has_conectivity']?>" disabled>
                             </div>
                         </div>
                     </div>

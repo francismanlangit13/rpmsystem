@@ -42,22 +42,22 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Property
+        <h1 class="mt-4">Rentee
             <a href="property_add" class="btn btn-success btn-icon-split float-end mt-2"> 
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Add Property</span>
+                <span class="text">Add Rentee</span>
             </a>
         </h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item">Property</li>
+            <li class="breadcrumb-item">Rentee</li>
         </ol>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                DataTable Property
+                DataTable Rentee
             </div>
             <div class="card-body">
                 <table class="table table-bordered table-hover text-center" id="datatablesSimple">
@@ -65,12 +65,11 @@
                         <tr>
                             <th>No.</th>
                             <th>Property Unit Code</th>
-                            <th>Address</th>
+                            <th>Location</th>
                             <th>Type</th>
                             <th>Amount</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
-                            <th>Status</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
@@ -78,18 +77,17 @@
                         <tr>
                             <th>No.</th>
                             <th>Property Name</th>
-                            <th>Address</th>
+                            <th>Location</th>
                             <th>Type</th>
                             <th>Amount</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
-                            <th>Status</th>
                             <th>Buttons</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `staff_fullname`, CONCAT('Purok ', `property_purok`, ', ', `property_barangay`, ', ', `property_city`, ' ', `property_zipcode`) AS `full_address` FROM `property` INNER JOIN `user` ON `user`.`user_id` = `property`.`user_id` INNER JOIN `property_type` ON property.property_type_id = property_type.property_type_id WHERE `property_status` != 'Archive'";
+                            $query = "SELECT *, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `staff_fullname` FROM `property` INNER JOIN `user` ON `user`.`user_id` = `property`.`user_id` INNER JOIN `property_type` ON property.property_type_id = property_type.property_type_id WHERE `property_status` != 'Archive'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
@@ -97,12 +95,11 @@
                         <tr>
                             <td><?= $row['property_id']; ?></td>
                             <td><?= $row['property_unit_code']; ?></td>
-                            <td><?= $row['full_address']; ?></td>
+                            <td><?= $row['property_location']; ?></td>
                             <td><?= $row['property_type_name']; ?></td>
                             <td>₱<?= $row['property_amount']; ?></td>
                             <td><?= $row['staff_fullname']; ?></td>
                             <td><?= $row['property_status']; ?></td>
-                            <td><?= $row['p_status']; ?></td>
                             <td>
                                 <div class="d-flex">
                                     <div class="col-md-6 mb-1" style="margin-right: 0.2rem">
