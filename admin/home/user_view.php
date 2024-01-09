@@ -85,22 +85,19 @@
                             </div>
 
                             <div class="col-md-4 text-center">
-                                <br>
                                 <h6><b>Valid ID Attachment</b></h6> 
                                 <a href="
                                     <?php
-                                        if(isset($row['valid_id'])){
-                                            if(!empty($row['valid_id'])){ 
-                                                echo base_url . 'assets/files/attachment/' . $row['valid_id'];
-                                        } else { echo base_url . 'assets/files/system/no-image.png'; } }
+                                        if(!empty($row['valid_id'])){ 
+                                            echo base_url . 'assets/files/attachment/' . $row['valid_id'];
+                                        } else { echo base_url . 'assets/files/system/no-image.png'; }
                                     ?>" class="glightbox d-block" data-gallery="QRCode">
                                     <img class="zoom img-fluid img-bordered-sm" id="frame1"
                                     src="
                                         <?php
-                                            if(isset($row['valid_id'])){
-                                                if(!empty($row['valid_id'])) {
-                                                    echo base_url . 'assets/files/attachment/' . $row['valid_id'];
-                                            } else { echo base_url . 'assets/files/system/no-image.png'; } }
+                                            if(!empty($row['valid_id'])) {
+                                                echo base_url . 'assets/files/attachment/' . $row['valid_id'];
+                                            } else { echo base_url . 'assets/files/system/no-image.png'; } 
                                         ?>
                                     " alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">
                                 </a>

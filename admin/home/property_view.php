@@ -35,9 +35,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="property_unit_code" class="required">Unit Code</label>
+                                <label for="property_unit_code">Property Unit Code</label>
                                 <input type="text" class="form-control" id="property_unit_code" value="<?=$row['property_unit_code']?>" disabled>
-                                <div id="property_unit_code-error"></div>
                             </div>
 
                             <div class="col-md-4 mb-3">
@@ -47,33 +46,28 @@
                                     $staff_result = $con->query($staff);
                                     $staff_data = $staff_result->fetch_assoc();
                                 ?>
-                                <label for="staff_fullname" class="required">Landlady / Landlord</label>
+                                <label for="staff_fullname">Landlady / Landlord</label>
                                 <input type="text" class="form-control" id="staff_fullname" value="<?=$staff_data['staff_fullname']?>" disabled>
-                                <div id="staff_fullname-error"></div>
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="property_type" class="required">Property Type</label>
+                                <label for="property_type">Property Type</label>
                                 <input type="text" class="form-control" id="property_type" value="<?=$row['property_type_name']?>" disabled>
-                                <div id="property_type-error"></div>
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="property_location" class="required">Barangay</label>
-                                <input type="text" class="form-control" id="property_location" value="<?=$row['property_location']?>" disabled>
-                                <div id="property_location-error"></div>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label for="property_amount" class="required">Unit Cost</label>
-                                <input type="text" class="form-control" id="property_amount" value="₱<?=$row['property_amount']?>" disabled>
-                                <div id="property_amount-error"></div>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label for="property_status" class="required">Property Status</label>
+                                <label for="property_status">Property Status</label>
                                 <input type="text" class="form-control" id="property_status" value="<?=$row['property_status']?>" disabled>
-                                <div id="property_status-error"></div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="property_location">Property Location</label>
+                                <input type="text" class="form-control" id="property_location" value="<?=$row['property_location']?>" disabled>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="property_amount">Unit Cost</label>
+                                <input type="text" class="form-control" id="property_amount" value="₱<?=$row['property_amount']?>" disabled>
                             </div>
                         </div>
                     </div>

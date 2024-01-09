@@ -5,3 +5,6 @@ body{
     content:" *";
     color: red;
 }
+.btn.disabled, .btn:disabled, .btn-disabled{
+    cursor: not-allowed;
+}

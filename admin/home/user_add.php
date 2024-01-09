@@ -12,15 +12,14 @@
             <li class="breadcrumb-item active"><a href="./user" class="text-decoration-none">Users</a></li>
             <li class="breadcrumb-item">Add User</li>
         </ol>
-        <form action="user_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form id="myForm" action="user_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>User form
-                                <div class="float-end">
-                                    <!-- <button type="submit" id="submit-btn" data-toggle="modal" data-target="#Modal_Confirm_Terms" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button> -->
-                                    <button type="submit" id="submit-btn" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+                                <div class="float-end btn-disabled">
+                                    <button type="submit" id="submit-btn" class="btn btn-primary" onclick="return validateForm()"><i class="fas fa-plus"></i> Add</button>
                                 </div>
                             </h4>
                         </div>
@@ -108,7 +107,7 @@
                                 <!-- Form Group (password)-->
                                 <div class="col-md-3 mb-3">
                                     <label for="password" class="required">Password</label>
-                                    <input type="password" name="password" class="form-control" minlength="8" placeholder="Password" id="password" required>
+                                    <input type="password" name="password" class="form-control" placeholder="Password" id="password" required>
                                     <a href="javascript:void(0)" style="position: relative; top: -2rem; left: -8%; cursor: pointer; color: black;" onclick="togglePassword('password')">
                                         <span class="password-toggle float-end"><i class="fa fa-eye"></i> Show</span>
                                     </a>
@@ -149,7 +148,8 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label for="image1" class="required">Valid ID Attachment</label>
-                                    <input required type="file" name="image1" class="form-control btn btn-secondary" style="padding-bottom:2.2rem;" id="image1" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'image1')">
+                                    <input type="file" name="image1" class="form-control btn btn-secondary" style="padding-bottom:2.2rem;" id="image1" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'image1')" required>
+                                    <div id="image1-error"></div>
                                 </div>
 
                                 <div class="col-md-4 mb-3 d-none" id="Container">
@@ -183,7 +183,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Rental Properties Management System - Terms and Conditions</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -237,8 +237,10 @@
                             <label for="terms_checkbox" style="display: contents;">By using the Rental Properties Management System, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please refrain from using the System.</label><br>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" name="add_user" id="addButton" class="btn btn-primary" disabled>Add</button>
+                            <div class="float-end btn-disabled">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" name="add_user" id="addButton" class="btn btn-primary" disabled>Add</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -257,36 +259,6 @@
       // If the checkbox is checked, enable the button; otherwise, disable it
       addButton.disabled = !checkbox.checked;
     }
-</script>
-
-<!-- Password validation -->
-<script>
-    // Get references to the password fields and label
-    const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('cpassword');
-    var cpasswordNameError = document.getElementById("cpassword-error");
-
-    // Function to check if passwords match and update required class
-    function checkPasswords() {
-
-        if (passwordInput.value !== confirmPasswordInput.value) {
-            confirmPasswordInput.setCustomValidity("Passwords do not match");
-            $('#cpassword-error').text('Passwords do not match').css('color', 'red');
-            $('#password').addClass('is-invalid');
-            $('#cpassword').addClass('is-invalid');
-            $('#submit-btn').prop('disabled', true);
-        } else {
-            $('#cpassword-error').empty();
-            $('#password').removeClass('is-invalid');
-            $('#cpassword').removeClass('is-invalid');
-            $('#submit-btn').prop('disabled', false);
-            confirmPasswordInput.setCustomValidity("");
-        }
-    }
-
-    // Add event listeners to the password fields
-    passwordInput.addEventListener('input', checkPasswords);
-    confirmPasswordInput.addEventListener('input', checkPasswords);
 </script>
 
 <script type="text/javascript">
@@ -311,6 +283,7 @@
     }
 </script>
 
+<!-- Script for Role if Renter show hidden forms -->
 <script>
     document.getElementById('role').addEventListener('change', function () {
         var Container = document.getElementById('Container');
@@ -331,8 +304,33 @@
 
 <script>
     $(document).ready(function() {
-        // disable submit button by default
-        // $('#submit-btn').prop('disabled', true);
+        // Add an event listener to the modal's submit button
+        $(document).on('click', '#addButton', function() {
+            // Set the form's checkValidity to true
+            document.getElementById("myForm").checkValidity = function() {
+                return true;
+            };
+
+            // Submit the form
+            $('#myForm').submit();
+        });
+    });
+
+    function validateForm() {
+        var form = document.getElementById("myForm");
+        if (form.checkValidity()) {
+            // If the form is valid, show the modal
+            $('#Modal_Confirm_Terms').modal('show');
+            return false; // Prevent the form from being submitted immediately
+        } else {
+            return true; // Allow the form to be submitted and display the browser's error messages
+        }
+    }
+</script>
+
+<!-- Form Validations -->
+<script>
+    $(document).ready(function() {
 
         // debounce functions for each input field
         var debouncedCheckFname = _.debounce(checkFname, 500);;
@@ -343,8 +341,11 @@
         var debouncedCheckBirthday = _.debounce(checkBirthday, 500);
         var debouncedCheckEmail = _.debounce(checkEmail, 500);
         var debouncedCheckPhone = _.debounce(checkPhone, 500);
+        var debouncedCheckPassword = _.debounce(checkPassword, 500);
+        var debouncedCheckCpassword = _.debounce(checkCpassword, 500);
         var debouncedCheckRole = _.debounce(checkRole, 500);
         var debouncedCheckAddress = _.debounce(checkAddress, 500);
+        var debouncedCheckID = _.debounce(checkID, 500);
 
         // attach event listeners for each input field
         $('#fname').on('input', debouncedCheckFname);
@@ -355,8 +356,11 @@
         $('#birthday').on('input', debouncedCheckBirthday);
         $('#email').on('input', debouncedCheckEmail); 
         $('#phone').on('input', debouncedCheckPhone);
+        $('#password').on('input', debouncedCheckPassword);
+        $('#cpassword').on('input', debouncedCheckCpassword);
         $('#role').on('change', debouncedCheckRole);
         $('#address').on('input', debouncedCheckAddress);
+        $('#image1').on('input', debouncedCheckID);
 
         $('#fname').on('blur', debouncedCheckFname);
         $('#lname').on('blur', debouncedCheckLname);
@@ -366,8 +370,11 @@
         $('#birthday').on('blur', debouncedCheckBirthday);
         $('#email').on('blur', debouncedCheckEmail);
         $('#phone').on('blur', debouncedCheckPhone);
+        $('#password').on('blur', debouncedCheckPassword);
+        $('#cpassword').on('blur', debouncedCheckCpassword);
         $('#role').on('blur', debouncedCheckRole);
         $('#address').on('blur', debouncedCheckAddress);
+        $('#image1').on('blur', debouncedCheckID);
 
         function checkIfAllFieldsValid() {
             // check if all input fields are valid and enable submit button if so
@@ -384,7 +391,8 @@
                  $('#password-error').is(':empty') &&
                  $('#cpassword-error').is(':empty') &&
                  $('#role-error').is(':empty') &&
-                 $('#address-error').is(':empty')
+                 $('#address-error').is(':empty') &&
+                 $('#image1-error').is(':empty')
                 ) {
                 $('#submit-btn').prop('disabled', false);
             } else {
@@ -589,6 +597,53 @@
             });
         }
 
+        function checkPassword() {
+            var password = $('#password').val().trim();
+            
+            // show error if password is empty
+            if (password === '') {
+                $('#password-error').text('Please input password').css('color', 'red');
+                $('#password').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for password if needed
+            
+            $('#password-error').empty();
+            $('#password').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkCpassword() {
+            var cpassword = $('#cpassword').val().trim();
+            var password = $('#password').val().trim();
+
+            // show error if confirm password is empty
+            if (cpassword === '') {
+                $('#cpassword-error').text('Please input confirm password').css('color', 'red');
+                $('#cpassword').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+
+            // show error if confirm password does not match password
+            if (cpassword !== password) {
+                $('#cpassword-error').text('Passwords do not match').css('color', 'red');
+                $('#password').addClass('is-invalid');
+                $('#cpassword').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+
+            // Perform additional validation for confirm password if needed
+
+            $('#cpassword-error').empty();
+            $('#password').removeClass('is-invalid');
+            $('#cpassword').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
         function checkRole() {
             var role = $('#role').val()
             
@@ -625,6 +680,23 @@
             checkIfAllFieldsValid();
         }
 
+        function checkID() {
+            var image1 = $('#image1').val().trim();
+            
+            // show error if attach ID is empty
+            if (image1 === '') {
+                $('#image1-error').text('Please attach valid ID').css('color', 'red');
+                $('#image1').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for attach ID if needed
+            
+            $('#image1-error').empty();
+            $('#image1').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
     });
 </script>
 <?php include ('../includes/bottom.php'); ?>

@@ -17,14 +17,14 @@
             <li class="breadcrumb-item active"><a href="./utility" class="text-decoration-none">Other Bills</a></li>
             <li class="breadcrumb-item">Add Other Bills</li>
         </ol>
-        <form action="utility_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form id="myForm" action="utility_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Other Bills form
-                                <div class="float-end">
-                                    <button type="submit" name="add_utility" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+                                <div class="float-end btn-disabled">
+                                    <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-plus"></i> Add</button>
                                 </div>
                             </h4>
                         </div>
@@ -33,17 +33,17 @@
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` INNER JOIN `property` ON property.rented_by = user.user_id WHERE `type` = 'Renter'";
-                                        $staff_result = $con->query($staff);
+                                        $renter = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` INNER JOIN `property` ON property.rented_by = user.user_id WHERE `type` = 'Renter'";
+                                        $renter_result = $con->query($renter);
                                     ?>
                                     <label for="renter" class="required">Rented By</label>
-                                    <select class="form-control select3" id="renter" name="renter" style="width: 100%;" required>
+                                    <select class="form-control select2" id="renter" name="renter" style="width: 100%;" required>
                                         <option value="">Select Rented By</option>
                                         <?php 
-                                            if ($staff_result->num_rows > 0) {
-                                            while($staffrow = $staff_result->fetch_assoc()) {
+                                            if ($renter_result->num_rows > 0) {
+                                            while($renterrow = $renter_result->fetch_assoc()) {
                                         ?>
-                                        <option value="<?=$staffrow['rented_by'];?>"><?=$staffrow['fullname'];?></option>
+                                        <option value="<?=$renterrow['rented_by'];?>"><?=$renterrow['fullname'];?></option>
                                         <?php } } ?>
                                     </select>
                                     <div id="renter-error"></div>
@@ -52,7 +52,7 @@
                                 <script>
                                     $(document).ready(function () {
                                         // Initialize Select2 Elements
-                                        $('.select3').select2();
+                                        $('.select2').select2();
                                     });
                                 </script>
 
@@ -81,7 +81,42 @@
                                     <input type="text" class="form-control" placeholder="Enter Utility Amount" name="utility_amount" id="utility_amount" required>
                                     <div id="utility_amount-error"></div>
                                 </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="image1" class="required">Bill Attachment</label>
+                                    <input type="file" name="image1" class="form-control btn btn-secondary" style="padding-bottom:2.2rem;" id="image1" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'image1')" required>
+                                    <div id="image1-error"></div>
+                                </div>
+
+                                <div class="col-md-8" id="Container2"></div>
+
+                                <div class="col-md-4 text-center">
+                                    <h6>JPG or PNG no larger than 5 MB</h6> 
+                                    <a href="<?php echo base_url . 'assets/files/system/no-image.png'; ?>" class="glightbox d-block" data-gallery="Attachment">
+                                        <img class="zoom img-fluid img-bordered-sm" id="frame1" src="<?php echo base_url . 'assets/files/system/no-image.png'; ?>" alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">
+                                    </a>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Add -->
+            <div class="modal fade" id="Modal_add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Save changes</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to add?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_utility" id="addButton" class="btn btn-success">Add</button>
                         </div>
                     </div>
                 </div>
@@ -89,4 +124,165 @@
         </form>
     </div>
 </main>
+
+<script>
+    $(document).ready(function() {
+        // Add an event listener to the modal's submit button
+        $(document).on('click', '#addButton', function() {
+            // Set the form's checkValidity to true
+            document.getElementById("myForm").checkValidity = function() {
+                return true;
+            };
+
+            // Submit the form
+            $('#myForm').submit();
+        });
+    });
+
+    function validateForm() {
+        var form = document.getElementById("myForm");
+        if (form.checkValidity()) {
+            // If the form is valid, show the modal
+            $('#Modal_add').modal('show');
+            return false; // Prevent the form from being submitted immediately
+        } else {
+            return true; // Allow the form to be submitted and display the browser's error messages
+        }
+    }
+</script>
+
+<!-- Form Validations -->
+<script>
+    $(document).ready(function() {
+
+        // debounce functions for each input field
+        var debouncedCheckRenter = _.debounce(checkRenter, 500);
+        var debouncedCheckUtilitytype = _.debounce(checkUtilitytype, 500);
+        var debouncedCheckUtilityamount = _.debounce(checkUtilityamount, 500);
+        var debouncedCheckUtilityattachment = _.debounce(checkUtilityattachment, 500);
+
+        // attach event listeners for each input field
+        $('#renter').on('change', debouncedCheckRenter);
+        $('#utility_type_id').on('input', debouncedCheckUtilitytype);
+        $('#utility_amount').on('input', debouncedCheckUtilityamount);
+        $('#image1').on('input', debouncedCheckUtilityattachment);
+
+        $('#renter').on('blur', debouncedCheckRenter);
+        $('#utility_type_id').on('blur', debouncedCheckUtilitytype);
+        $('#utility_amount').on('blur', debouncedCheckUtilityamount);
+        $('#image1').on('blur', debouncedCheckUtilityattachment);
+
+        // Initialize Select2 Elements
+        $('.select2').select2();
+
+        // handle Select2 change event for renter
+        $('#renter').on('change', function () {
+            debouncedCheckRenter();
+        });
+
+        // handle Select2 opening and closing events for renter
+        $('#renter').on('select2:open', function (event) {
+            // Set a flag to track if the dropdown was opened
+            $(this).data('dropdownOpened', true);
+        }).on('select2:close', function (event) {
+            // Check if the dropdown was opened and no option was selected
+            if ($(this).data('dropdownOpened') && $(this).val() === '') {
+                $('#renter-error').text('Please select Landlady / Landlord').css('color', 'red');
+                $('.select2-selection').css('border-color', '#dc3545');
+                $('#renter').addClass('is-invalid');
+                checkIfAllFieldsValid();
+            }
+            // Reset the flag
+            $(this).data('dropdownOpened', false);
+        });
+
+        function checkIfAllFieldsValid() {
+            // check if all input fields are valid and enable submit button if so
+            if ( $('#renter-error').is(':empty') &&
+                 $('#utility_type_id-error').is(':empty') &&
+                 $('#utility_amount-error').is(':empty') &&
+                 $('#image1-error').is(':empty') ) {
+                $('#submit-btn').prop('disabled', false);
+            } else {
+                $('#submit-btn').prop('disabled', true);
+            }
+        }
+
+        function checkRenter() {
+            var renter = $('#renter').val().trim();
+            
+            // show error if renter is empty
+            if (renter === '') {
+                $('#renter-error').text('Please select rentee').css('color', 'red');
+                $('.select2-selection').css('border-color', '#dc3545'); // Apply border color when is-invalid class is added
+                $('#renter').addClass('is-invalid');
+
+                checkIfAllFieldsValid();
+                return;
+            }
+
+            $('#renter-error').empty();
+            $('#renter').removeClass('is-invalid');
+
+            // Remove border color when is-invalid class is removed
+            $('.select2-selection').css('border-color', '');
+
+            checkIfAllFieldsValid();
+        }
+
+        function checkUtilitytype() {
+            var utility_type_id = $('#utility_type_id').val().trim();
+            
+            // show error if utility type is empty
+            if (utility_type_id === '') {
+                $('#utility_type_id-error').text('Please select utility type').css('color', 'red');
+                $('#utility_type_id').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for utility type if needed
+            
+            $('#utility_type_id-error').empty();
+            $('#utility_type_id').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkUtilityamount() {
+            var utility_amount = $('#utility_amount').val().trim();
+            
+            // show error if utility amount is empty
+            if (utility_amount === '') {
+                $('#utility_amount-error').text('Please input bill amount').css('color', 'red');
+                $('#utility_amount').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for utility amount if needed
+            
+            $('#utility_amount-error').empty();
+            $('#utility_amount').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkUtilityattachment() {
+            var image1 = $('#image1').val().trim();
+            
+            // show error if bill attachment is empty
+            if (image1 === '') {
+                $('#image1-error').text('Please attach bill').css('color', 'red');
+                $('#image1').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for bill attachment if needed
+            
+            $('#image1-error').empty();
+            $('#image1').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+    });
+</script>
 <?php include ('../includes/bottom.php'); ?>

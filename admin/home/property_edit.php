@@ -26,14 +26,14 @@
                 if(mysqli_num_rows($sql_run) > 0) {
                     foreach($sql_run as $row){
         ?>
-        <form action="property_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form id="myForm" action="property_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Property form
-                                <div class="float-end">
-                                    <button type="submit" name="edit_property" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                                <div class="float-end btn-disabled">
+                                    <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-save"></i> Save</button>
                                     <input type="hidden" name="id" value="<?=$row['property_id']?>">
                                     <input type="hidden" name="temp_renter" value="<?=$row['rented_by']?>">
                                 </div>
@@ -75,9 +75,9 @@
 
                                 <div class="col-md-4 mb-3">
                                     <div class="form-group">
-                                        <label for="property_status">Property Status</label>
+                                        <label for="property_status" class="required">Property Status</label>
                                         <select class="form-control" name="property_status" id="property_status" required>
-                                            <option value="" selected disabled>Select Status</option>
+                                            <option value="" selected>Select Status</option>
                                             <option value="Rented" <?= isset($row['property_status']) && $row['property_status'] == 'Rented' ? 'selected' : '' ?>>Rented</option>
                                             <option value="Available" <?= isset($row['property_status']) && $row['property_status'] == 'Available' ? 'selected' : '' ?>>Available</option>
                                             <option value="Renovating" <?= isset($row['property_status']) && $row['property_status'] == 'Renovating' ? 'selected' : '' ?>>Renovating</option>
@@ -119,9 +119,27 @@
                                     <input type="text" class="form-control" placeholder="Enter Unit Cost" name="property_amount" id="property_amount" value="<?=$row['property_amount']?>" required>
                                     <div id="property_amount-error"></div>
                                 </div>
-
-                                
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Edit -->
+            <div class="modal fade" id="Modal_save" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Save changes</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want save?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="edit_property" id="editButton" class="btn btn-success">Save</button>
                         </div>
                     </div>
                 </div>
@@ -143,47 +161,208 @@
         <?php } } ?>
     </div>
 </main>
-<script>
-    document.getElementById('property_status').addEventListener('change', function () {
-        var Container = document.getElementById('Container');
-        var Container1 = document.getElementById('Container1');
-        var Container2 = document.getElementById('Container2');
-        var Container3 = document.getElementById('Container3');
-        var renter = document.getElementById('renter');
-        var date_rented = document.getElementById('date_rented');
-        var property_cash_advance = document.getElementById('property_cash_advance');
-        var property_cash_deposit = document.getElementById('property_cash_deposit');
-        var renter1 = document.getElementById('renter');
-        var date_rented1 = document.getElementById('date_rented');
-        var property_cash_advance1 = document.getElementById('property_cash_advance');
-        var property_cash_deposit1 = document.getElementById('property_cash_deposit');
 
-        if (this.value === 'Rented') {
-            Container.classList.remove('d-none');
-            Container1.classList.remove('d-none');
-            Container2.classList.remove('d-none');
-            Container3.classList.remove('d-none');
-            renter.required = true;
-            date_rented.required = true;
-            property_cash_advance.required = true;
-            property_cash_deposit.required = true;
-            renter1.disabled = false;
-            date_rented1.disabled = false;
-            property_cash_advance1.disabled = false;
-            property_cash_deposit1.disabled = false;
+<script>
+    $(document).ready(function() {
+        // Add an event listener to the modal's submit button
+        $(document).on('click', '#editButton', function() {
+            // Set the form's checkValidity to true
+            document.getElementById("myForm").checkValidity = function() {
+                return true;
+            };
+
+            // Submit the form
+            $('#myForm').submit();
+        });
+    });
+
+    function validateForm() {
+        var form = document.getElementById("myForm");
+        if (form.checkValidity()) {
+            // If the form is valid, show the modal
+            $('#Modal_save').modal('show');
+            return false; // Prevent the form from being submitted immediately
         } else {
-            Container.classList.add('d-none');
-            Container1.classList.add('d-none');
-            Container2.classList.add('d-none');
-            Container3.classList.add('d-none');
-            renter.required = false;
-            date_rented.required = false;
-            property_cash_advance.required = false;
-            property_cash_deposit.required = false;
-            renter1.disabled = true;
-            date_rented1.disabled = true;
-            property_cash_advance1.disabled = true;
-            property_cash_deposit1.disabled = true;
+            return true; // Allow the form to be submitted and display the browser's error messages
+        }
+    }
+</script>
+
+<!-- Form Validations -->
+<script>
+    $(document).ready(function() {
+
+        // debounce functions for each input field
+        var debouncedCheckPropertyunitcode = _.debounce(checkPropertyunitcode, 500);
+        var debouncedCheckStaff = _.debounce(checkStaff, 500);
+        var debouncedCheckPropertystatus = _.debounce(checkPropertystatus, 500);
+        var debouncedCheckPropertytype = _.debounce(checkPropertytype, 500);
+        var debouncedCheckPropertylocation = _.debounce(checkPropertylocation, 500);
+        var debouncedCheckPropertyamount = _.debounce(checkPropertyamount, 500);
+
+        // attach event listeners for each input field
+        $('#property_unit_code').on('input', debouncedCheckPropertyunitcode);
+        $('#staff').on('change', debouncedCheckStaff);
+        $('#property_status').on('input', debouncedCheckPropertystatus);
+        $('#property_type_id').on('input', debouncedCheckPropertytype);
+        $('#property_location').on('input', debouncedCheckPropertylocation);
+        $('#property_amount').on('input', debouncedCheckPropertyamount);
+
+        $('#property_unit_code').on('blur', debouncedCheckPropertyunitcode);
+        $('#staff').on('blur', debouncedCheckStaff);
+        $('#property_status').on('blur', debouncedCheckPropertystatus);
+        $('#property_type_id').on('blur', debouncedCheckPropertytype);
+        $('#property_location').on('blur', debouncedCheckPropertylocation);
+        $('#property_amount').on('blur', debouncedCheckPropertyamount);
+
+        // Initialize Select2 Elements
+        $('.select2').select2();
+
+        // handle Select2 change event for staff
+        $('#staff').on('change', function () {
+            debouncedCheckStaff();
+        });
+
+        // handle Select2 opening and closing events for staff
+        $('#staff').on('select2:open', function (event) {
+            // Set a flag to track if the dropdown was opened
+            $(this).data('dropdownOpened', true);
+        }).on('select2:close', function (event) {
+            // Check if the dropdown was opened and no option was selected
+            if ($(this).data('dropdownOpened') && $(this).val() === '') {
+                $('#staff-error').text('Please select Landlady / Landlord').css('color', 'red');
+                $('.select2-selection').css('border-color', '#dc3545');
+                $('#staff').addClass('is-invalid');
+                checkIfAllFieldsValid();
+            }
+            // Reset the flag
+            $(this).data('dropdownOpened', false);
+        });
+
+        function checkIfAllFieldsValid() {
+            // check if all input fields are valid and enable submit button if so
+            if ( $('#property_unit_code-error').is(':empty') &&
+                 $('#staff-error').is(':empty') &&
+                 $('#property_status-error').is(':empty') &&
+                 $('#property_type_id-error').is(':empty') &&
+                 $('#property_location-error').is(':empty') &&
+                 $('#property_amount-error').is(':empty') ) {
+                $('#submit-btn').prop('disabled', false);
+            } else {
+                $('#submit-btn').prop('disabled', true);
+            }
+        }
+
+        function checkPropertyunitcode() {
+            var property_unit_code = $('#property_unit_code').val().trim();
+            
+            // show error if property unit code is empty
+            if (property_unit_code === '') {
+                $('#property_unit_code-error').text('Please input property unit code').css('color', 'red');
+                $('#property_unit_code').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for property unit code if needed
+            
+            $('#property_unit_code-error').empty();
+            $('#property_unit_code').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkStaff() {
+            var staff = $('#staff').val().trim();
+            
+            // show error if staff is empty
+            if (staff === '') {
+                $('#staff-error').text('Please select Landlady / Landlord').css('color', 'red');
+                $('.select2-selection').css('border-color', '#dc3545'); // Apply border color when is-invalid class is added
+                $('#staff').addClass('is-invalid');
+
+                checkIfAllFieldsValid();
+                return;
+            }
+
+            $('#staff-error').empty();
+            $('#staff').removeClass('is-invalid');
+
+            // Remove border color when is-invalid class is removed
+            $('.select2-selection').css('border-color', '');
+
+            checkIfAllFieldsValid();
+        }
+
+        function checkPropertystatus() {
+            var property_status = $('#property_status').val().trim();
+            
+            // show error if property status is empty
+            if (property_status === '') {
+                $('#property_status-error').text('Please select property status').css('color', 'red');
+                $('#property_status').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for property status if needed
+            
+            $('#property_status-error').empty();
+            $('#property_status').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkPropertytype() {
+            var property_type_id = $('#property_type_id').val().trim();
+            
+            // show error if property type is empty
+            if (property_type_id === '') {
+                $('#property_type_id-error').text('Please select property type').css('color', 'red');
+                $('#property_type_id').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for property type if needed
+            
+            $('#property_type_id-error').empty();
+            $('#property_type_id').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkPropertylocation() {
+            var property_location = $('#property_location').val().trim();
+            
+            // show error if property location is empty
+            if (property_location === '') {
+                $('#property_location-error').text('Please input property location').css('color', 'red');
+                $('#property_location').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for property location if needed
+            
+            $('#property_location-error').empty();
+            $('#property_location').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkPropertyamount() {
+            var property_amount = $('#property_amount').val().trim();
+            
+            // show error if property amount is empty
+            if (property_amount === '') {
+                $('#property_amount-error').text('Please input property amount').css('color', 'red');
+                $('#property_amount').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for property amount if needed
+            
+            $('#property_amount-error').empty();
+            $('#property_amount').removeClass('is-invalid');
+            checkIfAllFieldsValid();
         }
     });
 </script>

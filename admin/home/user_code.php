@@ -31,6 +31,7 @@
         $type = $_POST['role'];
         $address = $_POST['address'];
         $civil_status = $_POST['civil_status'];
+        $birthday = $_POST['birthday'];
         $occupation = $_POST['occupation'];
         $company = $_POST['company'];
         $status = 'Active';
@@ -93,65 +94,6 @@
                             // Compress the uploaded image with a quality of 35
                             $compressedImage = compressImage($fileTmpname, $targetFile, 35);
                         }
-                        if ($compressedImage) {
-                            $query = "INSERT INTO `user`(`fname`, `mname`, `lname`, `suffix`, `gender`, `address`, `civil_status`, `occupation`, `company`, `valid_id`, `email`, `phone`, `password`, `status`, `type`) VALUES ('$fname','$mname','$lname','$suffix','$gender','$address','$civil_status','$occupation','$company','$fileName','$email','$phone','$password','$status','$type')";
-                            $query_run = mysqli_query($con, $query);
-
-                            if($query_run){
-                                $fullname = $fname .' '. $mname .' '. $lname .' '. $suffix;
-                                // PHP Compose Mail
-                                $name = 'Rental Properties Management System';
-                                // $subject = htmlentities('Email and Password Credentials - ' . $name);
-                                // $message = nl2br("Dear $fullname \r\n \r\n Welcome to ".$name."! \r\n \r\n This is your account information \r\n Email: $email \r\n Password: $new_password \r\n \r\n Please change your password immediately. \r\n \r\n Thanks, \r\n ".$name);
-                                // //PHP Mailer Gmail
-                                // $mail = new PHPMailer();
-                                // $mail->IsSMTP();
-                                // $mail->SMTPAuth = true;
-                                // $mail->SMTPSecure = 'TLS/STARTTLS';
-                                // $mail->Host = 'smtp.gmail.com'; // Enter your host here
-                                // $mail->Port = '587';
-                                // $mail->IsHTML();
-                                // $mail->Username = emailuser; // Enter your email here
-                                // $mail->Password = emailpass; //Enter your passwrod here
-                                // $mail->setFrom($email, $name);
-                                // $mail->addAddress($email);
-                                // $mail->Subject = $subject;
-                                // $mail->Body = $message;
-                                // $mail->send();
-
-                                // SMS API (Semaphore Message)
-                                $url = base_url;
-                                $string = <<<EOD
-                                Dear $fullname\nWelcome to $name\r\nThis is your account information \nEmail: $email\nPassword: $new_password\r\nPlease change your password immediately.\r\nThanks,\n$name.
-                                Please check $url
-                                EOD;
-                                $ch = curl_init();
-                                $parameters = array(
-                                'apikey' => smsapikey, // Your API KEY
-                                'number' => $phone,
-                                'message' => $string,
-                                'sendername' => smsapiname
-                                );
-                                curl_setopt($ch, CURLOPT_URL, 'https://api.semaphore.co/api/v4/messages');
-                                curl_setopt($ch, CURLOPT_POST, 1);
-                                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
-                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                $output = curl_exec($ch);
-                                curl_close($ch);
-                                echo $output;
-
-                                $_SESSION['status'] = "User added successfully";
-                                $_SESSION['status_code'] = "success";
-                                header("Location: " . base_url . "admin/home/user");
-                                exit(0);
-                            }
-                            else{
-                                $_SESSION['status'] = "User was not added";
-                                $_SESSION['status_code'] = "error";
-                                header("Location: " . base_url . "admin/home/user");
-                                exit(0);
-                            }
-                        }
                     } else {
                         $_SESSION['status'] = "File is too large, must be 5MB or below";
                         $_SESSION['status_code'] = "warning";
@@ -171,6 +113,64 @@
                 exit(0);
             }
         }
+
+        $query = "INSERT INTO `user`(`fname`, `mname`, `lname`, `suffix`, `gender`, `address`, `civil_status`, `birthday`, `occupation`, `company`, `valid_id`, `email`, `phone`, `password`, `status`, `type`) VALUES ('$fname','$mname','$lname','$suffix','$gender','$address','$civil_status','$birthday','$occupation','$company','$fileName','$email','$phone','$password','$status','$type')";
+        $query_run = mysqli_query($con, $query);
+
+        if($query_run){
+            $fullname = $fname .' '. $mname .' '. $lname .' '. $suffix;
+            // PHP Compose Mail
+            $name = 'Rental Properties Management System';
+            // $subject = htmlentities('Email and Password Credentials - ' . $name);
+            // $message = nl2br("Dear $fullname \r\n \r\n Welcome to ".$name."! \r\n \r\n This is your account information \r\n Email: $email \r\n Password: $new_password \r\n \r\n Please change your password immediately. \r\n \r\n Thanks, \r\n ".$name);
+            // //PHP Mailer Gmail
+            // $mail = new PHPMailer();
+            // $mail->IsSMTP();
+            // $mail->SMTPAuth = true;
+            // $mail->SMTPSecure = 'TLS/STARTTLS';
+            // $mail->Host = 'smtp.gmail.com'; // Enter your host here
+            // $mail->Port = '587';
+            // $mail->IsHTML();
+            // $mail->Username = emailuser; // Enter your email here
+            // $mail->Password = emailpass; //Enter your passwrod here
+            // $mail->setFrom($email, $name);
+            // $mail->addAddress($email);
+            // $mail->Subject = $subject;
+            // $mail->Body = $message;
+            // $mail->send();
+
+            // SMS API (Semaphore Message)
+            $url = base_url;
+            $string = <<<EOD
+            Dear $fullname\nWelcome to $name\r\nThis is your account information \nEmail: $email\nPassword: $new_password\r\nPlease change your password immediately.\r\nThanks,\n$name.
+            Please check $url
+            EOD;
+            $ch = curl_init();
+            $parameters = array(
+            'apikey' => smsapikey, // Your API KEY
+            'number' => $phone,
+            'message' => $string,
+            'sendername' => smsapiname
+            );
+            curl_setopt($ch, CURLOPT_URL, 'https://api.semaphore.co/api/v4/messages');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parameters));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            echo $output;
+
+            $_SESSION['status'] = "User added successfully";
+            $_SESSION['status_code'] = "success";
+            header("Location: " . base_url . "admin/home/user");
+            exit(0);
+        }
+        else{
+            $_SESSION['status'] = "User was not added";
+            $_SESSION['status_code'] = "error";
+            header("Location: " . base_url . "admin/home/user");
+            exit(0);
+        }
     }
 
     // Edit user account
@@ -181,14 +181,15 @@
         $lname = $_POST['lname'];
         $suffix = $_POST['suffix'];
         $gender = $_POST['gender'];
+        $civil_status = $_POST['civil_status'];
+        $birthday = $_POST['birthday'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
         $type = $_POST['role'];
+        $status = $_POST['status'];
         $address = $_POST['address'];
-        $civil_status = $_POST['civil_status'];
         $occupation = $_POST['occupation'];
         $company = $_POST['company'];
-        $status = $_POST['status'];
 
         function compressImage($source, $destination, $quality){
             // Get image info
@@ -228,6 +229,7 @@
 
         if (isset($_FILES['image1']) && is_uploaded_file($_FILES['image1']['tmp_name']) && $_FILES['image1']['error'] === UPLOAD_ERR_OK) {
             $fileImage = $_FILES['image1'];
+            $OLDfileImage = $_POST['oldfileimage'];
             $customFileName = 'ID_' . date('Ymd_His'); // replace with your desired file name
             $ext = pathinfo($fileImage['name'], PATHINFO_EXTENSION); // get the file extension
             $fileName = $customFileName . '.' . $ext; // append the extension to the custom file name
@@ -241,6 +243,7 @@
                 if ($fileError === 0) {
                     if ($fileSize < 5242880) { // 5MB Limit
                         $uploadDir = '../../assets/files/attachment/';
+                        unlink($uploadDir . $OLDfileImage);
                         $targetFile = $uploadDir . $fileName;
                         if ($fileSize > 1048576) { // more than 1 MB
                             // Compress the uploaded image with a quality of 25
@@ -273,7 +276,7 @@
             }
         }
 
-        $query = "UPDATE `user` SET `fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`gender`='$gender',`address`='$address',`civil_status`='$civil_status',`occupation`='$occupation',`company`='$company',`email`='$email',`phone`='$phone',`status`='$status',`type`='$type' WHERE `user_id`='$user_id'";
+        $query = "UPDATE `user` SET `fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`gender`='$gender',`address`='$address',`civil_status`='$civil_status',`birthday`='$birthday',`occupation`='$occupation',`company`='$company',`email`='$email',`phone`='$phone',`status`='$status',`type`='$type' WHERE `user_id`='$user_id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
