@@ -25,12 +25,13 @@
                 if($user){
                     while($row = mysqli_fetch_assoc($query_run)){
             ?>
-            <a class="btn-icon btn-transparent-dark dropdown-toggle text-decoration-none" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn-icon btn-transparent-dark dropdown-toggle text-decoration-none text-white" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img class="img-fluid" id="profile-image1" src="<?php
                         if(!empty($row['profile'])) {
                             echo base_url . 'assets/files/user/' . $row['profile'];
                         } else { if($row['gender'] == 'Male') {echo base_url . 'assets/files/system/profile-male.png'; } else { echo base_url . 'assets/files/system/profile-female.png'; } }
                     ?>" style="height: 2.5rem; width: 2.5rem; margin-right: 1rem; border-radius: 100%;"/>
+                <?=$row['fname'] .' '. $row['lname']?>
             </a>
             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up mr-3" aria-labelledby="navbarDropdownUserImage">
                 <h6 class="dropdown-header d-flex align-items-center">
