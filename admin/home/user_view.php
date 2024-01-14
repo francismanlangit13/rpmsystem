@@ -120,13 +120,11 @@
                                             <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
                                                 <label for="cash_advance"><b>Cash Advance</b></label>
                                                 <input type="number" class="form-control-plaintext" id="cash_advance" value="<?=$row['cash_advance']?>" disabled>
-                                                <div id="cash_advance-error"></div>
                                             </div>
 
                                             <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
                                                 <label for="cash_deposit"><b>Cash Deposit</b></label>
                                                 <input type="number" class="form-control-plaintext" id="cash_deposit" value="<?=$row['cash_deposit']?>" disabled>
-                                                <div id="cash_deposit-error"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -140,13 +138,25 @@
                                     <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
                                         <label for="startrent"><b>Start Rent</b></label>
                                         <input type="date" class="form-control-plaintext" id="startrent" value="<?=$row['startrent']?>" disabled>
-                                        <div id="startrent-error"></div>
                                     </div>
 
                                     <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
                                         <label for="endrent"><b>End Rent</b></label>
                                         <input type="date" class="form-control-plaintext" id="endrent" value="<?=$row['endrent']?>" disabled>
-                                        <div id="endrent-error"></div>
+                                    </div>
+
+                                    <div class="col-md-12 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
+                                        <?php
+                                            $used_property = $row['property_id'];
+                                            $property_result = $con->query("SELECT property.user_id FROM `property` WHERE `property_id` = '$used_property'");
+                                            $staff_user_id = $property_result->fetch_assoc();
+                                            $staff_id = $staff_user_id['user_id'];
+
+                                            $stmt_result = $con->query("SELECT CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS staff_fullname FROM `user` WHERE `user_id` = $staff_id ");
+                                            $new_row = $stmt_result->fetch_assoc();
+                                        ?>
+                                        <label for="landlady_landlord"><b>Landlady / Landlord</b></label>
+                                        <input type="text" class="form-control-plaintext" id="landlady_landlord" value="<?=$new_row['staff_fullname']?>" disabled>
                                     </div>
                                 </div>
                             </div>
