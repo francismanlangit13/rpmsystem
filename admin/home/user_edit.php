@@ -1,4 +1,9 @@
 <?php include ('../includes/header.php'); ?>
+<head>
+    <!-- Select2 CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+</head>
 <style type="text/css">
     #datatablesSimple th:nth-child(7) {
         width: 15% !important;
@@ -183,6 +188,46 @@
                                         " alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">
                                     </a>
                                 </div>
+
+                                <!-- Select2 Example -->
+                                <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container3">
+                                    <?php
+                                        $used_property = $row['property_id'];
+                                        $property = "SELECT * FROM `property` INNER JOIN `property_type` ON `property`.`property_type_id` = `property_type`.`property_type_id`  WHERE (`property`.`property_status` = 'Available') OR `property`.`property_id` = '$used_property';";
+                                        $property_result = $con->query($property);
+                                    ?>
+                                    <label for="property" class="required">Property</label>
+                                    <select class="form-control select2" id="property" name="property" style="width: 100%;" <?php if($row['type'] == 'Renter'){ echo "required";} ?>>
+                                        <option value="">Select Property</option>
+                                        <?php 
+                                            if ($property_result->num_rows > 0) {
+                                            while($propertyrow = $property_result->fetch_assoc()) {
+                                            $selected = ($propertyrow['property_id'] == $row['property_id']) ? 'selected' : '';
+                                        ?>
+                                        <option value="<?=$propertyrow['property_id'];?>" <?=$selected;?>><?=$propertyrow['property_unit_code'];?> (Purok <?=$propertyrow['property_purok'];?>, <?=$propertyrow['property_barangay'];?>, <?=$propertyrow['property_city'];?> <?=$propertyrow['property_zipcode'];?>) <?=$propertyrow['property_type_name'];?> </option>
+                                        <?php } } ?>
+                                    </select>
+                                    <div id="property-error"></div>
+                                </div>
+                                <!-- Initialize Select2 -->
+                                <script>
+                                    $(document).ready(function () {
+                                        // Initialize Select2 Elements
+                                        $('.select2').select2();
+                                    });
+                                </script>
+
+                                <div class="col-md-2 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container4">
+                                    <label for="startrent" class="required">Start Rent</label>
+                                    <input type="date" class="form-control" name="startrent" id="startrent" value="<?=$row['startrent']?>" <?php if($row['type'] == 'Renter'){ echo "required";} ?>>
+                                    <div id="startrent-error"></div>
+                                </div>
+
+                                <div class="col-md-2 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container5">
+                                    <label for="endrent" class="required">End Rent</label>
+                                    <input type="date" class="form-control" name="endrent" id="endrent" value="<?=$row['endrent']?>" <?php if($row['type'] == 'Renter'){ echo "required";} ?>>
+                                    <div id="endrent-error"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -226,21 +271,40 @@
         <?php } } ?>
     </div>
 </main>
+
 <!-- Script for Role if Renter show hidden forms -->
 <script>
     document.getElementById('role').addEventListener('change', function () {
         var Container = document.getElementById('Container');
         var Container1 = document.getElementById('Container1');
         var Container2 = document.getElementById('Container2');
+        var Container3 = document.getElementById('Container3');
+        var Container4 = document.getElementById('Container4');
+        var Container5 = document.getElementById('Container5');
+        var property1 = document.getElementById('property');
+        var startrent1 = document.getElementById('startrent');
+        var endrent1 = document.getElementById('endrent');
 
         if (this.value === 'Renter') {
             Container.classList.remove('d-none');
             Container1.classList.remove('d-none');
             Container2.classList.add('d-none');
+            Container3.classList.remove('d-none');
+            Container4.classList.remove('d-none');
+            Container5.classList.remove('d-none');
+            property1.required = true;
+            startrent1.required = true;
+            endrent1.required = true;
         } else {
             Container.classList.add('d-none');
             Container1.classList.add('d-none');
             Container2.classList.remove('d-none');
+            Container3.classList.add('d-none');
+            Container4.classList.add('d-none');
+            Container5.classList.add('d-none');
+            property1.required = false;
+            startrent1.required = false;
+            endrent1.required = false;
         }
     });
 </script>
@@ -287,6 +351,9 @@
         var debouncedCheckRole = _.debounce(checkRole, 500);
         var debouncedCheckStatus = _.debounce(checkStatus, 500);
         var debouncedCheckAddress = _.debounce(checkAddress, 500);
+        var debouncedCheckProperty = _.debounce(checkProperty, 500);
+        var debouncedCheckStartrent = _.debounce(checkStartrent, 500);
+        var debouncedCheckEndrent = _.debounce(checkEndrent, 500);
 
         // attach event listeners for each input field
         $('#fname').on('input', debouncedCheckFname);
@@ -300,6 +367,9 @@
         $('#role').on('change', debouncedCheckRole);
         $('#status').on('change', debouncedCheckStatus);
         $('#address').on('input', debouncedCheckAddress);
+        $('#property').on('input', debouncedCheckProperty);
+        $('#startrent').on('input', debouncedCheckStartrent);
+        $('#endrent').on('input', debouncedCheckEndrent);
 
         $('#fname').on('blur', debouncedCheckFname);
         $('#lname').on('blur', debouncedCheckLname);
@@ -312,6 +382,30 @@
         $('#role').on('blur', debouncedCheckRole);
         $('#status').on('blur', debouncedCheckStatus);
         $('#address').on('blur', debouncedCheckAddress);
+        $('#property').on('blur', debouncedCheckProperty);
+        $('#startrent').on('blur', debouncedCheckStartrent);
+        $('#endrent').on('blur', debouncedCheckEndrent);
+
+        // handle Select2 change event for property
+        $('#property').on('change', function () {
+            debouncedCheckProperty();
+        });
+
+        // handle Select2 opening and closing events for property
+        $('#property').on('select2:open', function (event) {
+            // Set a flag to track if the dropdown was opened
+            $(this).data('dropdownOpened', true);
+        }).on('select2:close', function (event) {
+            // Check if the dropdown was opened and no option was selected
+            if ($(this).data('dropdownOpened') && $(this).val() === '') {
+                $('#property-error').text('Please select property').css('color', 'red');
+                $('.select2-selection').css('border-color', '#dc3545');
+                $('#property').addClass('is-invalid');
+                checkIfAllFieldsValid();
+            }
+            // Reset the flag
+            $(this).data('dropdownOpened', false);
+        });
 
         function checkIfAllFieldsValid() {
             // check if all input fields are valid and enable submit button if so
@@ -325,7 +419,10 @@
                  $('#phone-error').is(':empty') &&
                  $('#role-error').is(':empty') &&
                  $('#status-error').is(':empty') &&
-                 $('#address-error').is(':empty')
+                 $('#address-error').is(':empty') &&
+                 $('#property-error').is(':empty') &&
+                 $('#startrent-error').is(':empty') &&
+                 $('#endrent-error').is(':empty')
                 ) {
                 $('#submit-btn').prop('disabled', false);
             } else {
@@ -595,6 +692,64 @@
             
             $('#address-error').empty();
             $('#address').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkProperty() {
+            var property = $('#property').val().trim();
+            
+            // show error if property is empty
+            if (property === '') {
+                $('#property-error').text('Please select property').css('color', 'red');
+                $('.select2-selection').css('border-color', '#dc3545'); // Apply border color when is-invalid class is added
+                $('#property').addClass('is-invalid');
+
+                checkIfAllFieldsValid();
+                return;
+            }
+
+            $('#property-error').empty();
+            $('#property').removeClass('is-invalid');
+
+            // Remove border color when is-invalid class is removed
+            $('.select2-selection').css('border-color', '');
+
+            checkIfAllFieldsValid();
+        }
+
+        function checkStartrent() {
+            var startrent = $('#startrent').val().trim();
+            
+            // show error if startrent is empty
+            if (startrent === '') {
+                $('#startrent-error').text('Please input start rent').css('color', 'red');
+                $('#startrent').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for startrent if needed
+            
+            $('#startrent-error').empty();
+            $('#startrent').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkEndrent() {
+            var endrent = $('#endrent').val().trim();
+            
+            // show error if endrent is empty
+            if (endrent === '') {
+                $('#endrent-error').text('Please input end rent').css('color', 'red');
+                $('#endrent').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for endrent if needed
+            
+            $('#endrent-error').empty();
+            $('#endrent').removeClass('is-invalid');
             checkIfAllFieldsValid();
         }
     });

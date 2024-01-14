@@ -65,9 +65,10 @@
                         Generate
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false  || strpos($_SERVER['PHP_SELF'], 'home/generate_utility.php') !== false)  { echo'show'; }?>" id="collapseReports" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/generate_rentee.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/generate_utility.php') !== false)  { echo'show'; }?>" id="collapseReports" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false)  { echo 'active'; } ?>" href="generate_payments">Payments</a>
+                            <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_rentee.php') !== false)  { echo 'active'; } ?>" href="generate_rentee">Rentee</a>
                             <!-- <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_utility.php') !== false)  { echo 'active'; } ?>" href="generate_utility">Utility</a> -->
                         </nav>
                     </div>

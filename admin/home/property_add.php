@@ -30,13 +30,18 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="property_unit_code" class="required">Property Unit Code</label>
                                     <input type="text" class="form-control" placeholder="Enter Property Unit Code" name="property_unit_code" id="property_unit_code" required>
                                     <div id="property_unit_code-error"></div>
                                 </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="property_permit" class="required">Building Permit No.</label>
+                                    <input type="text" class="form-control" placeholder="Enter Building Permit" name="property_permit" id="property_permit" required>
+                                    <div id="property_permit-error"></div>
+                                </div>
                                 <!-- Select2 Example -->
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <?php
                                         $client = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Staff'";
                                         $client_result = $con->query($client);
@@ -61,7 +66,7 @@
                                     });
                                 </script>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label for="property_status">Property Status</label>
                                         <select class="form-control" name="property_status" id="property_status" required>
@@ -217,6 +222,7 @@
 
         // debounce functions for each input field
         var debouncedCheckPropertyunitcode = _.debounce(checkPropertyunitcode, 500);
+        var debouncedCheckPropertypermit = _.debounce(checkPropertypermit, 500);
         var debouncedCheckStaff = _.debounce(checkStaff, 500);
         var debouncedCheckPropertystatus = _.debounce(checkPropertystatus, 500);
         var debouncedCheckPropertytype = _.debounce(checkPropertytype, 500);
@@ -232,6 +238,7 @@
 
         // attach event listeners for each input field
         $('#property_unit_code').on('input', debouncedCheckPropertyunitcode);
+        $('#property_permit').on('input', debouncedCheckPropertypermit);
         $('#staff').on('change', debouncedCheckStaff);
         $('#property_status').on('input', debouncedCheckPropertystatus);
         $('#property_type_id').on('input', debouncedCheckPropertytype);
@@ -250,6 +257,7 @@
         $('#conectivity_No').on('input', debouncedCheckHasconectivity);
 
         $('#property_unit_code').on('blur', debouncedCheckPropertyunitcode);
+        $('#property_permit').on('blur', debouncedCheckPropertypermit);
         $('#staff').on('blur', debouncedCheckStaff);
         $('#property_status').on('blur', debouncedCheckPropertystatus);
         $('#property_type_id').on('blur', debouncedCheckPropertytype);
@@ -294,6 +302,7 @@
         function checkIfAllFieldsValid() {
             // check if all input fields are valid and enable submit button if so
             if ( $('#property_unit_code-error').is(':empty') &&
+                 $('#property_permit-error').is(':empty') &&
                  $('#staff-error').is(':empty') &&
                  $('#property_status-error').is(':empty') &&
                  $('#property_type_id-error').is(':empty') &&
@@ -327,6 +336,24 @@
             
             $('#property_unit_code-error').empty();
             $('#property_unit_code').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkPropertypermit() {
+            var property_permit = $('#property_permit').val().trim();
+            
+            // show error if property permit is empty
+            if (property_permit === '') {
+                $('#property_permit-error').text('Please input property permit').css('color', 'red');
+                $('#property_permit').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for property permit if needed
+            
+            $('#property_permit-error').empty();
+            $('#property_permit').removeClass('is-invalid');
             checkIfAllFieldsValid();
         }
 
