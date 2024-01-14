@@ -208,6 +208,19 @@
                                         <?php } } ?>
                                     </select>
                                     <div id="property-error"></div>
+                                    <div class="row">
+                                        <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container6">
+                                            <label for="cash_advance" class="required">Cash Advance</label>
+                                            <input type="number" class="form-control" name="cash_advance" id="cash_advance" value="<?=$row['cash_advance']?>" <?php if($row['type'] == 'Renter'){ echo "required";} ?>>
+                                            <div id="cash_advance-error"></div>
+                                        </div>
+
+                                        <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container7">
+                                            <label for="cash_deposit" class="required">Cash Deposit</label>
+                                            <input type="number" class="form-control" name="cash_deposit" id="cash_deposit" value="<?=$row['cash_deposit']?>" <?php if($row['type'] == 'Renter'){ echo "required";} ?>>
+                                            <div id="cash_deposit-error"></div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- Initialize Select2 -->
                                 <script>
@@ -281,9 +294,13 @@
         var Container3 = document.getElementById('Container3');
         var Container4 = document.getElementById('Container4');
         var Container5 = document.getElementById('Container5');
+        var Container6 = document.getElementById('Container6');
+        var Container7 = document.getElementById('Container7');
         var property1 = document.getElementById('property');
         var startrent1 = document.getElementById('startrent');
         var endrent1 = document.getElementById('endrent');
+        var cash_advance1 = document.getElementById('cash_advance');
+        var cash_deposit1 = document.getElementById('cash_deposit');
 
         if (this.value === 'Renter') {
             Container.classList.remove('d-none');
@@ -292,9 +309,13 @@
             Container3.classList.remove('d-none');
             Container4.classList.remove('d-none');
             Container5.classList.remove('d-none');
+            Container6.classList.remove('d-none');
+            Container7.classList.remove('d-none');
             property1.required = true;
             startrent1.required = true;
             endrent1.required = true;
+            cash_advance1.required = true;
+            cash_deposit1.required = true;
         } else {
             Container.classList.add('d-none');
             Container1.classList.add('d-none');
@@ -302,9 +323,13 @@
             Container3.classList.add('d-none');
             Container4.classList.add('d-none');
             Container5.classList.add('d-none');
+            Container6.classList.add('d-none');
+            Container7.classList.add('d-none');
             property1.required = false;
             startrent1.required = false;
             endrent1.required = false;
+            cash_advance1.required = false;
+            cash_deposit1.required = false;
         }
     });
 </script>
@@ -354,6 +379,8 @@
         var debouncedCheckProperty = _.debounce(checkProperty, 500);
         var debouncedCheckStartrent = _.debounce(checkStartrent, 500);
         var debouncedCheckEndrent = _.debounce(checkEndrent, 500);
+        var debouncedCheckCashadvance = _.debounce(checkCashadvance, 500);
+        var debouncedCheckCashdeposit = _.debounce(checkCashdeposit, 500);
 
         // attach event listeners for each input field
         $('#fname').on('input', debouncedCheckFname);
@@ -370,6 +397,8 @@
         $('#property').on('input', debouncedCheckProperty);
         $('#startrent').on('input', debouncedCheckStartrent);
         $('#endrent').on('input', debouncedCheckEndrent);
+        $('#cash_advance').on('input', debouncedCheckCashadvance);
+        $('#cash_deposit').on('input', debouncedCheckCashdeposit);
 
         $('#fname').on('blur', debouncedCheckFname);
         $('#lname').on('blur', debouncedCheckLname);
@@ -385,6 +414,8 @@
         $('#property').on('blur', debouncedCheckProperty);
         $('#startrent').on('blur', debouncedCheckStartrent);
         $('#endrent').on('blur', debouncedCheckEndrent);
+        $('#cash_advance').on('blur', debouncedCheckCashadvance);
+        $('#cash_deposit').on('blur', debouncedCheckCashdeposit);
 
         // handle Select2 change event for property
         $('#property').on('change', function () {
@@ -422,7 +453,9 @@
                  $('#address-error').is(':empty') &&
                  $('#property-error').is(':empty') &&
                  $('#startrent-error').is(':empty') &&
-                 $('#endrent-error').is(':empty')
+                 $('#endrent-error').is(':empty') &&
+                 $('#cash_advance-error').is(':empty') &&
+                 $('#cash_deposit-error').is(':empty')
                 ) {
                 $('#submit-btn').prop('disabled', false);
             } else {
@@ -750,6 +783,42 @@
             
             $('#endrent-error').empty();
             $('#endrent').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkCashadvance() {
+            var cash_advance = $('#cash_advance').val().trim();
+            
+            // show error if cash advance is empty
+            if (cash_advance === '') {
+                $('#cash_advance-error').text('Please input cash advance').css('color', 'red');
+                $('#cash_advance').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for cash advance if needed
+            
+            $('#cash_advance-error').empty();
+            $('#cash_advance').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkCashdeposit() {
+            var cash_deposit = $('#cash_deposit').val().trim();
+            
+            // show error if cash deposit is empty
+            if (cash_deposit === '') {
+                $('#cash_deposit-error').text('Please input cash deposit').css('color', 'red');
+                $('#cash_deposit').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for cash deposit if needed
+            
+            $('#cash_deposit-error').empty();
+            $('#cash_deposit').removeClass('is-invalid');
             checkIfAllFieldsValid();
         }
     });

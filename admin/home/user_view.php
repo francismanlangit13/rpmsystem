@@ -103,14 +103,52 @@
                                 </a>
                             </div>
 
-                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container2">
+                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
                                 <label for="occupation"><b>Occupation</b></label>
-                                <input type="text" class="form-control-plaintext" name="occupation" id="occupation" autocomplete="off" value="<?=$row['occupation']?>" disabled>
+                                <input type="text" class="form-control-plaintext" id="occupation" autocomplete="off" value="<?=$row['occupation']?>" disabled>
+                                <div class="row">
+                                    <div class="col-md-12 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
+                                        <?php
+                                            $used_property = $row['property_id'];
+                                            $property = "SELECT * FROM `property` INNER JOIN `property_type` ON `property`.`property_type_id` = `property_type`.`property_type_id`  WHERE `property`.`property_id` = '$used_property'";
+                                            $property_result = $con->query($property);
+                                            $propertyrow = $property_result->fetch_assoc()
+                                        ?>
+                                        <label for="property"><b>Property</b></label>
+                                        <textarea type="text" class="form-control-plaintext" id="property"><?=$propertyrow['property_unit_code'];?> (Purok <?=$propertyrow['property_purok'];?>, <?=$propertyrow['property_barangay'];?>, <?=$propertyrow['property_city'];?> <?=$propertyrow['property_zipcode'];?>) <?=$propertyrow['property_type_name'];?></textarea>
+                                        <div class="row">
+                                            <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
+                                                <label for="cash_advance"><b>Cash Advance</b></label>
+                                                <input type="number" class="form-control-plaintext" id="cash_advance" value="<?=$row['cash_advance']?>" disabled>
+                                                <div id="cash_advance-error"></div>
+                                            </div>
+
+                                            <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
+                                                <label for="cash_deposit"><b>Cash Deposit</b></label>
+                                                <input type="number" class="form-control-plaintext" id="cash_deposit" value="<?=$row['cash_deposit']?>" disabled>
+                                                <div id="cash_deposit-error"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container3">
+                            <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
                                 <label for="company"><b>Company</b></label>
-                                <input type="text" class="form-control-plaintext" name="company" id="company" autocomplete="off" value="<?=$row['company']?>" disabled>
+                                <input type="text" class="form-control-plaintext" id="company" autocomplete="off" value="<?=$row['company']?>" disabled>
+                                <div class="row">
+                                    <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
+                                        <label for="startrent"><b>Start Rent</b></label>
+                                        <input type="date" class="form-control-plaintext" id="startrent" value="<?=$row['startrent']?>" disabled>
+                                        <div id="startrent-error"></div>
+                                    </div>
+
+                                    <div class="col-md-6 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
+                                        <label for="endrent"><b>End Rent</b></label>
+                                        <input type="date" class="form-control-plaintext" id="endrent" value="<?=$row['endrent']?>" disabled>
+                                        <div id="endrent-error"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

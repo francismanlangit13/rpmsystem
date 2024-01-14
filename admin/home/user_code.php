@@ -37,6 +37,8 @@
         $property = $_POST['property'];
         $startrent = $_POST['startrent'];
         $endrent = $_POST['endrent'];
+        $cash_advance = $_POST['cash_advance'];
+        $cash_deposit = $_POST['cash_deposit'];
         $is_rented = '1';
         $status = 'Active';
         
@@ -118,7 +120,7 @@
             }
         }
 
-        $query = "INSERT INTO `user`(`fname`, `mname`, `lname`, `suffix`, `gender`, `address`, `civil_status`, `birthday`, `occupation`, `company`, `valid_id`, `email`, `phone`, `password`, `is_rented`, `property_id`, `startrent`, `endrent`, `status`, `type`) VALUES ('$fname','$mname','$lname','$suffix','$gender','$address','$civil_status','$birthday','$occupation','$company','$fileName','$email','$phone','$password','$is_rented','$property','$startrent','$endrent','$status','$type')";
+        $query = "INSERT INTO `user`(`fname`, `mname`, `lname`, `suffix`, `gender`, `address`, `civil_status`, `birthday`, `occupation`, `company`, `valid_id`, `email`, `phone`, `password`, `is_rented`, `property_id`, `startrent`, `endrent`, `cash_advance`, `cash_deposit`, `status`, `type`) VALUES ('$fname','$mname','$lname','$suffix','$gender','$address','$civil_status','$birthday','$occupation','$company','$fileName','$email','$phone','$password','$is_rented','$property','$startrent','$endrent','$cash_advance','$cash_deposit','$status','$type')";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
@@ -200,6 +202,8 @@
         $property = $_POST['property'];
         $startrent = $_POST['startrent'];
         $endrent = $_POST['endrent'];
+        $cash_advance = $_POST['cash_advance'];
+        $cash_deposit = $_POST['cash_deposit'];
         if ($status == 'Inactive'){
             $is_rented = '0';
         } else {
@@ -291,7 +295,7 @@
             }
         }
 
-        $query = "UPDATE `user` SET `fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`gender`='$gender',`address`='$address',`civil_status`='$civil_status',`birthday`='$birthday',`occupation`='$occupation',`company`='$company',`email`='$email',`phone`='$phone',`is_rented`='$is_rented',`property_id`='$property',`startrent`='$startrent',`endrent`='$endrent',`status`='$status',`type`='$type' WHERE `user_id`='$user_id'";
+        $query = "UPDATE `user` SET `fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`gender`='$gender',`address`='$address',`civil_status`='$civil_status',`birthday`='$birthday',`occupation`='$occupation',`company`='$company',`email`='$email',`phone`='$phone',`is_rented`='$is_rented',`property_id`='$property',`startrent`='$startrent',`endrent`='$endrent',`cash_advance`='$cash_advance',`cash_deposit`='$cash_deposit',`status`='$status',`type`='$type' WHERE `user_id`='$user_id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
