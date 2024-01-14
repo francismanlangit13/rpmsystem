@@ -192,7 +192,7 @@
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>" id="Container3">
                                     <?php
-                                        $used_property = $row['property_id'];
+                                        $used_property = $row['property_rented_id'];
                                         $property = "SELECT * FROM `property` INNER JOIN `property_type` ON `property`.`property_type_id` = `property_type`.`property_type_id`  WHERE (`property`.`property_status` = 'Available') OR `property`.`property_id` = '$used_property';";
                                         $property_result = $con->query($property);
                                     ?>
@@ -202,7 +202,7 @@
                                         <?php 
                                             if ($property_result->num_rows > 0) {
                                             while($propertyrow = $property_result->fetch_assoc()) {
-                                            $selected = ($propertyrow['property_id'] == $row['property_id']) ? 'selected' : '';
+                                            $selected = ($propertyrow['property_id'] == $row['property_rented_id']) ? 'selected' : '';
                                         ?>
                                         <option value="<?=$propertyrow['property_id'];?>" <?=$selected;?>><?=$propertyrow['property_unit_code'];?> (Purok <?=$propertyrow['property_purok'];?>, <?=$propertyrow['property_barangay'];?>, <?=$propertyrow['property_city'];?> <?=$propertyrow['property_zipcode'];?>) <?=$propertyrow['property_type_name'];?> </option>
                                         <?php } } ?>
@@ -262,6 +262,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <input type="hidden" name="oldfileimage" value="<?=$row['valid_id']?>" />
+                            <input type="hidden" name="old_property" value="<?=$row['property_rented_id']?>" />
                             <button type="submit" name="edit_user" id="editButton" class="btn btn-success">Save</button>
                         </div>
                     </div>

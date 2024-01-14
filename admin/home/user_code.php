@@ -120,7 +120,7 @@
             }
         }
 
-        $query = "INSERT INTO `user`(`fname`, `mname`, `lname`, `suffix`, `gender`, `address`, `civil_status`, `birthday`, `occupation`, `company`, `valid_id`, `email`, `phone`, `password`, `is_rented`, `property_id`, `startrent`, `endrent`, `cash_advance`, `cash_deposit`, `status`, `type`) VALUES ('$fname','$mname','$lname','$suffix','$gender','$address','$civil_status','$birthday','$occupation','$company','$fileName','$email','$phone','$password','$is_rented','$property','$startrent','$endrent','$cash_advance','$cash_deposit','$status','$type')";
+        $query = "INSERT INTO `user`(`fname`, `mname`, `lname`, `suffix`, `gender`, `address`, `civil_status`, `birthday`, `occupation`, `company`, `valid_id`, `email`, `phone`, `password`, `is_rented`, `property_rented_id`, `startrent`, `endrent`, `cash_advance`, `cash_deposit`, `status`, `type`) VALUES ('$fname','$mname','$lname','$suffix','$gender','$address','$civil_status','$birthday','$occupation','$company','$fileName','$email','$phone','$password','$is_rented','$property','$startrent','$endrent','$cash_advance','$cash_deposit','$status','$type')";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
@@ -200,6 +200,7 @@
         $occupation = $_POST['occupation'];
         $company = $_POST['company'];
         $property = $_POST['property'];
+        $old_property = $_POST['old_property'];
         $startrent = $_POST['startrent'];
         $endrent = $_POST['endrent'];
         $cash_advance = $_POST['cash_advance'];
@@ -295,7 +296,7 @@
             }
         }
 
-        $query = "UPDATE `user` SET `fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`gender`='$gender',`address`='$address',`civil_status`='$civil_status',`birthday`='$birthday',`occupation`='$occupation',`company`='$company',`email`='$email',`phone`='$phone',`is_rented`='$is_rented',`property_id`='$property',`startrent`='$startrent',`endrent`='$endrent',`cash_advance`='$cash_advance',`cash_deposit`='$cash_deposit',`status`='$status',`type`='$type' WHERE `user_id`='$user_id'";
+        $query = "UPDATE `user` SET `fname`='$fname',`mname`='$mname',`lname`='$lname',`suffix`='$suffix',`gender`='$gender',`address`='$address',`civil_status`='$civil_status',`birthday`='$birthday',`occupation`='$occupation',`company`='$company',`email`='$email',`phone`='$phone',`is_rented`='$is_rented',`property_rented_id`='$property',`startrent`='$startrent',`endrent`='$endrent',`cash_advance`='$cash_advance',`cash_deposit`='$cash_deposit',`status`='$status',`type`='$type' WHERE `user_id`='$user_id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
@@ -305,6 +306,12 @@
             } else {
                 $query_property = "UPDATE `property` SET property_status = 'Rented' WHERE property_id = '$property'";
                 $query_property_run = mysqli_query($con, $query_property);
+            }
+            if($property == $old_property){
+                // dead code.
+            } else {
+                $query_property_update = "UPDATE `property` SET property_status = 'Available' WHERE property_id = '$old_property'";
+                $query_property_update_run = mysqli_query($con, $query_property_update);
             }
             $_SESSION['status'] = "User updated successfully";
             $_SESSION['status_code'] = "success";

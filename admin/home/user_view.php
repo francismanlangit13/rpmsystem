@@ -109,7 +109,7 @@
                                 <div class="row">
                                     <div class="col-md-12 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
                                         <?php
-                                            $used_property = $row['property_id'];
+                                            $used_property = $row['property_rented_id'];
                                             $property = "SELECT * FROM `property` INNER JOIN `property_type` ON `property`.`property_type_id` = `property_type`.`property_type_id`  WHERE `property`.`property_id` = '$used_property'";
                                             $property_result = $con->query($property);
                                             $propertyrow = $property_result->fetch_assoc()
@@ -147,7 +147,7 @@
 
                                     <div class="col-md-12 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
                                         <?php
-                                            $used_property = $row['property_id'];
+                                            $used_property = $row['property_rented_id'];
                                             $property_result = $con->query("SELECT property.user_id FROM `property` WHERE `property_id` = '$used_property'");
                                             $staff_user_id = $property_result->fetch_assoc();
                                             $staff_id = $staff_user_id['user_id'];
