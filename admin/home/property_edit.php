@@ -151,7 +151,7 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="electrical_meter_Yes" class="required">Does unit have it own electrical meter?</label>
+                                    <label for="electrical_meter_Yes" class="required">Does the unit have its own electrical meter?</label>
                                     <br>
                                     <input required class="ml-2" type="radio" id="electrical_meter_Yes" name="has_electrical_meter" value="Yes" <?php if($row['has_electrical_meter']=="Yes") {?> <?php echo "checked";?> <?php }?>> Yes
                                     <input required class="ml-2"  type="radio" id="electrical_meter_No" name="has_electrical_meter" value="No" <?php if($row['has_electrical_meter']=="No") {?> <?php echo "checked";?> <?php }?>> No
@@ -159,7 +159,7 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="water_meter_Yes" class="required">Does unit have it own water meter?</label>
+                                    <label for="water_meter_Yes" class="required">Does the unit have its own water meter?</label>
                                     <br>
                                     <input required class="ml-2" type="radio" id="water_meter_Yes" name="has_water_meter" value="Yes" <?php if($row['has_water_meter']=="Yes") {?> <?php echo "checked";?> <?php }?>> Yes
                                     <input required class="ml-2"  type="radio" id="water_meter_No" name="has_water_meter" value="No" <?php if($row['has_water_meter']=="No") {?> <?php echo "checked";?> <?php }?>> No
@@ -167,7 +167,7 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="parking_space_Yes" class="required">Does unit has a parking space?</label>
+                                    <label for="parking_space_Yes" class="required">Does the unit have a parking space?</label>
                                     <br>
                                     <input required class="ml-2" type="radio" id="parking_space_Yes" name="has_parking_space" value="Yes" <?php if($row['has_parking_space']=="Yes") {?> <?php echo "checked";?> <?php }?>> Yes
                                     <input required class="ml-2"  type="radio" id="parking_space_No" name="has_parking_space" value="No" <?php if($row['has_parking_space']=="No") {?> <?php echo "checked";?> <?php }?>> No
@@ -175,7 +175,7 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="conectivity_Yes" class="required">Does unit has a conectivity?</label>
+                                    <label for="conectivity_Yes" class="required">Does the unit have a conectivity?</label>
                                     <br>
                                     <input required class="ml-2" type="radio" id="conectivity_Yes" name="has_conectivity" value="Yes" <?php if($row['has_conectivity']=="Yes") {?> <?php echo "checked";?> <?php }?>> Yes
                                     <input required class="ml-2"  type="radio" id="conectivity_No" name="has_conectivity" value="No" <?php if($row['has_conectivity']=="No") {?> <?php echo "checked";?> <?php }?>> No

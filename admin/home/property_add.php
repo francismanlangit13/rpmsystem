@@ -131,7 +131,7 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="Yes" class="required">Does unit have it own electrical meter?</label>
+                                    <label for="Yes" class="required">Does the unit have its own electrical meter?</label>
                                     <br>
                                     <input required class="ml-2" type="radio" id="electrical_meter_Yes" name="has_electrical_meter" value="Yes"> Yes
                                     <input required class="ml-2"  type="radio" id="electrical_meter_No" name="has_electrical_meter" value="No"> No
@@ -139,7 +139,7 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="Yes" class="required">Does unit have it own water meter?</label>
+                                    <label for="Yes" class="required">Does the unit have its own water meter?</label>
                                     <br>
                                     <input required class="ml-2" type="radio" id="water_meter_Yes" name="has_water_meter" value="Yes"> Yes
                                     <input required class="ml-2"  type="radio" id="water_meter_No" name="has_water_meter" value="No"> No
@@ -147,7 +147,7 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="Yes" class="required">Does unit has a parking space?</label>
+                                    <label for="Yes" class="required">Does the unit have a parking space?</label>
                                     <br>
                                     <input required class="ml-2" type="radio" id="parking_space_Yes" name="has_parking_space" value="Yes"> Yes
                                     <input required class="ml-2"  type="radio" id="parking_space_No" name="has_parking_space" value="No"> No
@@ -155,7 +155,7 @@
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="Yes" class="required">Does unit has a conectivity?</label>
+                                    <label for="Yes" class="required">Does the unit have a conectivity?</label>
                                     <br>
                                     <input required class="ml-2" type="radio" id="conectivity_Yes" name="has_conectivity" value="Yes"> Yes
                                     <input required class="ml-2"  type="radio" id="conectivity_No" name="has_conectivity" value="No"> No

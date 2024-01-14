@@ -86,22 +86,22 @@
                             </div>
 
                             <div class="col-md-3 mb-3">
-                                <label for="has_electrical_meter"><b>Does unit have it own electrical meter?</b></label>
+                                <label for="has_electrical_meter"><b>Does the unit have its own electrical meter?</b></label>
                                 <input type="text" class="form-control-plaintext" id="has_electrical_meter" value="<?=$row['has_electrical_meter']?>" disabled>
                             </div>
 
                             <div class="col-md-3 mb-3">
-                                <label for="has_water_meter"><b>Does unit have it own water meter?</b></label>
+                                <label for="has_water_meter"><b>Does the unit have its own water meter?</b></label>
                                 <input type="text" class="form-control-plaintext" id="has_water_meter" value="<?=$row['has_water_meter']?>" disabled>
                             </div>
 
                             <div class="col-md-3 mb-3">
-                                <label for="has_parking_space"><b>Does unit has a parking space?</b></label>
+                                <label for="has_parking_space"><b>Does the unit have a parking space?</b></label>
                                 <input type="text" class="form-control-plaintext" id="has_parking_space" value="<?=$row['has_parking_space']?>" disabled>
                             </div>
 
                             <div class="col-md-3 mb-3">
-                                <label for="has_conectivity"><b>Does unit has a conectivity?</b></label>
+                                <label for="has_conectivity"><b>Does the unit have a conectivity?</b></label>
                                 <input type="text" class="form-control-plaintext" id="has_conectivity" value="<?=$row['has_conectivity']?>" disabled>
                             </div>
                         </div>
