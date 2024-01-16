@@ -20,10 +20,9 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS rent_fullname FROM `utility`
+                $sql = "SELECT *, DATE_FORMAT(utility_date, '%M %d, %Y %h:%i %p') as new_utility_date, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS rent_fullname FROM `utility`
                     INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
                     INNER JOIN user ON user.user_id = utility.user_id
-                    INNER JOIN property ON property.rented_by = utility.user_id
                     WHERE `utility_id` = '$id' AND `utility_status` != 'Archive'
                 ";
                 $sql_run = mysqli_query($con, $sql);
@@ -41,33 +40,62 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="renter">Rented By</label>
-                                    <input type="text" class="form-control" id="renter" value="<?= $row['rent_fullname']; ?>" disabled>
+                                    <label for="renter"><b>Rentee</b></label>
+                                    <input type="text" class="form-control-plaintext" id="renter" value="<?= $row['rent_fullname']; ?>" disabled>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="property_location">Location</label>
-                                    <input type="text" class="form-control" id="property_location" value="<?= $row['property_location']; ?>" disabled>
+                                    <label for="phone"><b>Phone</b></label>
+                                    <input type="text" class="form-control-plaintext" id="phone" value="<?= $row['phone']; ?>" disabled>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <label for="phone">Phone</label>
-                                    <input type="text" class="form-control" id="phone" value="<?= $row['phone']; ?>" disabled>
+                                    <label for="email"><b>Email</b></label>
+                                    <input type="text" class="form-control-plaintext" id="email" value="<?= $row['email']; ?>" disabled>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
-                                    <label for="bill_type">Bill Type</label>
-                                    <input type="text" class="form-control" id="bill_type" value="<?= $row['utility_type_name']; ?>" disabled>
+                                <div class="col-md-12 mb-3">
+                                    <label for="property_location"><b>Address</b></label>
+                                    <textarea class="form-control-plaintext" id="property_location" disabled><?= $row['address']; ?></textarea>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
-                                    <label for="utility_amount">Bill Amount</label>
-                                    <input type="text" class="form-control" id="utility_amount" value="<?= $row['utility_amount']; ?>" disabled>
+                                <div class="col-md-3 mb-3">
+                                    <label for="bill_type"><b>Bill Type</b></label>
+                                    <input type="text" class="form-control-plaintext" id="bill_type" value="<?= $row['utility_type_name']; ?>" disabled>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
-                                    <label for="utility_date">Bill Date</label>
-                                    <input type="text" class="form-control" id="utility_date" value="<?= $row['utility_date']; ?>" disabled>
+                                <div class="col-md-3 mb-3">
+                                    <label for="utility_amount"><b>Bill Amount</b></label>
+                                    <input type="text" class="form-control-plaintext" id="utility_amount" value="<?= $row['utility_amount']; ?>" disabled>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="utility_date"><b>Bill Date</b></label>
+                                    <input type="text" class="form-control-plaintext" id="utility_date" value="<?= $row['new_utility_date']; ?>" disabled>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="utility_status"><b>Status</b></label>
+                                    <input type="text" class="form-control-plaintext" id="utility_status" value="<?= $row['status']; ?>" disabled>
+                                </div>
+
+                                <div class="col-md-4 mt-3 text-center <?php if ($row['utility_type_id'] != '1'){ } else { echo"d-none"; }?>" id="Container2">
+                                    <h6>JPG or PNG no larger than 5 MB</h6> 
+                                    <a href="
+                                        <?php
+                                            if(!empty($row['utility_attachment'])){ 
+                                                echo base_url . 'assets/files/bills/' . $row['utility_attachment'];
+                                            } else { echo base_url . 'assets/files/system/no-image.png'; }
+                                        ?>" class="glightbox d-block" data-gallery="QRCode">
+                                        <img class="zoom img-fluid img-bordered-sm" id="frame1"
+                                        src="
+                                            <?php
+                                                if(!empty($row['utility_attachment'])) {
+                                                    echo base_url . 'assets/files/bills/' . $row['utility_attachment'];
+                                                } else { echo base_url . 'assets/files/system/no-image.png'; } 
+                                            ?>
+                                        " alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -32,7 +32,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Full Name</th>
-                            <th>Phone</th>
                             <th>Type</th>
                             <th>Bill Amount</th>
                             <th>Date of billed</th>
@@ -43,7 +42,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Full Name</th>
-                            <th>Phone</th>
                             <th>Type</th>
                             <th>Bill Amount</th>
                             <th>Date billed</th>
@@ -64,7 +62,6 @@
                         <tr>
                             <td><?= $row['utility_id']; ?></td>
                             <td><?= $row['fname']; ?> <?= $row['mname']; ?> <?= $row['lname']; ?></td>
-                            <td><?= $row['phone']; ?></td>
                             <td><?= $row['utility_type_name']; ?></td>
                             <td><?= $row['utility_amount']; ?></td>
                             <td><?= $row['new_utility_date']; ?></td>

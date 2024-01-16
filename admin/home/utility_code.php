@@ -38,6 +38,84 @@
             exit(0);
         } else {
 
+            function compressImage($source, $destination, $quality){
+                // Get image info
+                $imgInfo = getimagesize($source);
+                $mime = $imgInfo['mime'];
+                // Create a new image from file
+                switch ($mime) {
+                    case 'image/jpeg':
+                        $image = imagecreatefromjpeg($source);
+                        break;
+                    case 'image/png':
+                        $image = imagecreatefrompng($source);
+                        break;
+                    case 'image/gif':
+                        $image = imagecreatefromgif($source);
+                        break;
+                    default:
+                        $image = imagecreatefromjpeg($source);
+                }
+                // Check and apply image orientation
+                $exif = @exif_read_data($source);
+                if ($exif && isset($exif['Orientation'])) {
+                    $orientation = $exif['Orientation'];
+                    if ($orientation == 3) {
+                        $image = imagerotate($image, 180, 0);
+                    } elseif ($orientation == 6) {
+                        $image = imagerotate($image, -90, 0);
+                    } elseif ($orientation == 8) {
+                        $image = imagerotate($image, 90, 0);
+                    }
+                }
+                // Save image with compression quality
+                imagejpeg($image, $destination, $quality);
+                // Return compressed image
+                return $destination;
+            }
+            if (isset($_FILES['image1']) && is_uploaded_file($_FILES['image1']['tmp_name']) && $_FILES['image1']['error'] === UPLOAD_ERR_OK) {
+                $fileImage = $_FILES['image1'];
+                $customFileName = 'Attachment_' . date('Ymd_His'); // replace with your desired file name
+                $ext = pathinfo($fileImage['name'], PATHINFO_EXTENSION); // get the file extension
+                $fileName = $customFileName . '.' . $ext; // append the extension to the custom file name
+                $fileTmpname = $fileImage['tmp_name'];
+                $fileSize = $fileImage['size'];
+                $fileError = $fileImage['error'];
+                $fileExt = explode('.', $fileName);
+                $fileActExt = strtolower(end($fileExt));
+                $allowed = array('jpg', 'jpeg', 'png');
+                if (in_array($fileActExt, $allowed)) {
+                    if ($fileError === 0) {
+                        if ($fileSize < 5242880) { // 5MB Limit
+                            $uploadDir = '../../assets/files/bills/';
+                            $targetFile = $uploadDir . $fileName;
+                            if ($fileSize > 1048576) { // more than 1 MB
+                                // Compress the uploaded image with a quality of 25
+                                $compressedImage = compressImage($fileTmpname, $targetFile, 25);
+                            } else {
+                                // Compress the uploaded image with a quality of 35
+                                $compressedImage = compressImage($fileTmpname, $targetFile, 35);
+                            }
+                        } else {
+                            $_SESSION['status'] = "File is too large, must be 5MB or below";
+                            $_SESSION['status_code'] = "warning";
+                            header("Location: " . base_url . "admin/home/utility");
+                            exit(0);
+                        }
+                    } else {
+                        $_SESSION['status'] = "File error";
+                        $_SESSION['status_code'] = "error";
+                        header("Location: " . base_url . "admin/home/utility");
+                        exit(0);
+                    }
+                } else {
+                    $_SESSION['status'] = "Invalid file type";
+                    $_SESSION['status_code'] = "error";
+                    header("Location: " . base_url . "admin/home/utility");
+                    exit(0);
+                }
+            }
+
             // SQL for getting the database
             $sql_query = $con->query("SELECT * FROM utility_type WHERE utility_type_id = '$utility_type_id'");
             $utility_type_result = $sql_query->fetch_assoc();
@@ -51,7 +129,7 @@
             $phone = $user['phone'];
 
 
-            $query = "INSERT INTO `utility`(`user_id`, `utility_type_id`, `utility_amount`, `utility_date`, `utility_status`) VALUES ('$renter','$utility_type_id','$utility_amount','$utility_date','$utility_status')";
+            $query = "INSERT INTO `utility` (`user_id`, `utility_type_id`, `utility_amount`, `utility_date`, `utility_attachment`, `utility_status`) VALUES ('$renter','$utility_type_id','$utility_amount','$utility_date','$fileName','$utility_status')";
             $query_run = mysqli_query($con, $query);
 
             if($query_run){
@@ -100,8 +178,7 @@
                 $_SESSION['status_code'] = "success";
                 header("Location: " . base_url . "admin/home/utility");
                 exit(0);
-            }
-            else{
+            } else{
                 $_SESSION['status'] = "Other Bills was not added";
                 $_SESSION['status_code'] = "error";
                 header("Location: " . base_url . "admin/home/utility");
@@ -112,12 +189,98 @@
 
     // Edit utility
     if(isset($_POST["edit_utility"])){
-        $utility_id = $_POST['utilities_id'];
+        $utility_id = $_POST['utility_id'];
         $renter = $_POST['renter'];
         $utility_type_id = $_POST['utility_type_id'];
         $utility_amount = $_POST['utility_amount'];
+        $utility_status = $_POST['utility_status'];
 
-        $query = "UPDATE `utility` SET `user_id`='$renter', `utility_type_id`='$utility_type_id', `utility_amount`='$utility_amount' WHERE `utility_id` = '$utility_id'";
+        function compressImage($source, $destination, $quality){
+            // Get image info
+            $imgInfo = getimagesize($source);
+            $mime = $imgInfo['mime'];
+            // Create a new image from file
+            switch ($mime) {
+                case 'image/jpeg':
+                    $image = imagecreatefromjpeg($source);
+                    break;
+                case 'image/png':
+                    $image = imagecreatefrompng($source);
+                    break;
+                case 'image/gif':
+                    $image = imagecreatefromgif($source);
+                    break;
+                default:
+                    $image = imagecreatefromjpeg($source);
+            }
+            // Check and apply image orientation
+            $exif = @exif_read_data($source);
+            if ($exif && isset($exif['Orientation'])) {
+                $orientation = $exif['Orientation'];
+                if ($orientation == 3) {
+                    $image = imagerotate($image, 180, 0);
+                } elseif ($orientation == 6) {
+                    $image = imagerotate($image, -90, 0);
+                } elseif ($orientation == 8) {
+                    $image = imagerotate($image, 90, 0);
+                }
+            }
+            // Save image with compression quality
+            imagejpeg($image, $destination, $quality);
+            // Return compressed image
+            return $destination;
+        }
+
+        if (isset($_FILES['image1']) && is_uploaded_file($_FILES['image1']['tmp_name']) && $_FILES['image1']['error'] === UPLOAD_ERR_OK) {
+            $fileImage = $_FILES['image1'];
+            $OLDfileImage = $_POST['oldfileimage'];
+            $customFileName = 'ID_' . date('Ymd_His'); // replace with your desired file name
+            $ext = pathinfo($fileImage['name'], PATHINFO_EXTENSION); // get the file extension
+            $fileName = $customFileName . '.' . $ext; // append the extension to the custom file name
+            $fileTmpname = $fileImage['tmp_name'];
+            $fileSize = $fileImage['size'];
+            $fileError = $fileImage['error'];
+            $fileExt = explode('.', $fileName);
+            $fileActExt = strtolower(end($fileExt));
+            $allowed = array('jpg', 'jpeg', 'png');
+            if (in_array($fileActExt, $allowed)) {
+                if ($fileError === 0) {
+                    if ($fileSize < 5242880) { // 5MB Limit
+                        $uploadDir = '../../assets/files/bills/';
+                        unlink($uploadDir . $OLDfileImage);
+                        $targetFile = $uploadDir . $fileName;
+                        if ($fileSize > 1048576) { // more than 1 MB
+                            // Compress the uploaded image with a quality of 25
+                            $compressedImage = compressImage($fileTmpname, $targetFile, 25);
+                        } else {
+                            // Compress the uploaded image with a quality of 35
+                            $compressedImage = compressImage($fileTmpname, $targetFile, 35);
+                        }
+                        if ($compressedImage) {
+                            $query = "UPDATE `utility` SET `utility_attachment`='$fileName' WHERE `utility_id` = '$utility_id'";
+                            $query_run = mysqli_query($con, $query);
+                        }
+                    } else {
+                        $_SESSION['status'] = "File is too large, must be 5MB or below";
+                        $_SESSION['status_code'] = "warning";
+                        header("Location: " . base_url . "admin/home/utility");
+                        exit(0);
+                    }
+                } else {
+                    $_SESSION['status'] = "File error";
+                    $_SESSION['status_code'] = "error";
+                    header("Location: " . base_url . "admin/home/utility");
+                    exit(0);
+                }
+            } else {
+                $_SESSION['status'] = "Invalid file type";
+                $_SESSION['status_code'] = "error";
+                header("Location: " . base_url . "admin/home/utility");
+                exit(0);
+            }
+        }
+
+        $query = "UPDATE `utility` SET `user_id`='$renter', `utility_type_id`='$utility_type_id', `utility_amount`='$utility_amount', `utility_status`='$utility_status' WHERE `utility_id` = '$utility_id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){

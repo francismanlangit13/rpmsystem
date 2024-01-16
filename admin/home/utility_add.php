@@ -33,17 +33,17 @@
                                 <!-- Select2 Example -->
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $renter = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` INNER JOIN `property` ON property.rented_by = user.user_id WHERE `type` = 'Renter'";
+                                        $renter = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND  `is_rented` = '1' AND status = 'Active'";
                                         $renter_result = $con->query($renter);
                                     ?>
-                                    <label for="renter" class="required">Rented By</label>
+                                    <label for="renter" class="required">Rentee</label>
                                     <select class="form-control select2" id="renter" name="renter" style="width: 100%;" required>
-                                        <option value="">Select Rented By</option>
+                                        <option value="">Select Rentee</option>
                                         <?php 
                                             if ($renter_result->num_rows > 0) {
                                             while($renterrow = $renter_result->fetch_assoc()) {
                                         ?>
-                                        <option value="<?=$renterrow['rented_by'];?>"><?=$renterrow['fullname'];?></option>
+                                        <option value="<?=$renterrow['user_id'];?>"><?=$renterrow['fullname'];?></option>
                                         <?php } } ?>
                                     </select>
                                     <div id="renter-error"></div>
@@ -58,12 +58,12 @@
 
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $stmt = "SELECT * FROM `utility_type` WHERE `utility_type_id` != '1' AND `utility_type_status` != 'Archive'";
+                                        $stmt = "SELECT * FROM `utility_type` WHERE `utility_type_status` != 'Archive'";
                                         $stmt_run = mysqli_query($con,$stmt);
                                     ?>
-                                    <label for="utility_type_id" class="required">Utility Type</label>
+                                    <label for="utility_type_id" class="required">Bills Type</label>
                                     <select class="form-control" id="utility_type_id" name="utility_type_id" required>
-                                        <option value="">Select Utility Type</option>
+                                        <option value="">Select Bills Type</option>
                                         <?php
                                             // use a while loop to fetch data
                                             while ($utility_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):;
@@ -78,19 +78,19 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label for="utility_amount" class="required">Bill Amount</label>
-                                    <input type="text" class="form-control" placeholder="Enter Utility Amount" name="utility_amount" id="utility_amount" required>
+                                    <input type="number" class="form-control" placeholder="Enter Bill Amount" name="utility_amount" id="utility_amount" required>
                                     <div id="utility_amount-error"></div>
                                 </div>
 
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-4 mb-3" id="Container">
                                     <label for="image1" class="required">Bill Attachment</label>
                                     <input type="file" name="image1" class="form-control btn btn-secondary" style="padding-bottom:2.2rem;" id="image1" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'image1')" required>
                                     <div id="image1-error"></div>
                                 </div>
 
-                                <div class="col-md-8" id="Container2"></div>
+                                <div class="col-md-8" id="Container1"></div>
 
-                                <div class="col-md-4 text-center">
+                                <div class="col-md-4 text-center" id="Container2">
                                     <h6>JPG or PNG no larger than 5 MB</h6> 
                                     <a href="<?php echo base_url . 'assets/files/system/no-image.png'; ?>" class="glightbox d-block" data-gallery="Attachment">
                                         <img class="zoom img-fluid img-bordered-sm" id="frame1" src="<?php echo base_url . 'assets/files/system/no-image.png'; ?>" alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">
@@ -124,6 +124,30 @@
         </form>
     </div>
 </main>
+
+<!-- Script for Bills Type if Rent hidden forms -->
+<script>
+    document.getElementById('utility_type_id').addEventListener('change', function () {
+        var Container = document.getElementById('Container');
+        var Container1 = document.getElementById('Container1');
+        var Container2 = document.getElementById('Container2');
+        var image1 = document.getElementById('image1');
+
+        if (this.value === '1') {
+            Container.classList.add('d-none');
+            Container1.classList.add('d-none');
+            Container2.classList.add('d-none');
+            image1.required = false;
+            image1.disabled = true;
+        } else {
+            Container.classList.remove('d-none');
+            Container1.classList.remove('d-none');
+            Container2.classList.remove('d-none');
+            image1.required = true;
+            image1.disabled = false;
+        }
+    });
+</script>
 
 <script>
     $(document).ready(function() {
@@ -159,18 +183,15 @@
         var debouncedCheckRenter = _.debounce(checkRenter, 500);
         var debouncedCheckUtilitytype = _.debounce(checkUtilitytype, 500);
         var debouncedCheckUtilityamount = _.debounce(checkUtilityamount, 500);
-        var debouncedCheckUtilityattachment = _.debounce(checkUtilityattachment, 500);
 
         // attach event listeners for each input field
         $('#renter').on('change', debouncedCheckRenter);
         $('#utility_type_id').on('input', debouncedCheckUtilitytype);
         $('#utility_amount').on('input', debouncedCheckUtilityamount);
-        $('#image1').on('input', debouncedCheckUtilityattachment);
 
         $('#renter').on('blur', debouncedCheckRenter);
         $('#utility_type_id').on('blur', debouncedCheckUtilitytype);
         $('#utility_amount').on('blur', debouncedCheckUtilityamount);
-        $('#image1').on('blur', debouncedCheckUtilityattachment);
 
         // Initialize Select2 Elements
         $('.select2').select2();
@@ -187,7 +208,7 @@
         }).on('select2:close', function (event) {
             // Check if the dropdown was opened and no option was selected
             if ($(this).data('dropdownOpened') && $(this).val() === '') {
-                $('#renter-error').text('Please select Landlady / Landlord').css('color', 'red');
+                $('#renter-error').text('Please select rentee').css('color', 'red');
                 $('.select2-selection').css('border-color', '#dc3545');
                 $('#renter').addClass('is-invalid');
                 checkIfAllFieldsValid();
@@ -200,8 +221,7 @@
             // check if all input fields are valid and enable submit button if so
             if ( $('#renter-error').is(':empty') &&
                  $('#utility_type_id-error').is(':empty') &&
-                 $('#utility_amount-error').is(':empty') &&
-                 $('#image1-error').is(':empty') ) {
+                 $('#utility_amount-error').is(':empty') ) {
                 $('#submit-btn').prop('disabled', false);
             } else {
                 $('#submit-btn').prop('disabled', true);
@@ -235,7 +255,7 @@
             
             // show error if utility type is empty
             if (utility_type_id === '') {
-                $('#utility_type_id-error').text('Please select utility type').css('color', 'red');
+                $('#utility_type_id-error').text('Please select bill type').css('color', 'red');
                 $('#utility_type_id').addClass('is-invalid');
                 checkIfAllFieldsValid();
                 return;
@@ -263,24 +283,6 @@
             
             $('#utility_amount-error').empty();
             $('#utility_amount').removeClass('is-invalid');
-            checkIfAllFieldsValid();
-        }
-
-        function checkUtilityattachment() {
-            var image1 = $('#image1').val().trim();
-            
-            // show error if bill attachment is empty
-            if (image1 === '') {
-                $('#image1-error').text('Please attach bill').css('color', 'red');
-                $('#image1').addClass('is-invalid');
-                checkIfAllFieldsValid();
-                return;
-            }
-            
-            // Perform additional validation for bill attachment if needed
-            
-            $('#image1-error').empty();
-            $('#image1').removeClass('is-invalid');
             checkIfAllFieldsValid();
         }
     });

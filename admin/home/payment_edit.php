@@ -20,11 +20,38 @@
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
-                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
+                // $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
+                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN `utility` ON utility.utility_id = payment.utility_id WHERE `payment_id` = '3' AND `payment`.`status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
                     foreach($sql_run as $row){
+
+                        // Assuming $row['utility_date'] is in the format 'YYYY-MM-DD'
+                        $utilityDate = $row['utility_date'];
+
+                        // Get the current date
+                        $currentDate = date('Y-m-d');
+
+                        // Convert the dates to DateTime objects
+                        $utilityDateTime = new DateTime($utilityDate);
+                        $currentDateTime = new DateTime($currentDate);
+
+                        // Calculate the difference in months
+                        $monthDiff = $currentDateTime->diff($utilityDateTime)->format('%m');
+
+                        // Check the payment status
+                        $paymentStatus = $row['payment_status'];
+
+                        if ($paymentStatus === 'Partial') {
+                            $balance = $row['utility_amount'] + $row['utility_amount'] * 0.05 * $monthDiff;
+                            $balance_formatted = number_format($balance, 2);
+                        } elseif ($paymentStatus === 'Paid') {
+                            $balance = "N/A";
+                        } else {
+                            // Handle other payment statuses if needed
+                            $balance = "Unknown payment status";
+                        }
         ?>
         <?php if($row['payment_type_id'] != '1'){ ?>
             <form action="payment_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
@@ -54,7 +81,12 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="payment_amount">Amount</label>
-                                        <input type="number" class="form-control" id="payment_amount" value="<?= $row['payment_amount']; ?>" disabled>
+                                        <input type="number" class="form-control" id="payment_amount" value="<?= $row['payment_amount']; ?>" oninput="updateBalance()" disabled>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="payment_balance">Balance</label>
+                                        <input type="number" class="form-control-plaintext" id="payment_balance" value="<?= $balance ?>" disabled>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
@@ -94,9 +126,13 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
-                                        <label for="payment_amount" class="required">Amount</label>
-                                        <input type="number" class="form-control" placeholder="Enter Property Cost" name="payment_amount" id="payment_amount" value="<?= $row['payment_amount']; ?>" required>
-                                        <div id="payment_amount-error"></div>
+                                        <label for="property_amount">Property Amount</label>
+                                        <input type="number" class="form-control" id="property_amount" value="<?= $row['payment_amount']; ?>" oninput="updateBalance()">
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="payment_balance">Balance</label>
+                                        <input type="number" class="form-control-plaintext" id="payment_balance" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +156,30 @@
         <?php } } ?>
     </div>
 </main>
+
+<!-- Script for changing balance based on input property_amount -->
 <script>
+    // Fetch initial balance from PHP
+    var initialBalance = <?= $balance ?>;
+
+    function updateBalance() {
+        // Get the property amount input value
+        var propertyAmount = parseFloat(document.getElementById("property_amount").value) || 0;
+
+        // Calculate the balance
+        var balance = initialBalance - propertyAmount;
+
+        // Set the balance input value
+        document.getElementById("payment_balance").value = balance < 0 ? 0 : balance;
+    }
+
+    // Call updateBalance after the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+        updateBalance();
+    });
+</script>
+
+<!-- <script>
     document.getElementById('payment_status').addEventListener('change', function () {
         var Container = document.getElementById('Container');
         var payment_comment = document.getElementById('payment_comment');
@@ -135,5 +194,5 @@
             payment_comment1.disabled = true;
         }
     });
-</script>
+</script> -->
 <?php include ('../includes/bottom.php'); ?>
