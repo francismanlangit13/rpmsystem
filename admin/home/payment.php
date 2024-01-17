@@ -1,4 +1,8 @@
-<?php include ('../includes/header.php'); ?>
+<?php include ('../includes/header.php');
+    $month = isset($_POST['month']) ? $_POST['month'] : date("Y-m");
+    $firstDayOfMonth = date("Y-m-01", strtotime($month));
+    $lastDayOfMonth = date("Y-m-t", strtotime($month));
+?>
 <style type="text/css">
     #datatablesSimple th:nth-child(7) {
         width: 15% !important;
@@ -66,6 +70,17 @@
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item">Payments</li>
         </ol>
+        <form action="payment.php" method="post" autocomplete="off" enctype="multipart/form-data">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="month" class="control-label">Filter by transations in month</label>
+                    <input type="month" name="month" id="month" value="<?= $month ?>" class="form-control form-control-sm rounded-0">
+                </div>
+                <div class="form-group col-md-2" style="margin-top:30px">
+                    <button type="submit" name="submit-btn" class="btn btn-sm btn-primary"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+            </div>
+        </form>
         <div class="card mb-4">
             <div class="card-header noprint">
                 <i class="fas fa-table me-1"></i>
@@ -115,7 +130,7 @@
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utility_type` ON utility_type.utility_type_id = payment.utility_type_id INNER JOIN utility ON utility.utility_id = payment.utility_id WHERE `payment`.`status` != 'Archive' ORDER BY payment_id DESC";
+                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utility_type` ON utility_type.utility_type_id = payment.utility_type_id INNER JOIN utility ON utility.utility_id = payment.utility_id WHERE DATE(payment_date) BETWEEN '{$firstDayOfMonth}' AND '{$lastDayOfMonth}' AND `payment`.`status` != 'Archive' ORDER BY payment_id DESC";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){

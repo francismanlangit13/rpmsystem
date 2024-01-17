@@ -89,7 +89,7 @@
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, CONCAT (`property`.`user_id`) AS staff_user_id, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `rentee_fullname`, CONCAT('Purok ', `property_purok`, ', ', `property_barangay`, ', ', `property_city`, ', ', `property_zipcode`) AS `property_location` FROM `user` INNER JOIN `property` ON `user`.`property_rented_id` = `property`.`property_id` INNER JOIN `property_type` ON property.property_type_id = property_type.property_type_id WHERE `is_rented` = '1' AND `status` != 'Inactive'";
+                            $query = "SELECT *, CONCAT (`property`.`user_id`) AS staff_user_id, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `rentee_fullname`, user.user_id AS rentee_id, CONCAT('Purok ', `property_purok`, ', ', `property_barangay`, ', ', `property_city`, ', ', `property_zipcode`) AS `property_location` FROM `user` INNER JOIN `property` ON `user`.`property_rented_id` = `property`.`property_id` INNER JOIN `property_type` ON property.property_type_id = property_type.property_type_id WHERE `is_rented` = '1' AND `status` != 'Inactive'";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
@@ -98,8 +98,8 @@
                                     $new_row = $stmt->fetch_assoc();
                         ?>
                         <tr>
-                            <td><?= $row['user_id']; ?></td>
-                            <td><a href="rentee_history?id=<?=$row['user_id']?>"><?= $row['rentee_fullname']; ?></a></td>
+                            <td><?= $row['rentee_id']; ?></td>
+                            <td><a href="rentee_history?id=<?=$row['rentee_id']?>"><?= $row['rentee_fullname']; ?></a></td>
                             <td><?= $row['property_unit_code']; ?></td>
                             <td><?= $row['property_location']; ?></td>
                             <td><?= $row['property_type_name']; ?></td>
@@ -108,13 +108,13 @@
                             <td><?= $row['property_status']; ?></td>
                             <td>
                                 <div class="d-flex">
-                                    <div class="col-md-6 mb-1" style="margin-right: 0.2rem">
-                                        <a href="property_view?id=<?=$row['property_id']?>" class="btn btn-dark btn-icon-split" title="View"> 
+                                    <div class="col-md-12 mb-1" style="margin-right: 0.2rem">
+                                        <a href="rentee_history?id=<?=$row['rentee_id']?>" class="btn btn-dark btn-icon-split" title="View History"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-6 mb-1" style="margin-right: 0.05rem">
-                                        <a href="property_edit?id=<?=$row['property_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
+                                    <div class="col-md-6 mb-1 d-none" style="margin-right: 0.05rem">
+                                        <a href="rentee_history?id=<?=$row['property_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>
                                         </a>
