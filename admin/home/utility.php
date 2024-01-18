@@ -1,4 +1,8 @@
-<?php include ('../includes/header.php'); ?>
+<?php include ('../includes/header.php');
+    $month = isset($_POST['month']) ? $_POST['month'] : date("Y-m");
+    $firstDayOfMonth = date("Y-m-01", strtotime($month));
+    $lastDayOfMonth = date("Y-m-t", strtotime($month));
+?>
 <style type="text/css">
     #datatablesSimple th:nth-child(7) {
         width: 15% !important;
@@ -21,6 +25,17 @@
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item">Other Bills</li>
         </ol>
+        <form action="utility.php" method="post" autocomplete="off" enctype="multipart/form-data">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="month" class="control-label">Filter by transations in month</label>
+                    <input type="month" name="month" id="month" value="<?= $month ?>" class="form-control form-control-sm rounded-0">
+                </div>
+                <div class="form-group col-md-2" style="margin-top:30px">
+                    <button type="submit" name="submit-btn" class="btn btn-sm btn-primary"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+            </div>
+        </form>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
@@ -50,11 +65,19 @@
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, DATE_FORMAT(utility_date, '%M %d, %Y %h:%i %p') as new_utility_date FROM `utility`
-                                INNER JOIN `user` ON user.user_id = utility.user_id
-                                INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
-                                WHERE `utility_status` != 'Archive'
-                            ";
+                            if(isset($_POST['month']) && !empty($_POST['month'])) {
+                                $query = "SELECT *, DATE_FORMAT(utility_date, '%M %d, %Y %h:%i %p') as new_utility_date FROM `utility`
+                                    INNER JOIN `user` ON user.user_id = utility.user_id
+                                    INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
+                                    WHERE DATE(utility_date) BETWEEN '{$firstDayOfMonth}' AND '{$lastDayOfMonth}' AND `utility_status` != 'Archive'
+                                ";
+                            } else{
+                                $query = "SELECT *, DATE_FORMAT(utility_date, '%M %d, %Y %h:%i %p') as new_utility_date FROM `utility`
+                                    INNER JOIN `user` ON user.user_id = utility.user_id
+                                    INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
+                                    WHERE `utility_status` != 'Archive'
+                                ";
+                            }
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){

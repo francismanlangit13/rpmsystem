@@ -130,7 +130,11 @@
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utility_type` ON utility_type.utility_type_id = payment.utility_type_id INNER JOIN utility ON utility.utility_id = payment.utility_id WHERE DATE(payment_date) BETWEEN '{$firstDayOfMonth}' AND '{$lastDayOfMonth}' AND `payment`.`status` != 'Archive' ORDER BY payment_id DESC";
+                            if(isset($_POST['month']) && !empty($_POST['month'])) {
+                                $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utility_type` ON utility_type.utility_type_id = payment.utility_type_id INNER JOIN utility ON utility.utility_id = payment.utility_id WHERE DATE(payment_date) BETWEEN '{$firstDayOfMonth}' AND '{$lastDayOfMonth}' AND `payment`.`status` != 'Archive' ORDER BY payment_id DESC";
+                            } else {
+                                $query = "SELECT *, DATE_FORMAT(payment_date, '%M %d, %Y %h:%i %p') as new_payment_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id INNER JOIN `utility_type` ON utility_type.utility_type_id = payment.utility_type_id INNER JOIN utility ON utility.utility_id = payment.utility_id WHERE `payment`.`status` != 'Archive' ORDER BY payment_id DESC";
+                            }
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
