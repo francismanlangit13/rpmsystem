@@ -108,7 +108,7 @@
                             <th>Status</th>
                             <th>Remarks</th>
                             <th>Date payment</th>
-                            <th class="noprint">Buttons</th>
+                            <th>Buttons</th>
                         </tr>
                     </thead>
                     <tfoot>
