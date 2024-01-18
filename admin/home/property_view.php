@@ -34,12 +34,17 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="property_unit_code"><b>Property Unit Code</b></label>
                                 <input type="text" class="form-control-plaintext" id="property_unit_code" value="<?=$row['property_unit_code']?>" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
+                                <label for="property_permit"><b>Building Permit No.</b></label>
+                                <input type="text" class="form-control-plaintext" id="property_permit" value="<?=$row['property_permit']?>" disabled>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
                                 <?php
                                     $staff_id = $row['user_id'];
                                     $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS `staff_fullname` FROM `user` WHERE `user_id` = '$staff_id'";
@@ -50,7 +55,7 @@
                                 <input type="text" class="form-control-plaintext" id="staff_fullname" value="<?=$staff_data['staff_fullname']?>" disabled>
                             </div>
 
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="property_type"><b>Property Type</b></label>
                                 <input type="text" class="form-control-plaintext" id="property_type" value="<?=$row['property_type_name']?>" disabled>
                             </div>
