@@ -71,7 +71,7 @@
             <li class="breadcrumb-item">Payments</li>
         </ol>
         <form action="payment.php" method="post" autocomplete="off" enctype="multipart/form-data">
-            <div class="row">
+            <div class="row noprint">
                 <div class="form-group col-md-3">
                     <label for="month" class="control-label">Filter by transations in month</label>
                     <input type="month" name="month" id="month" value="<?= $month ?>" class="form-control form-control-sm rounded-0">

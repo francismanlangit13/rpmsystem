@@ -10,10 +10,55 @@
     .table th, .table td {
         white-space: nowrap;
     }
+    @media print{
+        #datatablesSimple th:nth-child(6), #datatablesSimple td:nth-child(6) {
+            display: none;
+        }
+
+        /* Hide DataTables search, show entries per page, and info */
+        #datatablesSimple_length,
+        #datatablesSimple_filter,
+        #datatablesSimple_info,
+        #datatablesSimple_paginate,
+        .datatable-dropdown,
+        .datatable-search,
+        .datatable-bottom {
+            display: none;
+        }
+        .system-header{
+            display: block !important;
+        }
+        .card{
+            border:none !important;
+        }
+        body{
+            margin-top: -20px;
+        }
+        .bg-success-print {
+            background-color: #28a745 !important; /* Green color for success */
+            color: #fff !important; /* White text for better visibility on dark background */
+        }
+        .noprint{
+            display: none !important;
+        }
+        .print-adjust {
+            margin-top:-5px;
+        }
+        .print-table-adjust{
+            zoom: 45%;
+        }
+        .noprint-scroll{
+        overflow-x: unset !important;
+        }
+        @page {
+            size: auto;
+            margin: 1mm;
+        }
+    }
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Other Bills
+        <h1 class="mt-4 noprint">Other Bills
             <a href="utility_add" class="btn btn-success btn-icon-split float-end mt-2"> 
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
@@ -21,12 +66,12 @@
                 <span class="text">Add Other Bills</span>
             </a>
         </h1>
-        <ol class="breadcrumb mb-4">
+        <ol class="breadcrumb mb-4 noprint">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item">Other Bills</li>
         </ol>
         <form action="utility.php" method="post" autocomplete="off" enctype="multipart/form-data">
-            <div class="row">
+            <div class="row noprint">
                 <div class="form-group col-md-3">
                     <label for="month" class="control-label">Filter by transations in month</label>
                     <input type="month" name="month" id="month" value="<?= $month ?>" class="form-control form-control-sm rounded-0">
@@ -37,11 +82,17 @@
             </div>
         </form>
         <div class="card mb-4">
-            <div class="card-header">
+            <div class="card-header noprint">
                 <i class="fas fa-table me-1"></i>
                 DataTable Other Bills
+                <div class="float-end">
+                    <button class="btn btn-sm btn-flat btn-secondary" type="button" onclick="window.print()"><i class="fa fa-print"></i> Print</button>
+                </div>
             </div>
             <div class="card-body">
+                <div class="system-header d-none">
+                    <h4 class="text-center">Rental Properties Management System</h4>
+                </div>
                 <table class="table table-bordered table-hover text-center" id="datatablesSimple">
                     <thead>
                         <tr>
