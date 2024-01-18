@@ -28,8 +28,11 @@
         $utility_status = 'Active';
         $thismonth = date('Y-m');
 
-        $check_billing_sql = "SELECT * FROM `utility` WHERE user_id = '$renter' AND `utility_type_id` = '$utility_type_id' AND DATE_FORMAT(`utility_date`, '%Y-%m') = '$thismonth' AND `utility_status` != 'Archive'";
+        $check_billing_sql = "SELECT * FROM `utility` WHERE user_id = '$renter' AND `utility_type_id` = '$utility_type_id' AND DATE_FORMAT(`utility_date`, '%Y-%m') = '$thismonth' AND `utility_status` != 'Inactive'";
         $check_billing_sql_run = mysqli_query($con, $check_billing_sql);
+
+        $stmt = $con->query("SELECT `balance` FROM `user` WHERE `user_id` = '$renter'");
+        $row_result = $stmt->fetch_assoc();
 
         if (mysqli_num_rows($check_billing_sql_run) > 0) {
             $_SESSION['status'] = "The selected user has already added bill this month.";
@@ -128,9 +131,14 @@
             $email = $user['email'];
             $phone = $user['phone'];
 
+            // Update the balance.
+            $new_balance = $row_result['balance'] + $utility_amount;
 
-            $query = "INSERT INTO `utility` (`user_id`, `utility_type_id`, `utility_amount`, `utility_date`, `utility_attachment`, `utility_status`) VALUES ('$renter','$utility_type_id','$utility_amount','$utility_date','$fileName','$utility_status')";
+
+            $query = "INSERT INTO `utility` (`user_id`, `utility_type_id`, `utility_amount`, `utility_date`, `utility_attachment`, `utility_status`, `updated_by`, `last_update_date`) VALUES ('$renter','$utility_type_id','$utility_amount','$utility_date','$fileName','$utility_status','$user_id','$utility_date')";
             $query_run = mysqli_query($con, $query);
+
+            $run_query = mysqli_query($con, "UPDATE `user` SET `balance` = '$new_balance' WHERE `user_id` = '$renter'");
 
             if($query_run){
                 // PHP Compose Mail
@@ -194,6 +202,7 @@
         $utility_type_id = $_POST['utility_type_id'];
         $utility_amount = $_POST['utility_amount'];
         $utility_status = $_POST['utility_status'];
+        $utility_date = date;
 
         function compressImage($source, $destination, $quality){
             // Get image info
@@ -280,7 +289,7 @@
             }
         }
 
-        $query = "UPDATE `utility` SET `user_id`='$renter', `utility_type_id`='$utility_type_id', `utility_amount`='$utility_amount', `utility_status`='$utility_status' WHERE `utility_id` = '$utility_id'";
+        $query = "UPDATE `utility` SET `user_id`='$renter', `utility_type_id`='$utility_type_id', `utility_amount`='$utility_amount', `utility_status`='$utility_status', `updated_by`='$user_id', `last_update_date`='$utility_date' WHERE `utility_id` = '$utility_id'";
         $query_run = mysqli_query($con, $query);
 
         if($query_run){

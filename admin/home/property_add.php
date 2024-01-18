@@ -82,7 +82,7 @@
 
                                 <div class="col-md-4 mb-3">
                                     <?php
-                                        $stmt = "SELECT * FROM `property_type` WHERE property_type_status != 'Archive'";
+                                        $stmt = "SELECT * FROM `property_type` WHERE property_type_status != 'Inactive'";
                                         $stmt_run = mysqli_query($con,$stmt);
                                     ?>
                                     <label for="property_type_id" class="required">Property Type</label>

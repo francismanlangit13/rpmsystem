@@ -80,7 +80,7 @@
                                 </div>
 
                                 <div class="col-md-4 mt-3 text-center <?php if ($row['utility_type_id'] != '1'){ } else { echo"d-none"; }?>" id="Container2">
-                                    <h6>JPG or PNG no larger than 5 MB</h6> 
+                                    <h6>Bills Attachment</h6> 
                                     <a href="
                                         <?php
                                             if(!empty($row['utility_attachment'])){ 

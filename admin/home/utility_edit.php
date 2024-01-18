@@ -70,7 +70,7 @@
 
                                 <div class="col-md-3 mb-3">
                                     <?php
-                                        $stmt = "SELECT * FROM `utility_type` WHERE utility_type_status != 'Archive'";
+                                        $stmt = "SELECT * FROM `utility_type` WHERE utility_type_status != 'Inactive'";
                                         $stmt_run = mysqli_query($con,$stmt);
                                     ?>
                                     <label for="utility_type_id" class="required">Bills Type</label>

@@ -124,7 +124,9 @@
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
-            $query_property = "UPDATE `property` SET `property_status` = 'Rented' WHERE `property_id` = '$property'";
+            // Get the last inserted user_id
+            $lastUserId = $con->insert_id;
+            $query_property = "UPDATE `property` SET rentee_id = '$lastUserId', `property_status` = 'Rented' WHERE `property_id` = '$property'";
             $query_property_run = mysqli_query($con, $query_property);
 
             $fullname = $fname .' '. $mname .' '. $lname .' '. $suffix;
@@ -301,10 +303,10 @@
 
         if($query_run){
             if($status == 'Inactive'){
-                $query_property = "UPDATE `property` SET property_status = 'Available' WHERE property_id = '$property'";
+                $query_property = "UPDATE `property` SET rentee_id = '0', property_status = 'Available' WHERE property_id = '$property'";
                 $query_property_run = mysqli_query($con, $query_property);
             } else {
-                $query_property = "UPDATE `property` SET property_status = 'Rented' WHERE property_id = '$property'";
+                $query_property = "UPDATE `property` SET rentee_id = '$user_id', property_status = 'Rented' WHERE property_id = '$property'";
                 $query_property_run = mysqli_query($con, $query_property);
             }
             if($property == $old_property){

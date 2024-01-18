@@ -69,6 +69,7 @@
                             <th>Location</th>
                             <th>Type</th>
                             <th>Amount</th>
+                            <th>Balance</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
                             <th>Buttons</th>
@@ -82,6 +83,7 @@
                             <th>Location</th>
                             <th>Type</th>
                             <th>Amount</th>
+                            <th>Balance</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
                             <th>Buttons</th>
@@ -104,6 +106,7 @@
                             <td><?= $row['property_location']; ?></td>
                             <td><?= $row['property_type_name']; ?></td>
                             <td>₱<?= $row['property_amount']; ?></td>
+                            <td>₱<?= $row['balance']; ?></td>
                             <td><?= $new_row['staff_fullname']; ?></td>
                             <td><?= $row['property_status']; ?></td>
                             <td>

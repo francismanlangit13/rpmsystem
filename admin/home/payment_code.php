@@ -167,7 +167,7 @@
         }
 
         // Run the SQL INSERT statement to insert the new payment.
-        $query_run = mysqli_query($con, "INSERT INTO `payment`(`utility_id`, `user_id`, `utility_type_id`, `is_cash_advance`, `is_cash_deposit`, `payment_type_id`, `payment_amount`, `payment_remaining`, `payment_date`, `payment_status`, `status`, `remarks`) VALUES ('$utility_id','$add_renter','$utility_type_id','$is_cash_advance','$is_too_much_cash','$payment_type_id','$payment_amount','$payment_remaining','$payment_date','$payment_status','$status','$remarks')");
+        $query_run = mysqli_query($con, "INSERT INTO `payment`(`utility_id`, `user_id`, `utility_type_id`, `is_cash_advance`, `is_cash_deposit`, `payment_type_id`, `payment_amount`, `payment_remaining`, `payment_date`, `payment_status`, `status`, `remarks`, `updated_by`, `last_update_date`) VALUES ('$utility_id','$add_renter','$utility_type_id','$is_cash_advance','$is_too_much_cash','$payment_type_id','$payment_amount','$payment_remaining','$payment_date','$payment_status','$status','$remarks','$user_id','$payment_date')");
 
         // Run the SQL SELECT statement to get the values from the database to apply for the SMS such as payment_amount and payment_status.
         $get_sql = $con->query("SELECT * FROM `payment` WHERE user_id = '$add_renter' AND `utility_type_id` = '$utility_type_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Inactive'");
@@ -243,6 +243,7 @@
         $payment_id = $_POST["payment_id"];
         $payment_amount = $_POST['payment_amount'];
         $is_too_much_cash_current = 0;
+        $last_update_date = date;
 
         // For online payment
         $payment_status = $_POST['payment_status'];
@@ -359,12 +360,12 @@
                 $payment_status = 'Paid';
             }
 
-            $query = "UPDATE `payment` SET `is_cash_deposit`='$is_too_much_cash_current',`payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status' WHERE `payment_id`='$payment_id'";
+            $query = "UPDATE `payment` SET `is_cash_deposit`='$is_too_much_cash_current',`payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status', `updated_by`='$user_id', `last_update_date`='$last_update_date' WHERE `payment_id`='$payment_id'";
             $query_run = mysqli_query($con, $query);
 
         } else { // For online payment
             if($payment_status == 'Reject'){
-                $query = "UPDATE `payment` SET `payment_status`='$payment_status', `payment_comment`='$payment_comment' WHERE `payment_id`='$payment_id'";
+                $query = "UPDATE `payment` SET `payment_status`='$payment_status', `payment_comment`='$payment_comment', `updated_by`='$user_id', `last_update_date`='$last_update_date' WHERE `payment_id`='$payment_id'";
                 $query_run = mysqli_query($con, $query);
 
                 // Getting the data from utility
@@ -393,7 +394,7 @@
                 curl_close($ch);
                 echo $output;
             } else {
-                $query = "UPDATE `payment` SET `payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status' WHERE `payment_id`='$payment_id'";
+                $query = "UPDATE `payment` SET `payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status', `updated_by`='$user_id', `last_update_date`='$last_update_date' WHERE `payment_id`='$payment_id'";
                 $query_run = mysqli_query($con, $query);
 
                 // Getting the data from utility

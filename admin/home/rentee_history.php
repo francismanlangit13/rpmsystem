@@ -111,7 +111,7 @@
                             <td class=""><p class="m-0"><?php echo $row['payment_remaining'] ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row['payment_reference'] ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row['payment_status'] ?></p></td>
-                            <td class=""><p class="m-0"><?php echo $row['remarks'] ?></p></td>
+                            <td class="text-left"><p class="m-0"><?php echo $row['remarks'] ?></p></td>
                         </tr>
                     <?php endwhile; ?>
                     <?php if($qry->num_rows <= 0): ?>
