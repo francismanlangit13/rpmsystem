@@ -85,7 +85,7 @@
                                             <small>By clicking login, you agree to the <a class="text-decoration-none" href="javascript:void(0);" data-toggle="modal" data-target="#System_Terms">terms</a> and <a class="text-decoration-none" href="javascript:void(0);" data-toggle="modal" data-target="#System_Privacy">privacy policy</a>.</small>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" href="forgot.php">Forgot Password?</a>
-                                                <button type="submit" name="btn_login" class="btn btn-secondary">Login</button>
+                                                <button type="submit" name="btn_login" class="btn btn-primary">Login</button>
                                             </div>
                                         </form>
                                     </div>
