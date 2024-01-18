@@ -90,6 +90,17 @@
                         if ($compressedImage) {
                             $query = "UPDATE `user` SET `profile`='$fileName' WHERE `user_id` = '$user_id'";
                             $query_run = mysqli_query($con, $query);
+                            if ($query_run) {
+                                $_SESSION['status'] = "Account updated successfully";
+                                $_SESSION['status_code'] = "success";
+                                header("Location: " . base_url . "admin/home/myaccount");
+                                exit(0);
+                            } else {
+                                $_SESSION['status'] = "Account was not updated";
+                                $_SESSION['status_code'] = "error";
+                                header("Location: " . base_url . "admin/home/myaccount");
+                                exit(0);
+                            }
                         }
                     } else {
                         $_SESSION['status'] = "File is too large, must be 5MB or below";
