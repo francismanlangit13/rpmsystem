@@ -63,7 +63,7 @@
                             <div class="col-lg-6">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header">
-                                        <h5 class="text-center my-4">Rental Properties Management System</h5>
+                                        <h5 class="text-center my-4">Rental Properties Management System TEST</h5>
                                         <h4 class="text-center my-4">Login</h4>
                                     </div>
                                     <div style="text-align: center;">
