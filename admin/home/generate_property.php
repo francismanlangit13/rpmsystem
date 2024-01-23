@@ -75,9 +75,10 @@
                                     <option value="">Select Property Type</option>
                                     <?php
                                         // use a while loop to fetch data
-                                        while ($property_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):;
+                                        while ($property_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):
+                                        $selected = ($property_type['property_type_id'] == $property_type_id) ? 'selected' : '';
                                     ?>
-                                        <option value="<?= $property_type["property_type_id"]; ?>"><?= $property_type["property_type_name"]; ?></option>
+                                        <option value="<?= $property_type["property_type_id"]; ?>" <?=$selected;?>><?= $property_type["property_type_name"]; ?></option>
                                     <?php
                                         endwhile; // While loop must be terminated
                                     ?>
@@ -85,33 +86,7 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="Barangay">Location</label>
-                                <select class="form-control" id="Barangay" name="Barangay">
-                                    <option value="">Select Location</option>
-                                    <option value="Adorable">Adorable</option>    
-                                    <option value="Butuay">Butuay</option> 
-                                    <option value="Carmen">Carmen</option> 
-                                    <option value="Corrales">Corrales</option> 
-                                    <option value="Dicoloc">Dicoloc</option> 
-                                    <option value="Gata">Gata</option> 
-                                    <option value="Guintomoyan">Guintomoyan</option> 
-                                    <option value="Malibacsan">Malibacsan</option> 
-                                    <option value="Macabayao">Macabayao</option> 
-                                    <option value="Matugas Alto">Matugas Alto</option> 
-                                    <option value="Matugas Bajo">Matugas Bajo</option> 
-                                    <option value="Mialem">Mialem</option> 
-                                    <option value="Naga">Naga</option> 
-                                    <option value="Palilan">Palilan</option> 
-                                    <option value="Nacional">Nacional</option> 
-                                    <option value="Rizal">Rizal</option>
-                                    <option value="San Isidro">San Isidro</option> 
-                                    <option value="Santa Cruz">Santa Cruz</option>
-                                    <option value="Sibaroc">Sibaroc</option>
-                                    <option value="Sinara Alto">Sinara Alto</option>
-                                    <option value="Sinara Bajo">Sinara Bajo</option>
-                                    <option value="Seti">Seti</option>
-                                    <option value="Tabo-o">Tabo-o</option>
-                                    <option value="Taraka">Taraka</option>
-                                </select>
+                                <input type="text" class="form-control" id="Barangay" name="Barangay" value="<?=$barangay?>">
                             </div>
                         </div>
                     </div>

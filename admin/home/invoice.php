@@ -65,16 +65,16 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4 noprint">Notification</h1>
+        <h1 class="mt-4 noprint">Invoice</h1>
         <ol class="breadcrumb mb-4 mt-3 noprint">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item">Notification</li>
+            <li class="breadcrumb-item">Invoice</li>
         </ol>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="container">
-                        <?php if(isset($_POST['rentee_id'])){ ?>
+                        
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="text-center">
@@ -157,7 +157,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <?php } else { } ?>
+                        
                     </div>
                 </div>
             </div>

@@ -21,7 +21,7 @@
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
                 // $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
-                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN `utility` ON utility.utility_id = payment.utility_id WHERE `payment_id` = '3' AND `payment`.`status` != 'Archive'";
+                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN `utility` ON utility.utility_id = payment.utility_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -47,10 +47,10 @@
                             $balance = $row['utility_amount'] + $row['utility_amount'] * 0.05 * $monthDiff;
                             $balance_formatted = number_format($balance, 2);
                         } elseif ($paymentStatus === 'Paid') {
-                            $balance = "N/A";
+                            $balance = $row['payment_amount'];
                         } else {
                             // Handle other payment statuses if needed
-                            $balance = "Unknown payment status";
+                            $balance = "0";
                         }
         ?>
         <?php if($row['payment_type_id'] != '1'){ ?>
@@ -81,7 +81,7 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="payment_amount">Amount</label>
-                                        <input type="number" class="form-control" id="payment_amount" value="<?= $row['payment_amount']; ?>" oninput="updateBalance()" disabled>
+                                        <input type="number" class="form-control" id="payment_amount" min="0" max="<?=$balance?>" value="<?= $row['payment_amount']; ?>" oninput="updateBalance()" disabled>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
@@ -126,8 +126,8 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
-                                        <label for="property_amount">Property Amount</label>
-                                        <input type="number" class="form-control" id="property_amount" value="<?= $row['payment_amount']; ?>" oninput="updateBalance()">
+                                        <label for="payment_amount">Payment Amount</label>
+                                        <input type="number" class="form-control" id="payment_amount" name ="payment_amount" min="0" max="<?=$balance?>" value="<?= $row['payment_amount']; ?>" oninput="updateBalance()">
                                     </div>
 
                                     <div class="col-md-3 mb-3">
@@ -157,14 +157,14 @@
     </div>
 </main>
 
-<!-- Script for changing balance based on input property_amount -->
+<!-- Script for changing balance based on input payment_amount -->
 <script>
     // Fetch initial balance from PHP
     var initialBalance = <?= $balance ?>;
 
     function updateBalance() {
         // Get the property amount input value
-        var propertyAmount = parseFloat(document.getElementById("property_amount").value) || 0;
+        var propertyAmount = parseFloat(document.getElementById("payment_amount").value) || 0;
 
         // Calculate the balance
         var balance = initialBalance - propertyAmount;

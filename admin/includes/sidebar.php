@@ -55,6 +55,10 @@
                         Manage Bills
                     </a>
                     <div class="sb-sidenav-menu-heading">Maintenance</div>
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/activity_log.php') !== false)  { echo 'active'; } ?>" href="activity_log">
+                        <div class="sb-nav-link-icon"><i class="fas fa-clock"></i></div>
+                        Activity Logs
+                    </a>
                     <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/database.php') !== false)  { echo 'active'; } ?>" href="database">
                         <div class="sb-nav-link-icon"><i class="fas fa-database"></i></div>
                         Database Management

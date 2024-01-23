@@ -1,5 +1,7 @@
 <?php
     include ('../includes/header.php');
+    $renter = isset($_POST['renter']) ? $_POST['renter'] : '';
+    $type = isset($_POST['payment_type']) ? $_POST['payment_type'] : '';
     $startmonth = isset($_POST['startmonth']) ? $_POST['startmonth'] : date("Y-m");
     $endmonth = isset($_POST['endmonth']) ? $_POST['endmonth'] : date("Y-m");
     $firstDayOfMonth = date("Y-m-01", strtotime($startmonth));
@@ -79,8 +81,9 @@
                                     <?php 
                                         if ($staff_result->num_rows > 0) {
                                         while($staffrow = $staff_result->fetch_assoc()) {
+                                        $selected = ($staffrow['user_id'] == $renter) ? 'selected' : '';
                                     ?>
-                                    <option value="<?=$staffrow['user_id'];?>"><?=$staffrow['fullname'];?></option>
+                                    <option value="<?=$staffrow['user_id'];?>" <?=$selected;?>><?=$staffrow['fullname'];?></option>
                                     <?php } } ?>
                                 </select>
                                 <div id="renter-error"></div>
@@ -128,9 +131,6 @@
                 </thead>
                 <tbody>
                     <?php
-                        $renter = isset($_POST['renter']) ? $_POST['renter'] : '';
-                        $type = isset($_POST['payment_type']) ? $_POST['payment_type'] : '';
-                        
                         $qry = $con->query("SELECT *,
                             DATE_FORMAT(payment_date, '%m-%d-%Y') as new_payment_date
                             FROM payment 

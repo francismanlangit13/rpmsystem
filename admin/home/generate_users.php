@@ -54,12 +54,12 @@
 </head>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4 noprint">Generate Rentee</h1>
+        <h1 class="mt-4 noprint">Generate Users</h1>
         <ol class="breadcrumb mb-4 mt-3 noprint">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item">Generate Rentee</li>
+            <li class="breadcrumb-item">Generate Users</li>
         </ol>
-        <form action="generate_rentee.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form action="generate_users.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row noprint">
                 <div class="col-md-12">
                     <div class="card">
@@ -78,9 +78,9 @@
                                     <label for="Role">User Type</label>
                                     <select class="form-control" name="Role" id="Role">
                                         <option value="" selected>Select Status</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="Staff">Staff</option>
-                                        <option value="Renter">Rentee</option>
+                                        <option value="Admin" <?= isset($role) && $role == 'Admin' ? 'selected' : '' ?>>Admin</option>
+                                        <option value="Staff" <?= isset($role) && $role == 'Staff' ? 'selected' : '' ?>>Staff</option>
+                                        <option value="Renter" <?= isset($role) && $role == 'Renter' ? 'selected' : '' ?>>Rentee</option>
                                     </select>
                                 </div>
                             </div>
@@ -89,85 +89,59 @@
                                     <label for="Status">User Status</label>
                                     <select class="form-control" name="Status" id="Status">
                                         <option value="" selected>Select Status</option>
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
+                                        <option value="Active" <?= isset($status) && $status == 'Active' ? 'selected' : '' ?>>Active</option>
+                                        <option value="Inactive" <?= isset($status) && $status == 'Inactive' ? 'selected' : '' ?>>Inactive</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group col-md-3">
-                                <!-- <label for="Barangay">Barangay</label>
-                                <select class="form-control" name="Barangay" id="Barangay">
-                                    <option value="" selected>Select Barangay</option>
-                                    <option value="Adorable">Adorable</option>    
-                                    <option value="Butuay">Butuay</option> 
-                                    <option value="Carmen">Carmen</option> 
-                                    <option value="Corrales">Corrales</option> 
-                                    <option value="Dicoloc">Dicoloc</option> 
-                                    <option value="Gata">Gata</option> 
-                                    <option value="Guintomoyan">Guintomoyan</option> 
-                                    <option value="Malibacsan">Malibacsan</option> 
-                                    <option value="Macabayao">Macabayao</option> 
-                                    <option value="Matugas Alto">Matugas Alto</option> 
-                                    <option value="Matugas Bajo">Matugas Bajo</option> 
-                                    <option value="Mialem">Mialem</option> 
-                                    <option value="Naga">Naga</option> 
-                                    <option value="Palilan">Palilan</option> 
-                                    <option value="Nacional">Nacional</option> 
-                                    <option value="Rizal">Rizal</option>
-                                    <option value="San Isidro">San Isidro</option> 
-                                    <option value="Santa Cruz">Santa Cruz</option>
-                                    <option value="Sibaroc">Sibaroc</option>
-                                    <option value="Sinara Alto">Sinara Alto</option>
-                                    <option value="Sinara Bajo">Sinara Bajo</option>
-                                    <option value="Seti">Seti</option>
-                                    <option value="Tabo-o">Tabo-o</option>
-                                    <option value="Taraka">Taraka</option>
-                                </select> -->
+                                <label for="Barangay">Barangay</label>
+                                <input type="text" class="form-control" name="Barangay" id="Barangay" value="<?=$barangay?>">
                             </div>
                             <div class="form-group col-md-3"></div>
                             <div class="row">
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Gender" id="Gender" name="Gender">
+                                    <input class="form-check-input" type="checkbox" value="Gender" id="Gender" name="Gender" <?php if(isset($_POST['Gender'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Gender">Gender</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Birthday" id="Birthday" name="Birthday">
+                                    <input class="form-check-input" type="checkbox" value="Birthday" id="Birthday" name="Birthday" <?php if(isset($_POST['Birthday'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Birthday">Birthday</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Civil_Status" id="Civil_Status" name="Civil_Status">
+                                    <input class="form-check-input" type="checkbox" value="Civil_Status" id="Civil_Status" name="Civil_Status" <?php if(isset($_POST['Civil_Status'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Civil_Status">Civil Status</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Email" id="Email" name="Email">
+                                    <input class="form-check-input" type="checkbox" value="Email" id="Email" name="Email" <?php if(isset($_POST['Email'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Email">Email</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Phone" id="Phone" name="Phone">
+                                    <input class="form-check-input" type="checkbox" value="Phone" id="Phone" name="Phone" <?php if(isset($_POST['Phone'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Phone">Phone</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Address" id="Address" name="Address">
+                                    <input class="form-check-input" type="checkbox" value="Address" id="Address" name="Address" <?php if(isset($_POST['Address'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Address">Address</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Property" id="Property" name="Property">
+                                    <input class="form-check-input" type="checkbox" value="Property" id="Property" name="Property" <?php if(isset($_POST['Property'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Property">Property</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Property_amount" id="Property_amount" name="Property_amount">
+                                    <input class="form-check-input" type="checkbox" value="Property_amount" id="Property_amount" name="Property_amount" <?php if(isset($_POST['Property_amount'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Property_amount">Unit Cost</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Balance" id="Balance" name="Balance">
+                                    <input class="form-check-input" type="checkbox" value="Balance" id="Balance" name="Balance" <?php if(isset($_POST['Balance'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Balance">Balance</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Startrent" id="Startrent" name="Startrent">
+                                    <input class="form-check-input" type="checkbox" value="Startrent" id="Startrent" name="Startrent" <?php if(isset($_POST['Startrent'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Startrent">Start Rent</label>
                                 </div>
                                 <div class='col-md-2'>
-                                    <input class="form-check-input" type="checkbox" value="Endrent" id="Endrent" name="Endrent">
+                                    <input class="form-check-input" type="checkbox" value="Endrent" id="Endrent" name="Endrent" <?php if(isset($_POST['Endrent'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Endrent">End Rent</label>
                                 </div>
                             </div>
@@ -201,9 +175,9 @@
                             <th>Email</th>
                         <?php } if(isset($_POST['Phone'])) { ?>
                             <th>Phone</th>
-                        <?php } if(isset($_POST['Role']) == 'Renter'){ ?>
+                        <?php } if(!empty($_POST['Role'])){ ?>
                             <th>Role</th>
-                        <?php } if(isset($_POST['Status'])) { ?>
+                        <?php } if(!empty($_POST['Status'])) { ?>
                             <th>Status</th>
                         <?php } if(isset($_POST['Address'])) { ?>
                             <th>Address</th>
@@ -222,12 +196,18 @@
                 </thead>
                 <tbody>
                     <?php
-                        $qry = $con->query("SELECT *, user.user_id AS new_user_id FROM `user` LEFT JOIN `property` ON property.property_id = user.property_rented_id WHERE  user.user_id != '$userID'" . 
-                        ($role != '' || $status != '' ? " WHERE" : "") . 
-                        ($role != '' ? " `type` = '{$role}'" : "") . 
-                        ($role != '' && $status != '' ? " AND" : "") . 
-                        ($status != '' ? " `status` = '{$status}'" : ""));
-                        while($row = $qry->fetch_assoc()):
+                        // Build the SQL query
+                        $qry = "SELECT *, user.user_id AS new_user_id FROM `user` LEFT JOIN `property` ON property.property_id = user.property_rented_id WHERE user.user_id != '$userID'";
+                        $conditions = [];
+                        if ($role != '') { $conditions[] = " `type` = '$role'"; }
+                        if ($status != '') { $conditions[] = " `status` = '$status'"; }
+                        if ($barangay != '') { $conditions[] = " `address` LIKE '%$barangay%'"; }
+                        if (!empty($conditions)) { $qry .= " AND" . implode(" AND", $conditions); }
+
+                        // Execute the query
+                        $qry = $con->query($qry);
+
+                        while ($row = $qry->fetch_assoc()):
                     ?>
                         <tr>
                             <td class="text-center"><?php echo $row['new_user_id'] ?></td>
@@ -242,9 +222,9 @@
                                 <td class=""><p class="m-0"><?php echo $row['email'] ?></p></td>
                             <?php } if(isset($_POST['Phone'])) { ?>
                                 <td class=""><p class="m-0"><?php echo $row['phone'] ?></p></td>
-                            <?php } if(isset($_POST['Role']) == 'Renter'){ ?>
+                            <?php } if(!empty($_POST['Role'])){ ?>
                                 <td class=""><p class="m-0"><?php echo $row['type'] ?></p></td>
-                            <?php } if(isset($_POST['Status'])) { ?>
+                            <?php } if(!empty($_POST['Status'])) { ?>
                                 <td class=""><p class="m-0"><?php echo $row['status'] ?></p></td>
                             <?php } if(isset($_POST['Address'])) { ?>
                                 <td class=""><p class="m-0"><?php echo $row['address'] ?></p></td>

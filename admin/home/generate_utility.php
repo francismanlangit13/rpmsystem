@@ -1,5 +1,7 @@
 <?php
     include ('../includes/header.php');
+    $renter = isset($_POST['renter']) ? $_POST['renter'] : '';
+    $type = isset($_POST['utility_type']) ? $_POST['utility_type'] : '';
     $startmonth = isset($_POST['startmonth']) ? $_POST['startmonth'] : date("Y-m");
     $endmonth = isset($_POST['endmonth']) ? $_POST['endmonth'] : date("Y-m");
     $firstDayOfMonth = date("Y-m-01", strtotime($startmonth));
@@ -70,7 +72,7 @@
                             <!-- Select2 Example -->
                             <div class="col-md-3 mb-3">
                                 <?php
-                                    $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND `status` != 'Inactive'";
+                                    $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter'";
                                     $staff_result = $con->query($staff);
                                 ?>
                                 <label for="renter">Rentee</label>
@@ -79,8 +81,9 @@
                                     <?php 
                                         if ($staff_result->num_rows > 0) {
                                         while($staffrow = $staff_result->fetch_assoc()) {
+                                        $selected = ($staffrow['user_id'] == $renter) ? 'selected' : '';
                                     ?>
-                                    <option value="<?=$staffrow['user_id'];?>"><?=$staffrow['fullname'];?></option>
+                                    <option value="<?=$staffrow['user_id'];?>" <?=$selected;?>><?=$staffrow['fullname'];?></option>
                                     <?php } } ?>
                                 </select>
                                 <div id="renter-error"></div>
@@ -95,7 +98,7 @@
 
                             <div class="col-md-3 mb-3">
                                 <?php
-                                    $stmt = "SELECT * FROM `utility_type` WHERE `utility_type_id` != '1' AND `utility_type_status` != 'Inactive'";
+                                    $stmt = "SELECT * FROM `utility_type` WHERE `utility_type_status` != 'Inactive'";
                                     $stmt_run = mysqli_query($con,$stmt);
                                 ?>
                                 <label for="utility_type">Bills Type</label>
@@ -103,9 +106,10 @@
                                     <option value="">Select Bills Type</option>
                                     <?php
                                         // use a while loop to fetch data
-                                        while ($utility_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):;
+                                        while ($utility_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):
+                                        $selected = ($utility_type['utility_type_id'] == $type) ? 'selected' : '';
                                     ?>
-                                        <option value="<?= $utility_type["utility_type_id"]; ?>"><?= $utility_type["utility_type_name"]; ?></option>
+                                        <option value="<?= $utility_type["utility_type_id"]; ?>" <?=$selected;?>><?= $utility_type["utility_type_name"]; ?></option>
                                     <?php
                                         endwhile; // While loop must be terminated
                                     ?>
@@ -146,9 +150,6 @@
                 </thead>
                 <tbody>
                     <?php
-                        $renter = isset($_POST['renter']) ? $_POST['renter'] : '';
-                        $type = isset($_POST['utility_type']) ? $_POST['utility_type'] : '';
-                        
                         $qry = $con->query("SELECT *,
                             DATE_FORMAT(utility_date, '%m-%d-%Y') as new_utility_date
                             FROM utility
