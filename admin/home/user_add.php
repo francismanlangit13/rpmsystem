@@ -24,7 +24,7 @@
                         <div class="card-header">
                             <h4>User form
                                 <div class="float-end btn-disabled">
-                                    <button type="submit" id="submit-btn" class="btn btn-primary" onclick="return validateForm()"><i class="fas fa-save"></i> Save</button>
+                                    <button type="submit" id="submit-btn" class="btn btn-primary" onclick="return validateForm()"><i class="fas fa-plus"></i> Add</button>
                                 </div>
                             </h4>
                         </div>

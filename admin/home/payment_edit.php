@@ -120,6 +120,7 @@
                                     <div class="float-end">
                                         <button type="submit" name="edit_payment" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
                                         <input type="hidden" name="payment_id" value="<?=$row['payment_id']?>">
+                                        <input type="hidden" name="payment_status" value="<?=$row['payment_status']?>">
                                     </div>
                                 </h4>
                             </div>

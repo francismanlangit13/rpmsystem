@@ -102,7 +102,7 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label for="property_purok" class="required">Purok</label>
-                                    <input type="number" class="form-control" placeholder="Enter Purok" name="property_purok" id="property_purok" required>
+                                    <input type="text" class="form-control" placeholder="Enter Purok" name="property_purok" id="property_purok" required>
                                     <div id="property_purok-error"></div>
                                 </div>
 

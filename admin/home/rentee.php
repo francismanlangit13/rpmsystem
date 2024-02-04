@@ -42,14 +42,7 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Rentee
-            <a href="property_add" class="btn btn-success btn-icon-split float-end mt-2"> 
-                <span class="icon text-white-50">
-                    <i class="fas fa-plus"></i>
-                </span>
-                <span class="text">Add Rentee</span>
-            </a>
-        </h1>
+        <h1 class="mt-4">Rentee</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item">Rentee</li>
