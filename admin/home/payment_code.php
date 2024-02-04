@@ -32,10 +32,14 @@
         $is_cash_advance = 0;
         $is_too_much_cash = 0;
 
+        // Getting the data from user balance table
+        $stmt_get_balance = mysqli_query($con, "SELECT balance FROM `user` WHERE `user_id` = '$add_renter'");
+        $row_get_balance = $stmt_get_balance->fetch_assoc();
+
         // Select to get the utility identifier.
-        $stmt1 = $con->query("SELECT * FROM `utility` WHERE `user_id` = '$add_renter' AND `is_payment_made` = '0' ORDER BY `utility_date` DESC LIMIT 1");
-        $where_id = $stmt1->fetch_assoc();
-        $utility_id = $where_id['utility_id'];
+        // $stmt1 = $con->query("SELECT * FROM `utility` WHERE `user_id` = '$add_renter' AND `is_payment_made` = '0' ORDER BY `utility_date` DESC LIMIT 1");
+        // $where_id = $stmt1->fetch_assoc();
+        // $utility_id = $where_id['utility_id'];
 
         $check_billing_sql = "SELECT * FROM `payment` WHERE user_id = '$add_renter' AND `utility_type_id` = '$utility_type_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Inactive'";
         $check_billing_sql_run = mysqli_query($con, $check_billing_sql);
@@ -61,10 +65,19 @@
             if ($utility_type_id == '1'){ // if the payment is rent. Else for other bills
                 if(!$pay_rent_cash_advance){ // if the payment is not using payment advanced.
                     $paid_by_cash = '1'; // set true if the payment is my cash.
-                    $stmt_run1 = mysqli_query($con, " SELECT * FROM `utility` WHERE user_id = '$add_renter' AND `is_payment_made` = '0' AND `utility_status` != 'Inactive' ORDER BY utility_date DESC LIMIT 1");
+                    $stmt_run1 = mysqli_query($con, " SELECT * FROM `utility` WHERE user_id = '$add_renter' AND `is_payment_made` = '0' AND utility_type_id = '1' AND `utility_status` != 'Inactive' ORDER BY utility_date DESC LIMIT 1");
                     if (mysqli_num_rows($stmt_run1) > 0){
                         while ($renter_row = $stmt_run1->fetch_assoc()) {
-                            $payment_remaining = $renter_row['utility_amount'] - $payment_amount; // payment remaining
+                            $utility_id = $renter_row['utility_id'];
+                            $utilityDate = $renter_row['utility_date']; // Assuming $renter_row['utility_date'] is in the format 'YYYY-MM-DD'
+                            $currentDate = date('Y-m-d'); // Get the current date
+                            $utilityDateTime = new DateTime($utilityDate); // Convert the dates to DateTime objects
+                            $currentDateTime = new DateTime($currentDate); // Convert the dates to DateTime objects
+                            $monthDiff = $currentDateTime->diff($utilityDateTime)->format('%m'); // Calculate the difference in months
+
+                            $add_penalty = number_format($renter_row['utility_amount'] * 0.05 * $monthDiff, 2);
+                            $payment_remaining = ($renter_row['utility_amount'] + $add_penalty) - $payment_amount; // Reamining Balance
+
                             break; // exit the loop after the first iteration
                         }
                     } else {
@@ -74,14 +87,15 @@
                         exit(0);
                     }
                 } else { // the user is using payment advanced.
-                    $stmt_run1 = mysqli_query($con, " SELECT * FROM `utility` WHERE user_id = '$add_renter' AND `is_payment_made` = '0' AND `utility_status` != 'Inactive' ORDER BY utility_date DESC LIMIT 1");
+                    $stmt_run1 = mysqli_query($con, " SELECT * FROM `utility` WHERE user_id = '$add_renter' AND `is_payment_made` = '0' AND utility_type_id = '1' AND `utility_status` != 'Inactive' ORDER BY utility_date DESC LIMIT 1");
                     if (mysqli_num_rows($stmt_run1) > 0){
                         $check_balance_cash_advance = mysqli_query($con,"SELECT * FROM user WHERE user_id = '$add_renter' AND `is_rented` = '1'");
-                        $stmt = $con->query("SELECT * FROM `utility` WHERE `user_id` = '$add_renter' AND `is_payment_made` = '0' ORDER BY `utility_date` DESC LIMIT 1");
+                        $stmt = $con->query("SELECT * FROM `utility` WHERE user_id = '$add_renter' AND `is_payment_made` = '0' AND utility_type_id = '1' AND `utility_status` != 'Inactive' ORDER BY `utility_date` DESC LIMIT 1");
                         $utility_row = $stmt->fetch_assoc();
                         if (mysqli_num_rows($check_balance_cash_advance) > 0){
                             $utility_type_id = '1';
                             while ($results_row = $check_balance_cash_advance->fetch_assoc()) {
+                                $utility_id = $utility_row['utility_id'];
                                 $payment_amount = $results_row['cash_advance'];
                                 if($payment_amount <= 0){
                                     $_SESSION['status'] = "The selected user does not have balance in cash advance.";
@@ -93,8 +107,16 @@
                                 $cash_advanced_balance = $payment_amount - $utility_row['utility_amount'];
                                 $new_cash_advanced_balance = max(0, $cash_advanced_balance);
 
-                                // Reamining Balance
-                                $payment_remaining = $utility_row['utility_amount'] - $payment_amount;
+
+                                $utilityDate = $utility_row['utility_date']; // Assuming $utility_row['utility_date'] is in the format 'YYYY-MM-DD'
+                                $currentDate = date('Y-m-d'); // Get the current date
+                                $utilityDateTime = new DateTime($utilityDate); // Convert the dates to DateTime objects
+                                $currentDateTime = new DateTime($currentDate); // Convert the dates to DateTime objects
+                                $monthDiff = $currentDateTime->diff($utilityDateTime)->format('%m'); // Calculate the difference in months
+                                
+                                $add_penalty = number_format($utility_row['utility_amount'] * 0.05 * $monthDiff, 2);
+                                $payment_remaining = ($utility_row['utility_amount'] + $add_penalty) - $payment_amount; // Reamining Balance
+
                                 $is_cash_advance++;
                                 if($utility_row['utility_amount'] < $payment_amount){ // Kung ang user is dako ang payment advance compared sa utility amount will set the payment amount accordingly sa price sa utility.
                                     $payment_amount = $utility_row['utility_amount'];
@@ -116,11 +138,13 @@
                     }
                 }
             } else { // other bills here...
-
+                $cash_advanced_balance = '1'; // Set to avoid selected in row 145.
+                $paid_by_cash = '1';
                 // Get the SQL statement from utility how much their utilites payment
-                $stmt_run2 = mysqli_query($con, "SELECT * FROM `utility` WHERE user_id = '$add_renter' AND `utility_type_id` = '$utility_type_id' AND DATE_FORMAT(`utility_date`, '%Y-%m') = '$thismonth' AND `utility_status` != 'Inactive'");
+                $stmt_run2 = mysqli_query($con, "SELECT * FROM `utility` WHERE user_id = '$add_renter' AND `utility_type_id` = '$utility_type_id' AND DATE_FORMAT(`utility_date`, '%Y-%m') = '$thismonth' AND `utility_status` != 'Inactive' ORDER BY `utility_date` DESC LIMIT 1");
                 if (mysqli_num_rows($stmt_run2) > 0){
                     while ($renter_row = $stmt_run2->fetch_assoc()) {
+                        $utility_id = $renter_row['utility_id'];
                         $payment_remaining = $renter_row['utility_amount'] - $payment_amount;
                         break; // exit the loop after the first iteration
                     }
@@ -133,20 +157,21 @@
             }
             if($payment_remaining > 0){ // check if the payment remaining is 0 or not.
                 $payment_status = 'Partial';
-                if(!$pay_rent_cash_advance){ // user use cash advance payment.
-                    $run_select_query = mysqli_query($con,"SELECT * FROM user WHERE user_id = '$add_renter' AND `is_rented` = '1'");
-                    $check_balance_remaining = $run_select_query->fetch_assoc();
-                    $new_payment_remaining = $check_balance_remaining['cash_advance'] + abs($payment_remaining);
+                // if(!$pay_rent_cash_advance){ // user use cash advance payment.
+                //     $run_select_query = mysqli_query($con,"SELECT * FROM user WHERE user_id = '$add_renter' AND `is_rented` = '1'");
+                //     $check_balance_remaining = $run_select_query->fetch_assoc();
+                //     $new_payment_remaining = $check_balance_remaining['cash_advance'] + abs($payment_remaining);
 
-                    // Run SQL UPDATE the user cash advance query
-                    $run_update_query = mysqli_query($con, "UPDATE `user` SET `cash_advance` = '$new_payment_remaining' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
-                }
+                //     // Run SQL UPDATE the user cash advance query
+                //     $run_update_query = mysqli_query($con, "UPDATE `user` SET `cash_advance` = '$new_payment_remaining' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+                // }
+                $added_balance = $payment_remaining + $row_get_balance['balance'];
                 if($cash_advanced_balance <= 0){
-                    mysqli_query($con, "UPDATE `user` SET `balance` = '$payment_remaining' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+                    mysqli_query($con, "UPDATE `user` SET `balance` = '$added_balance' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
                     $remarks = "Payment made by cash advance, but there were insufficient funds.";
                 }
                 if($paid_by_cash) {
-                    mysqli_query($con, "UPDATE `user` SET `balance` = '$payment_remaining' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+                    mysqli_query($con, "UPDATE `user` SET `balance` = '$added_balance' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
                     $remarks = "Payment made by cash, but there were insufficient funds.";
                 }
                 // if($paid_by_online){
@@ -157,7 +182,6 @@
                     $is_too_much_cash = '1'; // mark the payment as sobra...
                     $payment_remaining = '0.00';
                 }
-                $remarks = "Transaction Complete";
                 if($cash_advanced_balance <= 0){
                     $remarks = "Payment made by cash advance, Transaction Complete.";
                 }
@@ -267,12 +291,21 @@
         $last_amount = $status_row['payment_amount'];
         $is_cash_advance = $status_row['is_cash_advance'];
 
-        if($last_amount != $payment_amount){
-            $status_results = $last_amount > $payment_amount;
-            $paymentStatus = $_POST['payment_status'];
+        if($last_amount == $payment_amount){
+            // Nothing changes.
         } else {
-            $paymentStatus = 'Partial';
+            if($last_amount > $payment_amount){
+                $status_results = '1'; // Addition
+                $new_calculation = $last_amount - $payment_amount;
+            } else {
+                $status_results = '2'; // Subtraction
+                $new_calculation = $payment_amount - $last_amount;
+            }
         }
+
+        // Getting the data from user balance table
+        $stmt_get_balance = mysqli_query($con, "SELECT balance FROM `user` WHERE `user_id` = '$add_renter'");
+        $row_get_balance = $stmt_get_balance->fetch_assoc();
 
         // Retrieve the full name of user renter
         // SQL for getting the database
@@ -311,15 +344,14 @@
                         $utilityDateTime = new DateTime($utilityDate); // Convert the dates to DateTime objects
                         $currentDateTime = new DateTime($currentDate); // Convert the dates to DateTime objects
                         $monthDiff = $currentDateTime->diff($utilityDateTime)->format('%m'); // Calculate the difference in months
-                        // $paymentStatus = $renter_row['payment_status']; // Check the payment status
 
-                        if ($paymentStatus === 'Partial') {
+                        // if ($paymentStatus === 'Partial') {
                             $add_penalty = number_format($renter_row['utility_amount'] * 0.05 * $monthDiff, 2);
                             $payment_remaining = ($renter_row['utility_amount'] + $add_penalty) - $payment_amount;
 
-                        } else {
-                            $payment_remaining = $renter_row['utility_amount'] - $payment_amount;
-                        }
+                        // } else {
+                        //     $payment_remaining = $renter_row['utility_amount'] - $payment_amount;
+                        // }
                         break; // exit the loop after the first iteration
                     }
                 } else {
@@ -329,22 +361,22 @@
                     exit(0);
                 }
             } else { // Payment for other bills
+                $cash_advanced_balance = '1'; // Set to avoid selected in row 405.
+                $paid_by_cash = '1';
                 // SQL Query
-                $stmt = "SELECT * FROM `payment` INNER JOIN utility ON utility.utility_id = payment.utility_id WHERE payment.user_id = '$add_renter' AND payment.`utility_type_id` = '$utility_type_id'";
+                $stmt = "SELECT * FROM `payment` INNER JOIN utility ON utility.utility_id = payment.utility_id WHERE payment.user_id = '$add_renter' AND payment.`utility_id` = '$utility_id'";
                 $stmt_run = mysqli_query($con,$stmt);
                 if ($stmt_run){
                     while ($renter_row = $stmt_run->fetch_assoc()) {
-                        
                         $utilityDate = $renter_row['utility_date']; // Assuming $renter_row['utility_date'] is in the format 'YYYY-MM-DD'
                         $currentDate = date('Y-m-d'); // Get the current date
                         $utilityDateTime = new DateTime($utilityDate); // Convert the dates to DateTime objects
                         $currentDateTime = new DateTime($currentDate); // Convert the dates to DateTime objects
                         $monthDiff = $currentDateTime->diff($utilityDateTime)->format('%m'); // Calculate the difference in months
-                        // $paymentStatus = $renter_row['payment_status']; // Check the payment status
 
                         if ($paymentStatus === 'Partial') {
                             $add_penalty = number_format($renter_row['utility_amount'] * 0.05 * $monthDiff, 2);
-                            $payment_remaining = ($last_amount + $add_penalty) - $payment_amount;
+                            $payment_remaining = ($renter_row['utility_amount'] + $add_penalty) - $payment_amount;
 
                         } else {
                             $payment_remaining = $renter_row['utility_amount'] - $payment_amount;
@@ -359,30 +391,50 @@
                 }
             }
 
-            // Getting the data from user balance table
-            $stmt_get_balance = mysqli_query($con, "SELECT balance FROM `user` WHERE `user_id` = '$add_renter'");
-            $row_get_balance = $stmt_get_balance->fetch_assoc();
-
             if($payment_remaining > 0){
                 $payment_status = 'Partial';
-                if($status_results == TRUE){ // addition
-                    $new_balance_remaining = $payment_remaining;
-                } else { // subtraction
-                    $new_balance_remaining = $payment_remaining; //$row_get_balance['balance'] - abs($payment_remaining);
+
+                if($status_results == '1'){ // addition
+                    $added_balance = $new_calculation + $row_get_balance['balance'];
+                } elseif ($status_results == '2') {
+                    $added_balance = $row_get_balance['balance'] - $new_calculation;
+                } else {
+                    $added_balance = $row_get_balance['balance'];
+                }
+                if($cash_advanced_balance <= 0){
+                    mysqli_query($con, "UPDATE `user` SET `balance` = '$added_balance' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+                    $remarks = "Payment made by cash advance, but there were insufficient funds.";
+                }
+                if($paid_by_cash) {
+                    mysqli_query($con, "UPDATE `user` SET `balance` = '$added_balance' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+                    $remarks = "Payment made by cash, but there were insufficient funds.";
                 }
             } else {
                 if($payment_remaining < '-1'){ // if the payment is sobra...
                     $is_too_much_cash_current = '1'; // mark the payment as sobra...
                     $payment_remaining = '0.00';
                 }
+
+                if ($status_results == '2') {
+                    $added_balance = $row_get_balance['balance'] - $new_calculation; // $row_get_balance['balance'] - $payment_remaining;
+                } else {
+                    $added_balance = $row_get_balance['balance'];
+                }
+                if($cash_advanced_balance <= 0){
+                    mysqli_query($con, "UPDATE `user` SET `balance` = '$added_balance' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+                    $remarks = "Payment made by cash advance, Transaction Complete.";
+                }
+                if($paid_by_cash){
+                    mysqli_query($con, "UPDATE `user` SET `balance` = '$added_balance' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+                    $remarks = "Payment made by cash, Transaction Complete.";
+                }
                 $payment_status = 'Paid';
-                // $new_balance_remaining = $row_get_balance['balance'] - $payment_amount;
             }
 
-            $query = "UPDATE `payment` SET `is_cash_deposit`='$is_too_much_cash_current',`payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status', `updated_by`='$user_id', `last_update_date`='$last_update_date' WHERE `payment_id`='$payment_id'";
+            $query = "UPDATE `payment` SET `is_cash_deposit`='$is_too_much_cash_current',`payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status', `remarks`='$remarks', `updated_by`='$user_id', `last_update_date`='$last_update_date' WHERE `payment_id`='$payment_id'";
             $query_run = mysqli_query($con, $query);
 
-            $run_update_query_balance = mysqli_query($con,"UPDATE `user` SET `balance` = '$new_balance_remaining' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+            // $run_update_query_balance = mysqli_query($con,"UPDATE `user` SET `balance` = '$new_balance_remaining' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
 
         } else { // For online payment
             if($payment_status == 'Reject'){

@@ -63,9 +63,11 @@
                             <th>Type</th>
                             <th>Amount</th>
                             <th>Balance</th>
+                            <th>Cash Advance Balance</th>
+                            <th>Cash Deposit Balance</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
-                            <th>Buttons</th>
+                            <!-- <th>Buttons</th> -->
                         </tr>
                     </thead>
                     <tfoot>
@@ -77,9 +79,11 @@
                             <th>Type</th>
                             <th>Amount</th>
                             <th>Balance</th>
+                            <th>Cash Advance Balance</th>
+                            <th>Cash Deposit Balance</th>
                             <th>Landlady / Landlord</th>
                             <th>Property Status</th>
-                            <th>Buttons</th>
+                            <!-- <th>Buttons</th> -->
                         </tr>
                     </tfoot>
                     <tbody>
@@ -100,9 +104,11 @@
                             <td><?= $row['property_type_name']; ?></td>
                             <td>₱<?= $row['property_amount']; ?></td>
                             <td>₱<?= $row['balance']; ?></td>
+                            <td>₱<?= $row['cash_advance']; ?></td>
+                            <td>₱<?= $row['cash_deposit']; ?></td>
                             <td><?= $new_row['staff_fullname']; ?></td>
                             <td><?= $row['property_status']; ?></td>
-                            <td>
+                            <!-- <td>
                                 <div class="d-flex">
                                     <div class="col-md-12 mb-1" style="margin-right: 0.2rem">
                                         <a href="rentee_history?id=<?=$row['rentee_id']?>" class="btn btn-dark btn-icon-split" title="View History"> 
@@ -124,7 +130,7 @@
                                         </button>
                                     </div>
                                 </div>
-                            </td>
+                            </td> -->
                         </tr>
                         <?php } } else{ } ?>
                     </tbody>

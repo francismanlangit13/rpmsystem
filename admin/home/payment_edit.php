@@ -21,7 +21,7 @@
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
                 // $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
-                $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN `utility` ON utility.utility_id = payment.utility_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
+                $sql = "SELECT *, payment.last_update_date AS new_last_update_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN `utility` ON utility.utility_id = payment.utility_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -30,8 +30,12 @@
                         // Assuming $row['utility_date'] is in the format 'YYYY-MM-DD'
                         $utilityDate = $row['utility_date'];
 
-                        // Get the current date
-                        $currentDate = date('Y-m-d');
+                        if($row['payment_status'] == 'Paid'){
+                            $currentDate = $row['new_last_update_date'];
+                        } else {
+                            // Get the current date
+                            $currentDate = date('Y-m-d');
+                        }
 
                         // Convert the dates to DateTime objects
                         $utilityDateTime = new DateTime($utilityDate);
@@ -164,14 +168,22 @@
     var initialBalance = <?= $balance ?>;
 
     function updateBalance() {
-        // Get the property amount input value
-        var propertyAmount = parseFloat(document.getElementById("payment_amount").value) || 0;
+        // Get the payment amount input value
+        var paymentAmount = parseFloat(document.getElementById("payment_amount").value) || 0;
 
         // Calculate the balance
-        var balance = initialBalance - propertyAmount;
+        var balance = initialBalance - paymentAmount;
 
         // Set the balance input value
         document.getElementById("payment_balance").value = balance < 0 ? 0 : balance;
+
+        // Update payment_status based on balance
+        var paymentStatusInput = document.querySelector('input[name="payment_status"]');
+        if (balance === 0) {
+            paymentStatusInput.value = 'Paid';
+        } else {
+            paymentStatusInput.value = 'Partial';
+        }
     }
 
     // Call updateBalance after the page loads
