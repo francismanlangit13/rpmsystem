@@ -58,14 +58,14 @@
                         }
         ?>
         <?php if($row['payment_type_id'] != '1'){ ?>
-            <form action="payment_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+            <form id="myForm" action="payment_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4>Payment form
                                     <div class="float-end">
-                                        <button type="submit" name="edit_payment" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                                        <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-save"></i> Save</button>
                                         <input type="hidden" name="payment_id" value="<?=$row['payment_id']?>">
                                         <input type="hidden" name="payment_amount" value="<?= $row['payment_amount']; ?>">
                                     </div>
@@ -113,16 +113,36 @@
                         </div>
                     </div>
                 </div>
+                <!-- Modal Edit -->
+                <div class="modal fade" id="Modal_save" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Save changes</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want save?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" name="edit_payment" id="editButton" class="btn btn-success">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         <?php } else { ?>
-            <form action="payment_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+            <form id="myForm" action="payment_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4>Payment form
                                     <div class="float-end">
-                                        <button type="submit" name="edit_payment" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                                        <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-save"></i> Save</button>
                                         <input type="hidden" name="payment_id" value="<?=$row['payment_id']?>">
                                         <input type="hidden" name="payment_status" value="<?=$row['payment_status']?>">
                                     </div>
@@ -140,6 +160,26 @@
                                         <input type="number" class="form-control-plaintext" id="payment_balance" disabled>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Edit -->
+                <div class="modal fade" id="Modal_save" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Save changes</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want save?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" name="edit_payment" id="editButton" class="btn btn-success">Save</button>
                             </div>
                         </div>
                     </div>
@@ -192,20 +232,29 @@
     });
 </script>
 
-<!-- <script>
-    document.getElementById('payment_status').addEventListener('change', function () {
-        var Container = document.getElementById('Container');
-        var payment_comment = document.getElementById('payment_comment');
-        var payment_comment1 = document.getElementById('payment_comment');
-        if (this.value === 'Reject') {
-            Container.classList.remove('d-none');
-            payment_comment.required = true;
-            payment_comment1.disabled = false;
-        } else {
-            Container.classList.add('d-none');
-            payment_comment.required = false;
-            payment_comment1.disabled = true;
-        }
+<script>
+    $(document).ready(function() {
+        // Add an event listener to the modal's submit button
+        $(document).on('click', '#editButton', function() {
+            // Set the form's checkValidity to true
+            document.getElementById("myForm").checkValidity = function() {
+                return true;
+            };
+
+            // Submit the form
+            $('#myForm').submit();
+        });
     });
-</script> -->
+
+    function validateForm() {
+        var form = document.getElementById("myForm");
+        if (form.checkValidity()) {
+            // If the form is valid, show the modal
+            $('#Modal_save').modal('show');
+            return false; // Prevent the form from being submitted immediately
+        } else {
+            return true; // Allow the form to be submitted and display the browser's error messages
+        }
+    }
+</script>
 <?php include ('../includes/bottom.php'); ?>

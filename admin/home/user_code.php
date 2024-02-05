@@ -7,6 +7,8 @@
         $password = DB_PASSWORD;
         $db = DB_NAME;
         $dsn = "mysql:host=$host;dbname=$db;charset=UTF8";
+        $user_date = date;
+        $curr_user_id = $_SESSION['auth_user']['user_id'];
         try{
            $conn = new PDO($dsn, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         } catch (PDOException $e){
@@ -123,7 +125,11 @@
         $query = "INSERT INTO `user`(`fname`, `mname`, `lname`, `suffix`, `gender`, `address`, `civil_status`, `birthday`, `occupation`, `company`, `valid_id`, `email`, `phone`, `password`, `is_rented`, `property_rented_id`, `startrent`, `endrent`, `cash_advance`, `cash_deposit`, `status`, `type`) VALUES ('$fname','$mname','$lname','$suffix','$gender','$address','$civil_status','$birthday','$occupation','$company','$fileName','$email','$phone','$password','$is_rented','$property','$startrent','$endrent','$cash_advance','$cash_deposit','$status','$type')";
         $query_run = mysqli_query($con, $query);
 
+        // Get the latest inserted ID
+        $user_id = mysqli_insert_id($con);
+
         if($query_run){
+            $stmt_logs = mysqli_query($con, "INSERT INTO `activity_log` (`user_id`, `log_message`, `type`, `log_date`) VALUES ('$curr_user_id','Edit user ID $user_id.','Accounts','$user_date')");
             // Get the last inserted user_id
             $lastUserId = $con->insert_id;
             $query_property = "UPDATE `property` SET rentee_id = '$lastUserId', `property_status` = 'Rented' WHERE `property_id` = '$property'";
@@ -302,6 +308,7 @@
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
+            $stmt_logs = mysqli_query($con, "INSERT INTO `activity_log` (`user_id`, `log_message`, `type`, `log_date`) VALUES ('$curr_user_id','Edit user ID $user_id.','Accounts','$user_date')");
             if($status == 'Inactive'){
                 $query_property = "UPDATE `property` SET rentee_id = '0', property_status = 'Available' WHERE property_id = '$property'";
                 $query_property_run = mysqli_query($con, $query_property);

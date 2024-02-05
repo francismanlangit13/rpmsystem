@@ -138,9 +138,13 @@
             $query = "INSERT INTO `utility` (`user_id`, `utility_type_id`, `utility_amount`, `utility_date`, `utility_attachment`, `utility_status`, `updated_by`, `last_update_date`) VALUES ('$renter','$utility_type_id','$utility_amount','$utility_date','$fileName','$utility_status','$user_id','$utility_date')";
             $query_run = mysqli_query($con, $query);
 
+            // Get the latest inserted ID
+            $utility_id = mysqli_insert_id($con);
+
             $run_query = mysqli_query($con, "UPDATE `user` SET `balance` = '$new_balance' WHERE `user_id` = '$renter'");
 
             if($query_run){
+                $stmt_logs = mysqli_query($con, "INSERT INTO `activity_log` (`user_id`, `log_message`, `type`, `log_date`) VALUES ('$user_id','Add bills for $utility_type_name ID $utility_id.','Manage Bills','$utility_date')");
                 // PHP Compose Mail
                 $name = 'Rental Properties Management System';
                 // $subject = htmlentities(date('F Y').' Billing Notice - ' . $name);
@@ -203,6 +207,10 @@
         $utility_amount = $_POST['utility_amount'];
         $utility_status = $_POST['utility_status'];
         $utility_date = date;
+
+        $get_sql = $con->query("SELECT utility_type_name FROM `utility_type` WHERE utility_type_id = '$utility_type_id'");
+        $get_result = $get_sql->fetch_assoc();
+        $utility_type_name = $get_result['utility_type_name'];
 
         function compressImage($source, $destination, $quality){
             // Get image info
@@ -293,6 +301,7 @@
         $query_run = mysqli_query($con, $query);
 
         if($query_run){
+            $stmt_logs = mysqli_query($con, "INSERT INTO `activity_log` (`user_id`, `log_message`, `type`, `log_date`) VALUES ('$user_id','Edit bills for $utility_type_name ID $utility_id.','Manage Bills','$utility_date')");
             $_SESSION['status'] = "Other Bills updated successfully";
             $_SESSION['status_code'] = "success";
             header("Location: " . base_url . "admin/home/utility");

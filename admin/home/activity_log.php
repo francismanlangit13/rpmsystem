@@ -42,7 +42,7 @@
                     <tbody>
                         <?php
                             $i = 0;
-                            $query = "SELECT *, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `fullname`,CONCAT(activity_log.type) AS activity_type, DATE_FORMAT(log_date, '%M %d, %Y %h:%i %p') as new_log_date FROM `activity_log` INNER JOIN `user` ON `user`.`user_id` = `activity_log`.`user_id`";
+                            $query = "SELECT *, CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `fullname`,CONCAT(activity_log.type) AS activity_type, DATE_FORMAT(log_date, '%M %d, %Y %h:%i %p') as new_log_date FROM `activity_log` INNER JOIN `user` ON `user`.`user_id` = `activity_log`.`user_id` WHERE 1 ORDER BY log_date DESC";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){

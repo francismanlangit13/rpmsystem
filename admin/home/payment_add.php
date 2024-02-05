@@ -17,14 +17,14 @@
             <li class="breadcrumb-item active"><a href="./payment" class="text-decoration-none">Payment</a></li>
             <li class="breadcrumb-item">Pay Rental</li>
         </ol>
-        <form action="payment_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form id="myForm" action="payment_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Payment form
                                 <div class="float-end">
-                                    <button type="submit" name="add_payment" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
+                                    <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-plus"></i> Add</button>
                                     <input type="hidden" id="pay_cash_advance" name="pay_cash_advance" value="1" disabled>
                                 </div>
                             </h4>
@@ -91,6 +91,26 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal Add -->
+            <div class="modal fade" id="Modal_add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Save changes</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to pay?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" name="add_payment" id="addButton" class="btn btn-success">Pay</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </main>
@@ -134,6 +154,32 @@
             select.disabled = true;
         } else {
             select.disabled = false;
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Add an event listener to the modal's submit button
+        $(document).on('click', '#addButton', function() {
+            // Set the form's checkValidity to true
+            document.getElementById("myForm").checkValidity = function() {
+                return true;
+            };
+
+            // Submit the form
+            $('#myForm').submit();
+        });
+    });
+
+    function validateForm() {
+        var form = document.getElementById("myForm");
+        if (form.checkValidity()) {
+            // If the form is valid, show the modal
+            $('#Modal_add').modal('show');
+            return false; // Prevent the form from being submitted immediately
+        } else {
+            return true; // Allow the form to be submitted and display the browser's error messages
         }
     }
 </script>
