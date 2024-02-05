@@ -16,14 +16,14 @@
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item">Notification</li>
         </ol>
-        <form action="notification_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form id="myForm" action="notification_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Notification form
-                                <div class="float-end">
-                                    <button type="submit" name="send_notification" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send</button>
+                                <div class="float-end btn-disabled">
+                                    <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-paper-plane"></i> Send</button>
                                 </div>
                             </h4>
                         </div>
@@ -31,13 +31,13 @@
                             <!-- Select2 Example -->
                             <div class="col-md-5 mb-3">
                                 <?php
-                                    $user_id = $_SESSION['auth_user']['user_id'];
-                                    $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `property` INNER JOIN `user` ON property.rented_by = user.user_id WHERE property.user_id = '$user_id' AND `type` = 'Renter' AND `status` != 'Archive'";
+                                    $staff = "SELECT user_id, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS fullname FROM `user` WHERE `type` = 'Renter' AND `status` != 'Inactive'";
                                     $staff_result = $con->query($staff);
                                 ?>
                                 <label for="renter" class="required">Rented By</label>
                                 <select class="form-control select3" id="renter" name="renter" style="width: 100%;" required>
                                     <option value="">Select Rented By</option>
+                                    <option value=" ">None</option>
                                     <?php 
                                         if ($staff_result->num_rows > 0) {
                                         while($staffrow = $staff_result->fetch_assoc()) {
@@ -64,20 +64,113 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal User Delete -->
+            <div class="modal fade" id="Modal_send" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm send</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want send?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success" name="send_notification" id="sendButton"><i class="fas fa-paper-plane"></i> Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </main>
 <script>
-    document.getElementById('property_status').addEventListener('change', function () {
-        var dateContainer = document.getElementById('dateContainer');
-        var propertyDate = document.getElementById('property_date');
+    $(document).ready(function() {
+        // Add an event listener to the modal's submit button
+        $(document).on('click', '#sendButton', function() {
+            // Set the form's checkValidity to true
+            document.getElementById("myForm").checkValidity = function() {
+                return true;
+            };
 
-        if (this.value === 'Rented') {
-            dateContainer.classList.remove('d-none');
-            propertyDate.required = true;
+            // Submit the form
+            $('#myForm').submit();
+        });
+    });
+
+    function validateForm() {
+        var form = document.getElementById("myForm");
+        if (form.checkValidity()) {
+            // If the form is valid, show the modal
+            $('#Modal_send').modal('show');
+            return false; // Prevent the form from being submitted immediately
         } else {
-            dateContainer.classList.add('d-none');
-            propertyDate.required = false;
+            return true; // Allow the form to be submitted and display the browser's error messages
+        }
+    }
+</script>
+
+<!-- Form Validations -->
+<script>
+    $(document).ready(function() {
+
+        // debounce functions for each input field
+        var debouncedCheckRenter = _.debounce(checkRenter, 500);
+        var debouncedCheckBody = _.debounce(checkBody, 500);
+
+        // attach event listeners for each input field
+        $('#renter').on('change', debouncedCheckRenter);
+        $('#body').on('input', debouncedCheckBody);
+
+        $('#renter').on('blur', debouncedCheckRenter);
+        $('#body').on('blur', debouncedCheckBody);
+
+        function checkIfAllFieldsValid() {
+            // check if all input fields are valid and enable submit button if so
+            if ( $('#renter-error').is(':empty') && $('#body-error').is(':empty') ) {
+                $('#submit-btn').prop('disabled', false);
+            } else {
+                $('#submit-btn').prop('disabled', true);
+            }
+        }
+
+        function checkRenter() {
+            var renter = $('#renter').val()
+            
+            // show error if renter is empty
+            if (!renter || renter.trim() === '') {
+                $('#renter-error').text('Please select rentee').css('color', 'red');
+                $('#renter').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for renter if needed
+            
+            $('#renter-error').empty();
+            $('#renter').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkBody() {
+            var body = $('#body').val().trim();
+            
+            // show error if body is empty
+            if (body === '') {
+                $('#body-error').text('Please input body').css('color', 'red');
+                $('#body').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for body if needed
+            
+            $('#body-error').empty();
+            $('#body').removeClass('is-invalid');
+            checkIfAllFieldsValid();
         }
     });
 </script>

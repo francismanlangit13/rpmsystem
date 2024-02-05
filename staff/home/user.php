@@ -9,22 +9,22 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Other Bills
-            <a href="utilities_add" class="btn btn-success btn-icon-split float-end mt-2"> 
+        <h1 class="mt-4">Users
+            <a href="user_add" class="btn btn-success btn-icon-split float-end mt-2"> 
                 <span class="icon text-white-50">
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-user"></i>
                 </span>
-                <span class="text">Add Other Bills</span>
+                <span class="text">Add User</span>
             </a>
         </h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item">Other Bills</li>
+            <li class="breadcrumb-item">Users</li>
         </ol>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                DataTable Other Bills
+                DataTable Users
             </div>
             <div class="card-body">
                 <table class="table table-bordered table-hover text-center" id="datatablesSimple">
@@ -32,11 +32,11 @@
                         <tr>
                             <th>No.</th>
                             <th>Full Name</th>
-                            <th>Location</th>
+                            <th>Gender</th>
+                            <th>Email</th>
                             <th>Phone</th>
-                            <th>Type</th>
-                            <th>Bill Amount</th>
-                            <th>Date of billed</th>
+                            <th>Role</th>
+                            <th>Status</th>
                             <th>Buttons</th>
                         </tr>
                     </thead>
@@ -44,49 +44,45 @@
                         <tr>
                             <th>No.</th>
                             <th>Full Name</th>
-                            <th>Location</th>
+                            <th>Gender</th>
+                            <th>Email</th>
                             <th>Phone</th>
-                            <th>Type</th>
-                            <th>Bill Amount</th>
-                            <th>Date billed</th>
+                            <th>Role</th>
+                            <th>Status</th>
                             <th>Buttons</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <?php
-                            $query = "SELECT *, DATE_FORMAT(utilities_date, '%M %d, %Y %h:%i %p') as new_utilities_date FROM `utilities`
-                                INNER JOIN `user` ON user.user_id = utilities.user_id
-                                INNER JOIN utilities_type ON utilities_type.utilities_type_id = utilities.utilities_type_id
-                                INNER JOIN property ON property.rented_by = utilities.user_id
-                                WHERE property.user_id = '$user_id' AND `utilities_status` != 'Archive'
-                            ";
+                            $user_id = $_SESSION['auth_user']['user_id']; // The user logged in to the system.
+                            $query = "SELECT * FROM `user` WHERE `status` != 'Archive' AND `type` = 'Renter' AND `user_id` != $user_id";
                             $query_run = mysqli_query($con, $query);
                             if(mysqli_num_rows($query_run) > 0){
                                 foreach($query_run as $row){
                         ?>
                         <tr>
-                            <td><?= $row['utilities_id']; ?></td>
+                            <td><?= $row['user_id']; ?></td>
                             <td><?= $row['fname']; ?> <?= $row['mname']; ?> <?= $row['lname']; ?></td>
-                            <td><?= $row['property_location']; ?></td>
+                            <td><?= $row['gender']; ?></td>
+                            <td><?= $row['email']; ?></td>
                             <td><?= $row['phone']; ?></td>
-                            <td><?= $row['utilities_type_name']; ?></td>
-                            <td><?= $row['utilities_amount']; ?></td>
-                            <td><?= $row['new_utilities_date']; ?></td>
+                            <td><?php if($row['type'] == 'Renter'){ echo"Rentee";} else{ echo $row['type']; } ?></td>
+                            <td><?= $row['status']; ?></td>
                             <td>
                                 <div class="d-flex">
-                                    <div class="col-md-4 mb-1" style="margin-right: 0.2rem">
-                                        <a href="utilities_view?id=<?=$row['utilities_id']?>" class="btn btn-dark btn-icon-split" title="View"> 
+                                    <div class="col-md-6 mb-1" style="margin-right: 0.2rem">
+                                        <a href="user_view?id=<?=$row['user_id']?>" class="btn btn-dark btn-icon-split" title="View"> 
                                             <span class="icon text-white-50"><i class="fas fa-eye"></i></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4 mb-1" style="margin-right: 0.05rem">
-                                        <a href="utilities_edit?id=<?=$row['utilities_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
+                                    <div class="col-md-6 mb-1" style="margin-right: 0.05rem">
+                                        <a href="user_edit?id=<?=$row['user_id']?>" class="btn btn-success btn-icon-split" title="Edit"> 
                                             <span class="icon text-white-50"><i class="fas fa-edit"></i></span>
                                             <span class="text"></span>
                                         </a>
                                     </div>
-                                    <div class="col-md-4">
-                                        <button type="button" data-toggle="modal" value="<?=$row['utilities_id']; ?>" data-target="#Modal_delete_utilities" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
+                                    <div class="col-md-4 d-none">
+                                        <button type="button" data-toggle="modal" value="<?=$row['user_id']; ?>" data-target="#Modal_delete_user" onclick="deleteModal(this)" class="btn btn-danger btn-icon-split" title="Delete">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash"></i>
                                             </span>
@@ -103,12 +99,12 @@
         </div>
     </div>
 </main>
-<!-- Modal Utilities Delete -->
-<div class="modal fade" id="Modal_delete_utilities" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal User Delete -->
+<div class="modal fade" id="Modal_delete_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Other Bills</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -118,15 +114,15 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <form action="utilities_code.php" method="POST">
-            <input type="hidden" id="delete_id" name="utilities_id">
-            <button type="submit" name="delete_utilities" class="btn btn-danger">Delete</button>
+        <form action="user_code.php" method="POST">
+            <input type="hidden" id="delete_id" name="user_id">
+            <button type="submit" name="delete_user" class="btn btn-danger">Delete</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-<!-- JavaScript for delete utilities -->
+<!-- JavaScript for delete user -->
 <script>
     function deleteModal(button) {
         var id = button.value;

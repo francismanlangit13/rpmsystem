@@ -50,12 +50,12 @@
 </head>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4 noprint">Generate Payments</h1>
+        <h1 class="mt-4 noprint">Generate Arrears</h1>
         <ol class="breadcrumb mb-4 mt-3 noprint">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item">Generate Payments</li>
+            <li class="breadcrumb-item">Generate Arrears</li>
         </ol>
-        <form action="generate_payments.php" method="post" autocomplete="off" enctype="multipart/form-data">
+        <form action="generate_arrears.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row noprint">
                 <div class="col-md-12">
                     <div class="card">
@@ -86,6 +86,7 @@
                                     <option value="<?=$staffrow['user_id'];?>" <?=$selected;?>><?=$staffrow['fullname'];?></option>
                                     <?php } } ?>
                                 </select>
+                                <div id="renter-error"></div>
                             </div>
                             <!-- Initialize Select2 -->
                             <script>
@@ -94,26 +95,6 @@
                                     $('.select3').select2();
                                 });
                             </script>
-
-                            <div class="col-md-3 mb-3">
-                                <?php
-                                    $stmt = "SELECT * FROM `utility_type` WHERE `utility_type_status` != 'Inactive'";
-                                    $stmt_run = mysqli_query($con,$stmt);
-                                ?>
-                                <label for="payment_type">Payment Type</label>
-                                <select class="form-control" id="payment_type" name="payment_type">
-                                    <option value="">Select Payment Type</option>
-                                    <?php
-                                        // use a while loop to fetch data
-                                        while ($utility_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):
-                                        $selected = ($utility_type['utility_type_id'] == $type) ? 'selected' : '';
-                                    ?>
-                                        <option value="<?= $utility_type["utility_type_id"]; ?>" <?=$selected;?>><?= $utility_type["utility_type_name"]; ?></option>
-                                    <?php
-                                        endwhile; // While loop must be terminated
-                                    ?>
-                                </select>
-                            </div>
                             <div class="form-group col-md-3">
                                 <label for="startmonth" class="control-label">Date From</label>
                                 <input type="month" name="startmonth" id="startmonth" value="<?= $startmonth ?>" class="form-control form-control-sm rounded-0">
@@ -131,15 +112,10 @@
             <table class="table text-center table-hover table-striped mt-1 print-table-adjust">
                 <!-- <colgroup>
                     <col width="5%">
+                    <col width="30%">
+                    <col width="30%">
+                    <col width="15%">
                     <col width="20%">
-                    <col width="8%">
-                    <col width="8%">
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="8%">
-                    <col width="15%">
-                    <col width="15%">
-                    <col width="10%">
                 </colgroup> -->
                 <thead>
                     <tr class="bg-secondary text-light">
@@ -148,11 +124,7 @@
                         <th>Date Payment</th>
                         <th>Payment Type</th>
                         <th>Bill Type</th>
-                        <th>Paid by Cash Advance for rent?</th>
-                        <th>Amount</th>
-                        <th>Payment Remaining</th>
-                        <th>Payment Reference No.</th>
-                        <th>Payment Status</th>
+                        <th>Arrears Remaining</th>
                         <th>Action By</th>
                         <th>Date of Action</th>
                     </tr>
@@ -165,7 +137,7 @@
                             INNER JOIN `user` ON user.user_id = payment.user_id
                             INNER JOIN `utility_type` ON utility_type.utility_type_id = payment.utility_type_id
                             INNER JOIN `payment_type` ON payment_type.payment_type_id = payment.payment_type_id
-                            WHERE DATE(payment_date) BETWEEN '{$firstDayOfMonth}' AND '{$lastDayOfMonth}' " . 
+                            WHERE `payment_status` = 'Partial' AND DATE(payment_date) BETWEEN '{$firstDayOfMonth}' AND '{$lastDayOfMonth}' " . 
                             ($renter != '' ? "AND user.user_id = '{$renter}' " : "") . 
                             ($type != '' ? "AND payment.utility_type_id = '{$type}' " : "") . "
                             ORDER BY UNIX_TIMESTAMP(payment_date) ASC
@@ -181,11 +153,7 @@
                             <td class=""><?php echo $row['new_payment_date'] ?></td>
                             <td class=""><p class="m-0"><?php echo $row['payment_type_name'] ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row['utility_type_name'] ?></p></td>
-                            <td class=""><p class="m-0"><?php if($row['is_cash_advance'] == 1){echo "Yes"; } else{ echo "No"; } ?></p></td>
-                            <td class=""><p class="m-0"><?php echo $row['payment_amount'] ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row['payment_remaining'] ?></p></td>
-                            <td class=""><p class="m-0"><?php echo $row['payment_reference'] ?></p></td>
-                            <td class=""><p class="m-0"><?php echo $row['payment_status'] ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row1['staff_fullname'] ?></p></td>
                             <td class=""><p class="m-0"><?php echo $row1['new_last_update_date'] ?></p></td>
                         </tr>

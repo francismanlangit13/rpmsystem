@@ -155,40 +155,40 @@
 
 <!-- Payment Receive SQL and script -->
 <?php
-    $jan_sql = "SELECT SUM(payment_amount) AS total_amount_jan FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-01-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-01-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $jan_sql = "SELECT SUM(payment_amount) AS total_amount_jan FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-01-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-01-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $jan_total_amount = mysqli_fetch_assoc(mysqli_query($con, $jan_sql))['total_amount_jan'] ?? 0;
 
-    $feb_sql = "SELECT SUM(payment_amount) AS total_amount_feb FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-02-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-02-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $feb_sql = "SELECT SUM(payment_amount) AS total_amount_feb FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-02-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-02-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $feb_total_amount = mysqli_fetch_assoc(mysqli_query($con, $feb_sql))['total_amount_feb'] ?? 0;
 
-    $mar_sql = "SELECT SUM(payment_amount) AS total_amount_mar FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-03-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-03-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $mar_sql = "SELECT SUM(payment_amount) AS total_amount_mar FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-03-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-03-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $mar_total_amount = mysqli_fetch_assoc(mysqli_query($con, $mar_sql))['total_amount_mar'] ?? 0;
 
-    $apr_sql = "SELECT SUM(payment_amount) AS total_amount_apr FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-04-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-04-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $apr_sql = "SELECT SUM(payment_amount) AS total_amount_apr FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-04-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-04-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $apr_total_amount = mysqli_fetch_assoc(mysqli_query($con, $apr_sql))['total_amount_apr'] ?? 0;
 
-    $may_sql = "SELECT SUM(payment_amount) AS total_amount_may FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-05-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-05-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $may_sql = "SELECT SUM(payment_amount) AS total_amount_may FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-05-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-05-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $may_total_amount = mysqli_fetch_assoc(mysqli_query($con, $may_sql))['total_amount_may'] ?? 0;
 
-    $jun_sql = "SELECT SUM(payment_amount) AS total_amount_jun FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-06-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-06-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $jun_sql = "SELECT SUM(payment_amount) AS total_amount_jun FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-06-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-06-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $jun_total_amount = mysqli_fetch_assoc(mysqli_query($con, $jun_sql))['total_amount_jun'] ?? 0;
 
-    $jul_sql = "SELECT SUM(payment_amount) AS total_amount_jul FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-07-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-07-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $jul_sql = "SELECT SUM(payment_amount) AS total_amount_jul FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-07-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-07-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $jul_total_amount = mysqli_fetch_assoc(mysqli_query($con, $jul_sql))['total_amount_jul'] ?? 0;
 
-    $aug_sql = "SELECT SUM(payment_amount) AS total_amount_aug FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-08-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-08-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $aug_sql = "SELECT SUM(payment_amount) AS total_amount_aug FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-08-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-08-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $aug_total_amount = mysqli_fetch_assoc(mysqli_query($con, $aug_sql))['total_amount_aug'] ?? 0;
 
-    $sep_sql = "SELECT SUM(payment_amount) AS total_amount_sep FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-09-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-09-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $sep_sql = "SELECT SUM(payment_amount) AS total_amount_sep FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-09-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-09-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $sep_total_amount = mysqli_fetch_assoc(mysqli_query($con, $sep_sql))['total_amount_sep'] ?? 0;
 
-    $oct_sql = "SELECT SUM(payment_amount) AS total_amount_oct FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-10-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-10-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $oct_sql = "SELECT SUM(payment_amount) AS total_amount_oct FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-10-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-10-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $oct_total_amount = mysqli_fetch_assoc(mysqli_query($con, $oct_sql))['total_amount_oct'] ?? 0;
 
-    $nov_sql = "SELECT SUM(payment_amount) AS total_amount_nov FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-11-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-11-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $nov_sql = "SELECT SUM(payment_amount) AS total_amount_nov FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-11-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-11-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $nov_total_amount = mysqli_fetch_assoc(mysqli_query($con, $nov_sql))['total_amount_nov'] ?? 0;
 
-    $dec_sql = "SELECT SUM(payment_amount) AS total_amount_dec FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-12-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-12-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $dec_sql = "SELECT SUM(payment_amount) AS total_amount_dec FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-12-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-12-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $dec_total_amount = mysqli_fetch_assoc(mysqli_query($con, $dec_sql))['total_amount_dec'] ?? 0;
 ?>
 
@@ -252,40 +252,40 @@
 
 <!-- Arrears SQL and script -->
 <?php
-    $jan_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_jan FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-01-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-01-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $jan_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_jan FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-01-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-01-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $jan_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $jan_sql_arrears))['total_amount_jan'] ?? 0;
 
-    $feb_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_feb FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-02-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-02-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $feb_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_feb FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-02-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-02-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $feb_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $feb_sql_arrears))['total_amount_feb'] ?? 0;
 
-    $mar_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_mar FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-03-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-03-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $mar_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_mar FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-03-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-03-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $mar_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $mar_sql_arrears))['total_amount_mar'] ?? 0;
 
-    $apr_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_apr FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-04-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-04-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $apr_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_apr FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-04-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-04-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $apr_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $apr_sql_arrears))['total_amount_apr'] ?? 0;
 
-    $may_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_may FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-05-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-05-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $may_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_may FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-05-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-05-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $may_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $may_sql_arrears))['total_amount_may'] ?? 0;
 
-    $jun_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_jun FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-06-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-06-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $jun_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_jun FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-06-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-06-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $jun_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $jun_sql_arrears))['total_amount_jun'] ?? 0;
 
-    $jul_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_jul FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-07-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-07-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $jul_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_jul FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-07-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-07-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $jul_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $jul_sql_arrears))['total_amount_jul'] ?? 0;
 
-    $aug_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_aug FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-08-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-08-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $aug_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_aug FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-08-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-08-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $aug_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $aug_sql_arrears))['total_amount_aug'] ?? 0;
 
-    $sep_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_sep FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-09-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-09-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $sep_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_sep FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-09-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-09-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $sep_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $sep_sql_arrears))['total_amount_sep'] ?? 0;
 
-    $oct_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_oct FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-10-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-10-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $oct_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_oct FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-10-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-10-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $oct_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $oct_sql_arrears))['total_amount_oct'] ?? 0;
 
-    $nov_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_nov FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-11-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-11-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $nov_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_nov FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-11-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-11-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $nov_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $nov_sql_arrears))['total_amount_nov'] ?? 0;
 
-    $dec_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_dec FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-12-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-12-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $dec_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount_dec FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-12-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-12-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $dec_total_amount_arrears = mysqli_fetch_assoc(mysqli_query($con, $dec_sql_arrears))['total_amount_dec'] ?? 0;
 ?>
 
@@ -349,10 +349,10 @@
 
 <!-- Overall Pie Chart SQL and script -->
 <?php
-    $total_sql_payment_received = "SELECT SUM(payment_amount) AS total_amount FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-01-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-12-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $total_sql_payment_received = "SELECT SUM(payment_amount) AS total_amount FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-01-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-12-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $total_sql_payment_received_results = mysqli_fetch_assoc(mysqli_query($con, $total_sql_payment_received))['total_amount'] ?? 0;
 
-    $total_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount FROM `payment` WHERE `utilities_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-01-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-12-01')) AND `payment_status` NOT IN ('Pending','Reject')";
+    $total_sql_arrears = "SELECT SUM(payment_remaining) AS total_amount FROM `payment` WHERE `utility_type_id` = '1' AND DATE_FORMAT(payment_date, '%Y-%m-%d') BETWEEN CONCAT(YEAR(CURDATE()), '-01-01') AND LAST_DAY(CONCAT(YEAR(CURDATE()), '-12-01')) AND `payment_status` NOT IN ('Pending','Reject')";
     $total_sql_arrears_results = mysqli_fetch_assoc(mysqli_query($con, $total_sql_arrears))['total_amount'] ?? 0;
 
     if ($total_sql_payment_received_results == '0.00') {
