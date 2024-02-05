@@ -30,18 +30,25 @@
                                 <div class="float-end btn-disabled">
                                     <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-save"></i> Save</button>
                                     <input type="hidden" name="payment_type_id" value="<?=$row['payment_type_id']?>">
+                                    <input type="hidden" name="oldfileimage" value="<?=$row['payment_type_attachment']?>" />
                                 </div>
                             </h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label for="payment_type_name" class="required">Payment Type</label>
                                     <input type="text" class="form-control" placeholder="Enter Payment Type" name="payment_type_name" id="payment_type_name" value="<?= $row['payment_type_name']; ?>" required>
                                     <div id="payment_type_name-error"></div>
                                 </div>
 
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
+                                    <label for="payment_account_number" class="required">Account Number</label>
+                                    <input type="text" class="form-control" placeholder="Enter Account Number" name="payment_account_number" id="payment_account_number" value="<?=$row['payment_type_account_number']?>" required>
+                                    <div id="payment_account_number-error"></div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
                                     <div class="form-group">
                                         <label for="status" class="required">Status</label>
                                         <select class="form-control" name="status" id="status" required>
@@ -51,6 +58,33 @@
                                         </select>
                                         <div id="status-error"></div>
                                     </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3" id="Container">
+                                    <label for="image1" class="required">QR Code Attachment</label>
+                                    <input type="file" name="image1" class="form-control btn btn-secondary" style="padding-bottom:2.2rem;" id="image1" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'image1')">
+                                    <div id="image1-error"></div>
+                                </div>
+
+                                <div class="col-md-8" id="Container1"></div>
+
+                                <div class="col-md-4 text-center" id="Container2">
+                                    <h6>JPG or PNG no larger than 5 MB</h6> 
+                                    <a href="
+                                        <?php
+                                            if(!empty($row['payment_type_attachment'])){ 
+                                                echo base_url . 'assets/files/online_payment/' . $row['payment_type_attachment'];
+                                            } else { echo base_url . 'assets/files/system/no-image.png'; }
+                                        ?>" class="glightbox d-block" data-gallery="QRCode">
+                                        <img class="zoom img-fluid img-bordered-sm" id="frame1"
+                                        src="
+                                            <?php
+                                                if(!empty($row['payment_type_attachment'])) {
+                                                    echo base_url . 'assets/files/online_payment/' . $row['payment_type_attachment'];
+                                                } else { echo base_url . 'assets/files/system/no-image.png'; } 
+                                            ?>
+                                        " alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -127,18 +161,21 @@
 
         // debounce functions for each input field
         var debouncedCheckPaymenttype = _.debounce(checkPaymenttype, 500);
+        var debouncedCheckAccountnumber = _.debounce(checkAccountnumber, 500);
         var debouncedCheckStatus = _.debounce(checkStatus, 500);
 
         // attach event listeners for each input field
         $('#payment_type_name').on('input', debouncedCheckPaymenttype);
+        $('#payment_account_number').on('input', debouncedCheckAccountnumber);
         $('#status').on('change', debouncedCheckStatus);
 
         $('#payment_type_name').on('blur', debouncedCheckPaymenttype);
+        $('#payment_account_number').on('blur', debouncedCheckAccountnumber);
         $('#status').on('blur', debouncedCheckStatus);
 
         function checkIfAllFieldsValid() {
             // check if all input fields are valid and enable submit button if so
-            if ( $('#payment_type_name-error').is(':empty') && $('#status-error').is(':empty') ) {
+            if ( $('#payment_type_name-error').is(':empty') && $('#payment_account_number-error').is(':empty') && $('#status-error').is(':empty') ) {
                 $('#submit-btn').prop('disabled', false);
             } else {
                 $('#submit-btn').prop('disabled', true);
@@ -160,6 +197,24 @@
             
             $('#payment_type_name-error').empty();
             $('#payment_type_name').removeClass('is-invalid');
+            checkIfAllFieldsValid();
+        }
+
+        function checkAccountnumber() {
+            var payment_account_number = $('#payment_account_number').val().trim();
+            
+            // show error if account number is empty
+            if (payment_account_number === '') {
+                $('#payment_account_number-error').text('Please input account number').css('color', 'red');
+                $('#payment_account_number').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for account number if needed
+            
+            $('#payment_account_number-error').empty();
+            $('#payment_account_number').removeClass('is-invalid');
             checkIfAllFieldsValid();
         }
 
