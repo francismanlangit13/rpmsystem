@@ -93,31 +93,31 @@
                             if ($query_run) {
                                 $_SESSION['status'] = "Account updated successfully";
                                 $_SESSION['status_code'] = "success";
-                                header("Location: " . base_url . "admin/home/myaccount");
+                                header("Location: " . base_url . "staff/home/myaccount");
                                 exit(0);
                             } else {
                                 $_SESSION['status'] = "Account was not updated";
                                 $_SESSION['status_code'] = "error";
-                                header("Location: " . base_url . "admin/home/myaccount");
+                                header("Location: " . base_url . "staff/home/myaccount");
                                 exit(0);
                             }
                         }
                     } else {
                         $_SESSION['status'] = "File is too large, must be 5MB or below";
                         $_SESSION['status_code'] = "warning";
-                        header("Location: " . base_url . "admin/home/myaccount");
+                        header("Location: " . base_url . "staff/home/myaccount");
                         exit(0);
                     }
                 } else {
                     $_SESSION['status'] = "File error";
                     $_SESSION['status_code'] = "error";
-                    header("Location: " . base_url . "admin/home/myaccount");
+                    header("Location: " . base_url . "staff/home/myaccount");
                     exit(0);
                 }
             } else {
                 $_SESSION['status'] = "Invalid file type";
                 $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/myaccount");
+                header("Location: " . base_url . "staff/home/myaccount");
                 exit(0);
             }
         }
@@ -127,12 +127,12 @@
         if ($query_run) {
             $_SESSION['status'] = "Account updated successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/myaccount");
+            header("Location: " . base_url . "staff/home/myaccount");
             exit(0);
         } else {
             $_SESSION['status'] = "Account was not updated";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/myaccount");
+            header("Location: " . base_url . "staff/home/myaccount");
             exit(0);
         }
     }
@@ -157,18 +157,18 @@
                 if ($query_run) {
                     $_SESSION['status'] = "Password updated successfully";
                     $_SESSION['status_code'] = "success";
-                    header("Location: " . base_url . "admin/home/myaccount");
+                    header("Location: " . base_url . "staff/home/myaccount");
                     exit(0);
                 } else {
                     $_SESSION['status'] = "Password was not updated";
                     $_SESSION['status_code'] = "error";
-                    header("Location: " . base_url . "admin/home/myaccount");
+                    header("Location: " . base_url . "staff/home/myaccount");
                     exit(0);
                 }
             } else{
                 $_SESSION['status'] = "Incorrect current password";
                 $_SESSION['status_code'] = "warning";
-                header("Location: " . base_url . "admin/home/myaccount");
+                header("Location: " . base_url . "staff/home/myaccount");
                 exit(0);
             }
         }

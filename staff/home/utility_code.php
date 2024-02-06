@@ -37,7 +37,7 @@
         if (mysqli_num_rows($check_billing_sql_run) > 0) {
             $_SESSION['status'] = "The selected user has already added bill this month.";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/utility");
+            header("Location: " . base_url . "staff/home/utility");
             exit(0);
         } else {
 
@@ -102,19 +102,19 @@
                         } else {
                             $_SESSION['status'] = "File is too large, must be 5MB or below";
                             $_SESSION['status_code'] = "warning";
-                            header("Location: " . base_url . "admin/home/utility");
+                            header("Location: " . base_url . "staff/home/utility");
                             exit(0);
                         }
                     } else {
                         $_SESSION['status'] = "File error";
                         $_SESSION['status_code'] = "error";
-                        header("Location: " . base_url . "admin/home/utility");
+                        header("Location: " . base_url . "staff/home/utility");
                         exit(0);
                     }
                 } else {
                     $_SESSION['status'] = "Invalid file type";
                     $_SESSION['status_code'] = "error";
-                    header("Location: " . base_url . "admin/home/utility");
+                    header("Location: " . base_url . "staff/home/utility");
                     exit(0);
                 }
             }
@@ -188,12 +188,12 @@
 
                 $_SESSION['status'] = "Other Bills added successfully";
                 $_SESSION['status_code'] = "success";
-                header("Location: " . base_url . "admin/home/utility");
+                header("Location: " . base_url . "staff/home/utility");
                 exit(0);
             } else{
                 $_SESSION['status'] = "Other Bills was not added";
                 $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/utility");
+                header("Location: " . base_url . "staff/home/utility");
                 exit(0);
             }
         }
@@ -280,19 +280,19 @@
                     } else {
                         $_SESSION['status'] = "File is too large, must be 5MB or below";
                         $_SESSION['status_code'] = "warning";
-                        header("Location: " . base_url . "admin/home/utility");
+                        header("Location: " . base_url . "staff/home/utility");
                         exit(0);
                     }
                 } else {
                     $_SESSION['status'] = "File error";
                     $_SESSION['status_code'] = "error";
-                    header("Location: " . base_url . "admin/home/utility");
+                    header("Location: " . base_url . "staff/home/utility");
                     exit(0);
                 }
             } else {
                 $_SESSION['status'] = "Invalid file type";
                 $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/utility");
+                header("Location: " . base_url . "staff/home/utility");
                 exit(0);
             }
         }
@@ -304,13 +304,13 @@
             $stmt_logs = mysqli_query($con, "INSERT INTO `activity_log` (`user_id`, `log_message`, `type`, `log_date`) VALUES ('$user_id','Edit bills for $utility_type_name ID $utility_id.','Manage Bills','$utility_date')");
             $_SESSION['status'] = "Other Bills updated successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/utility");
+            header("Location: " . base_url . "staff/home/utility");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Other Bills was not update";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/utility");
+            header("Location: " . base_url . "staff/home/utility");
             exit(0);
         }
     }
@@ -324,13 +324,13 @@
         if($query_run){
             $_SESSION['status'] = "Other Bills deleted successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/utility");
+            header("Location: " . base_url . "staff/home/utility");
             exit(0);
         }
         else{
             $_SESSION['status'] = "Other Bills was not delete";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/utility");
+            header("Location: " . base_url . "staff/home/utility");
             exit(0);
         } 
     }

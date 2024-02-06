@@ -105,19 +105,19 @@
                     } else {
                         $_SESSION['status'] = "File is too large, must be 5MB or below";
                         $_SESSION['status_code'] = "warning";
-                        header("Location: " . base_url . "admin/home/user");
+                        header("Location: " . base_url . "staff/home/user");
                         exit(0);
                     }
                 } else {
                     $_SESSION['status'] = "File error";
                     $_SESSION['status_code'] = "error";
-                    header("Location: " . base_url . "admin/home/user");
+                    header("Location: " . base_url . "staff/home/user");
                     exit(0);
                 }
             } else {
                 $_SESSION['status'] = "Invalid file type";
                 $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/user");
+                header("Location: " . base_url . "staff/home/user");
                 exit(0);
             }
         }
@@ -179,13 +179,13 @@
 
             $_SESSION['status'] = "User added successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/user");
+            header("Location: " . base_url . "staff/home/user");
             exit(0);
         }
         else{
             $_SESSION['status'] = "User was not added";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/user");
+            header("Location: " . base_url . "staff/home/user");
             exit(0);
         }
     }
@@ -287,19 +287,19 @@
                     } else {
                         $_SESSION['status'] = "File is too large, must be 5MB or below";
                         $_SESSION['status_code'] = "warning";
-                        header("Location: " . base_url . "admin/home/user");
+                        header("Location: " . base_url . "staff/home/user");
                         exit(0);
                     }
                 } else {
                     $_SESSION['status'] = "File error";
                     $_SESSION['status_code'] = "error";
-                    header("Location: " . base_url . "admin/home/user");
+                    header("Location: " . base_url . "staff/home/user");
                     exit(0);
                 }
             } else {
                 $_SESSION['status'] = "Invalid file type";
                 $_SESSION['status_code'] = "error";
-                header("Location: " . base_url . "admin/home/user");
+                header("Location: " . base_url . "staff/home/user");
                 exit(0);
             }
         }
@@ -324,13 +324,13 @@
             }
             $_SESSION['status'] = "User updated successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/user");
+            header("Location: " . base_url . "staff/home/user");
             exit(0);
         }
         else{
             $_SESSION['status'] = "User was not update";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/user");
+            header("Location: " . base_url . "staff/home/user");
             exit(0);
         }
     }
@@ -344,13 +344,13 @@
         if($query_run){
             $_SESSION['status'] = "User deleted successfully";
             $_SESSION['status_code'] = "success";
-            header("Location: " . base_url . "admin/home/user");
+            header("Location: " . base_url . "staff/home/user");
             exit(0);
         }
         else{
             $_SESSION['status'] = "User was not delete";
             $_SESSION['status_code'] = "error";
-            header("Location: " . base_url . "admin/home/user");
+            header("Location: " . base_url . "staff/home/user");
             exit(0);
         } 
     }
