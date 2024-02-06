@@ -24,7 +24,7 @@
                         <div class="card-header">
                             <h4>Other Bills form
                                 <div class="float-end btn-disabled">
-                                    <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-plus"></i> Add</button>
+                                    <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-save"></i> Save</button>
                                 </div>
                             </h4>
                         </div>

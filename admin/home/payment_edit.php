@@ -84,7 +84,7 @@
                                     </div>
 
                                     <div class="col-md-3 mb-3">
-                                        <label for="payment_amount">Amount</label>
+                                        <label for="payment_amount">Payment Amount</label>
                                         <input type="number" class="form-control" id="payment_amount" min="0" max="<?=$balance?>" value="<?= $row['payment_amount']; ?>" oninput="updateBalance()" disabled>
                                     </div>
 

@@ -63,7 +63,7 @@
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Pay Rental</span>
+                <span class="text">Add payment</span>
             </a>
         </h1>
         <ol class="breadcrumb mb-4 noprint">

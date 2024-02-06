@@ -126,7 +126,7 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label for="property_amount" class="required">Unit Cost</label>
-                                    <input type="number" class="form-control" placeholder="Enter Unit Cost" name="property_amount" id="property_amount" required>
+                                    <input type="number" class="form-control" placeholder="Enter Unit Cost" name="property_amount" id="Unit Cost" required>
                                     <div id="property_amount-error"></div>
                                 </div>
 
