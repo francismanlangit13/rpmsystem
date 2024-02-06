@@ -23,12 +23,24 @@
                         <strong>Attention! </strong> When making online payments, please ensure only one transaction per bill. Attach your reference number and select your desired type of bills. Thank you for your cooperation.
                     </div>
                     <?php
-                        $check_rent_amount = mysqli_query($con, "SELECT * FROM property WHERE rented_by = '$user_id' AND `property_status` = 'Rented'");
+                        $get_sql = $con->query("SELECT * FROM `user` WHERE user_id = '$userID'");
+                        $get_user = $get_sql->fetch_assoc();
+                        if($get_user['balance'] <= 0){
+                    ?>
+                    <div class="alert alert-success alert-dismissible fade show m-1" role="alert">
+                        <strong>Attention! </strong> Great! you have no outstanding balance as of <b><?php echo date('F j, Y') ?></b>.
+                    </div>
+                    <?php } else { ?>
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        <strong>Attention! </strong> Dear user, your outstanding balance is ₱<?=$get_user['balance']?>. Please settle your bills as soon as possible Thank you.
+                    </div>
+                    <?php }
+                        $check_rent_amount = mysqli_query($con, "SELECT * FROM utility WHERE user_id = '$userID' AND `utility_type_id` = '1'");
                         $thismonth = date('Y-m');
-                        $check_sql = mysqli_query($con, "SELECT * FROM payment WHERE user_id = '$user_id' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `payment_status` NOT IN ('Reject') AND `status` != 'Archive'");
+                        $check_sql = mysqli_query($con, "SELECT * FROM payment WHERE user_id = '$userID' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `payment_status` NOT IN ('Reject') AND `status` != 'Archive'");
                         $check_status = $check_sql->fetch_assoc();
 
-                        $check_rent_sql = mysqli_query($con, "SELECT * FROM payment WHERE user_id = '$user_id' AND `utilities_type_id` = '1' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'");
+                        $check_rent_sql = mysqli_query($con, "SELECT * FROM payment WHERE user_id = '$userID' AND `utility_type_id` = '1' AND DATE_FORMAT(`payment_date`, '%Y-%m') = '$thismonth' AND `status` != 'Archive'");
                         $check_rent_status = $check_rent_sql->fetch_assoc();
                         
                         if(!$check_status){
@@ -36,27 +48,14 @@
                     
                     <?php while ($results_row = $check_rent_amount->fetch_assoc()) { ?>
                         <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-                            <strong><?= date('F') .' 01, '. date('Y'); ?></strong> You have bill for <b>rent</b> amount ₱<?= $results_row['property_amount']; ?> in this month please pay.
+                            <strong><?= date('F') .' 01, '. date('Y'); ?></strong> You have bill for <b>rent</b> amount ₱<?= $results_row['utility_amount']; ?> in this month please pay.
                         </div>
-                    <?php break; } } else { if($check_rent_status['payment_status'] == "Pending") { ?>
-                        <div class="alert alert-success alert-dismissible fade show m-1" role="alert">                          
-                            Thank you for your payment for <b>rent</b>. It is currently being processed, and you will be notified through SMS once the payment is complete.
-                        </div>
-                    <?php } elseif($check_rent_status['payment_status'] == "Paid" || $check_rent_status['payment_status'] == "Partial") { }  elseif($check_rent_status['payment_status'] == "Reject") { ?>
-                        <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                            Your payment for <b>rent</b>. Was rejected please see on the <a href="payment">payments</a>.
-                        </div>
-                    <?php } else { ?>
-                        <?php while ($results_row = $check_rent_amount->fetch_assoc()) { ?>
-                        <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-                            <strong><?= date('F') .' 01, '. date('Y'); ?></strong> You have bill for <b>rent</b> amount ₱<?= $results_row['property_amount']; ?> in this month please pay.
-                        </div>
-                    <?php } } } ?>
+                    <?php break; } } ?>
                     <?php
-                        $query = "SELECT *, DATE_FORMAT(utilities_date, '%M %d, %Y') as new_utilities_date
-                            FROM `utilities`
-                            INNER JOIN utilities_type ON utilities_type.utilities_type_id = utilities.utilities_type_id
-                            WHERE utilities.user_id = '$user_id' AND `utilities_status` != 'Archive'
+                        $query = "SELECT *, DATE_FORMAT(utility_date, '%M %d, %Y') as new_utility_date
+                            FROM `utility`
+                            INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
+                            WHERE utility.user_id = '$userID' AND `utility_status` != 'Archive'
                         ";
                     
                         $query_run = mysqli_query($con, $query);
@@ -65,15 +64,15 @@
                                 if($row['is_payment_made'] == '0') {
                     ?>
                     <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-                        <strong><?= $row['new_utilities_date']; ?></strong> You have bill for <b><?= strtolower($row['utilities_type_name']); ?></b> amount ₱<?= $row['utilities_amount']; ?> in this month please pay.
+                        <strong><?= $row['new_utility_date']; ?></strong> You have bill for <b><?= strtolower($row['utility_type_name']); ?></b> amount ₱<?= $row['utility_amount']; ?> in this month please pay.
                     </div>
                     <?php } elseif($row['is_payment_made'] == '1') { ?>
                         <div class="alert alert-success alert-dismissible fade show m-1" role="alert">
-                            Thank you for your payment for <b><?= $row['utilities_type_name']; ?></b>. It is currently being processed, and you will be notified through SMS once the payment is complete.
+                            Thank you for your payment for <b><?= $row['utility_type_name']; ?></b>. It is currently being processed, and you will be notified through SMS once the payment is complete.
                         </div>
                     <?php } elseif($row['is_payment_made'] == '2') { } else { ?>
                         <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                            Your payment for <b><?= $row['utilities_type_name']; ?></b>. Was rejected please see on the <a href="payment">payments</a>.
+                            Your payment for <b><?= $row['utility_type_name']; ?></b>. Was rejected please see on the <a href="payment">payments</a>.
                         </div>
                     <?php } } } ?>
                 </div>
@@ -85,24 +84,21 @@
                         Payment Method List
                     </div>
                     <div class="row m-1">
+                        <?php
+                            $query_run = mysqli_query($con, "SELECT * FROM payment_type WHERE payment_type_id != '1' AND payment_type_status = 'Active'");
+                            if(mysqli_num_rows($query_run) > 0){
+                                foreach($query_run as $row){
+                        ?>
                         <div class="col-md-3">
                             <div class="card h-100 text-center">
-                                <img class="img-fluid card-img-top mx-auto" src="<?php echo base_url ?>assets/files/online_payment/gcash.png" alt="user-avatar" style="width: 60%; object-fit: cover;">
+                                <img class="img-fluid card-img-top mx-auto" src="<?php echo base_url ?>assets/files/online_payment/<?= $row['payment_type_attachment']; ?>" alt="user-avatar" style="width: 60%; object-fit: cover;">
                                 <div class="card-body">
-                                    <h3 class="card-title" style="font-size: 22px;">GCash</h3>
-                                    <p class="card-text">Account #: 09171475542</p>
+                                    <h3 class="card-title" style="font-size: 22px;"><?= $row['payment_type_name']; ?></h3>
+                                    <p class="card-text">Account #: <?= $row['payment_type_account_number']; ?></p>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-3">
-                            <div class="card h-100 text-center">
-                                <img class="img-fluid card-img-top mx-auto" src="<?php echo base_url ?>assets/files/online_payment/gcash.png" alt="user-avatar" style="width: 60%; object-fit: cover;">
-                                <div class="card-body">
-                                    <h3 class="card-title" style="font-size: 22px;">Maya</h3>
-                                    <p class="card-text">Account #: 09171475542</p>
-                                </div>
-                            </div>
-                        </div> -->
+                        <?php } } else { echo "No Payment Method List"; } ?>
                     </div>
                 </div>
             </div>
