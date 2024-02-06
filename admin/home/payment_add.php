@@ -11,11 +11,11 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Pay Rental</h1>
+        <h1 class="mt-4">Add payment</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item active"><a href="./payment" class="text-decoration-none">Payment</a></li>
-            <li class="breadcrumb-item">Pay Rental</li>
+            <li class="breadcrumb-item">Add payment</li>
         </ol>
         <form id="myForm" action="payment_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">

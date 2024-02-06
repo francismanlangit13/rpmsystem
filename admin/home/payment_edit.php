@@ -21,7 +21,7 @@
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
                 // $sql = "SELECT * FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
-                $sql = "SELECT *, payment.last_update_date AS new_last_update_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN `utility` ON utility.utility_id = payment.utility_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
+                $sql = "SELECT *, CONCAT(`fname`, ' ', `mname`, ' ', `lname`) AS renter_fullname, payment.last_update_date AS new_last_update_date FROM `payment` INNER JOIN `user` ON user.user_id = payment.user_id INNER JOIN `utility` ON utility.utility_id = payment.utility_id WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'";
                 $sql_run = mysqli_query($con, $sql);
 
                 if(mysqli_num_rows($sql_run) > 0) {
@@ -47,7 +47,7 @@
                         // Check the payment status
                         $paymentStatus = $row['payment_status'];
 
-                        if ($paymentStatus === 'Partial') {
+                        if ($paymentStatus === 'Partial' || $paymentStatus === 'Reject') {
                             $balance = $row['utility_amount'] + $row['utility_amount'] * 0.05 * $monthDiff;
                             $balance_formatted = number_format($balance, 2);
                         } elseif ($paymentStatus === 'Paid') {
@@ -67,7 +67,6 @@
                                     <div class="float-end">
                                         <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-save"></i> Save</button>
                                         <input type="hidden" name="payment_id" value="<?=$row['payment_id']?>">
-                                        <input type="hidden" name="payment_amount" value="<?= $row['payment_amount']; ?>">
                                     </div>
                                 </h4>
                             </div>
@@ -75,17 +74,17 @@
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
                                         <label for="renter">Renter</label>
-                                        <input type="text" class="form-control" id="renter" value="<?= $row['renter_fullname']; ?>" disabled>
+                                        <input type="text" class="form-control-plaintext" id="renter" value="<?= $row['renter_fullname']; ?>" disabled>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
                                         <label for="payment_reference">Reference Number</label>
-                                        <input type="number" class="form-control" id="payment_reference" value="<?= $row['payment_reference']; ?>" disabled>
+                                        <input type="number" class="form-control-plaintext" id="payment_reference" value="<?= $row['payment_reference']; ?>" disabled>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
-                                        <label for="payment_amount">Payment Amount</label>
-                                        <input type="number" class="form-control" id="payment_amount" min="0" max="<?=$balance?>" value="<?= $row['payment_amount']; ?>" oninput="updateBalance()" disabled>
+                                        <label for="payment_amount" class="required">Payment Amount</label>
+                                        <input type="number" class="form-control" name="payment_amount" id="payment_amount" min="0" max="<?=$balance?>" value="<?= $row['payment_amount']; ?>" oninput="updateBalance()" required <?php if($row['payment_status'] == 'Reject'){ echo "disabled"; } ?>>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
@@ -105,7 +104,7 @@
                                     </div>
 
                                     <div class="col-md-12 mb-3 <?php if($row['payment_status'] == 'Reject') { } else { echo"d-none"; }?>" id="Container">
-                                        <label for="payment_comment">Note if rejected</label>
+                                        <label for="payment_comment" class="required">Note if rejected</label>
                                         <input type="text" class="form-control" id="payment_comment" name="payment_comment" value="<?= $row['payment_comment']; ?>">
                                     </div>
                                 </div>
@@ -256,5 +255,27 @@
             return true; // Allow the form to be submitted and display the browser's error messages
         }
     }
+</script>
+
+<script>
+    document.getElementById('payment_status').addEventListener('change', function () {
+        var payment_amount = document.getElementById('payment_amount');
+        var Container = document.getElementById('Container');
+        var payment_comment = document.getElementById('payment_comment');
+        var payment_comment1 = document.getElementById('payment_comment');
+        if (this.value === 'Reject') {
+            payment_amount.required = false;
+            payment_amount.disabled = true;
+            Container.classList.remove('d-none');
+            payment_comment.required = true;
+            payment_comment1.disabled = false;
+        } else {
+            payment_amount.required = true;
+            payment_amount.disabled = false;
+            Container.classList.add('d-none');
+            payment_comment.required = false;
+            payment_comment1.disabled = true;
+        }
+    });
 </script>
 <?php include ('../includes/bottom.php'); ?>
