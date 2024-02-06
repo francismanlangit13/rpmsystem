@@ -140,6 +140,11 @@
                                     <label for="remarks"><b>Remarks</b></label>
                                     <input type="text" class="form-control-plaintext" id="remarks" value="<?= $row['remarks']; ?>" disabled>
                                 </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="payment_comment"><b>Reason for Reject</b></label>
+                                    <input type="text" class="form-control-plaintext" id="payment_comment" value="<?= $row['payment_comment']; ?>" disabled>
+                                </div>
                             </div>
                         </div>
                     </div>

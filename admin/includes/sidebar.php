@@ -37,20 +37,20 @@
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">Properties</div>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/property.php') !== false)  { echo 'active'; } ?>" href="property">
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/property.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/property_view.php') !== false)  { echo 'active'; } ?>" href="property">
                         <div class="sb-nav-link-icon"><i class="fas fa-house-user"></i></div>
                         Property
                     </a>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/rentee.php') !== false)  { echo 'active'; } ?>" href="rentee">
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/rentee.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/rentee_history.php') !== false)  { echo 'active'; } ?>" href="rentee">
                         <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                         Rentee
                     </a>
                     <div class="sb-sidenav-menu-heading">Billing</div>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/payment.php') !== false)  { echo 'active'; } ?>" href="payment">
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/payment.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/payment_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/payment_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/payment_view.php') !== false)  { echo 'active'; } ?>" href="payment">
                         <div class="sb-nav-link-icon"><i class="fas fa-file-invoice"></i></div>
                         Payments
                     </a>
-                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/utility.php') !== false)  { echo 'active'; } ?>" href="utility">
+                    <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/utility.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_add.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_edit.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/utility_view.php') !== false)  { echo 'active'; } ?>" href="utility">
                         <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
                         Manage Bills
                     </a>

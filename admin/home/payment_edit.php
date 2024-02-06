@@ -47,7 +47,7 @@
                         // Check the payment status
                         $paymentStatus = $row['payment_status'];
 
-                        if ($paymentStatus === 'Partial' || $paymentStatus === 'Reject') {
+                        if ($paymentStatus === 'Pending' || $paymentStatus === 'Partial' || $paymentStatus === 'Reject') {
                             $balance = $row['utility_amount'] + $row['utility_amount'] * 0.05 * $monthDiff;
                             $balance_formatted = number_format($balance, 2);
                         } elseif ($paymentStatus === 'Paid') {
