@@ -109,14 +109,14 @@
                                     <a href="
                                         <?php
                                             if(!empty($user['profile'])){ 
-                                                echo base_url . 'assets/files/user/' . $user['profile'];
+                                                echo base_url . 'assets/files/users/' . $user['profile'];
                                             } else { if($user['gender'] == 'Male'){ echo base_url . 'assets/files/system/profile-male.png'; } else { echo base_url . 'assets/files/system/profile-female.png'; } }
                                         ?>" class="glightbox d-block" data-gallery="Profile">
                                         <img class="zoom img-fluid img-bordered-sm" id="frame1"
                                         src="
                                             <?php
                                                 if(!empty($user['profile'])) {
-                                                    echo base_url . 'assets/files/user/' . $user['profile'];
+                                                    echo base_url . 'assets/files/users/' . $user['profile'];
                                                 } else { if($user['gender'] == 'Male'){ echo base_url . 'assets/files/system/profile-male.png'; } else { echo base_url . 'assets/files/system/profile-female.png'; } } 
                                             ?>
                                         " alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">

@@ -77,7 +77,7 @@
             if (in_array($fileActExt, $allowed)) {
                 if ($fileError === 0) {
                     if ($fileSize < 5242880) { // 5MB Limit
-                        $uploadDir = '../../assets/files/user/';
+                        $uploadDir = '../../assets/files/users/';
                         unlink($uploadDir . $OLDfileImage);
                         $targetFile = $uploadDir . $fileName;
                         if ($fileSize > 1048576) { // more than 1 MB

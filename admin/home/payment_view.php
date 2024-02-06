@@ -145,6 +145,25 @@
                                     <label for="payment_comment"><b>Reason for Reject</b></label>
                                     <input type="text" class="form-control-plaintext" id="payment_comment" value="<?= $row['payment_comment']; ?>" disabled>
                                 </div>
+
+                                <div class="col-md-4 mt-3 text-center">
+                                    <h6>Receipt Attachment</h6> 
+                                    <a href="
+                                        <?php
+                                            if(!empty($row['payment_attachment'])){ 
+                                                echo base_url . 'assets/files/attachment/' . $row['payment_attachment'];
+                                            } else { echo base_url . 'assets/files/system/no-image.png'; }
+                                        ?>" class="glightbox d-block" data-gallery="QRCode">
+                                        <img class="zoom img-fluid img-bordered-sm" id="frame1"
+                                        src="
+                                            <?php
+                                                if(!empty($row['payment_attachment'])) {
+                                                    echo base_url . 'assets/files/attachment/' . $row['payment_attachment'];
+                                                } else { echo base_url . 'assets/files/system/no-image.png'; } 
+                                            ?>
+                                        " alt="image" style="height: 180px; max-width: 240px; object-fit: cover;">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
