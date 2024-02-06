@@ -446,7 +446,8 @@
 
         } else { // For online payment
             if($payment_status == 'Reject'){
-                $query = "UPDATE `payment` SET `payment_status`='$payment_status', `payment_comment`='$payment_comment', `updated_by`='$user_id', `last_update_date`='$last_update_date' WHERE `payment_id`='$payment_id'";
+                $remarks = "The payment was made online, Payment was rejected.";
+                $query = "UPDATE `payment` SET `payment_status`='$payment_status', `payment_comment`='$payment_comment', `remarks`='$remarks', `updated_by`='$user_id', `last_update_date`='$last_update_date' WHERE `payment_id`='$payment_id'";
                 $query_run = mysqli_query($con, $query);
 
                 // SQL Query
@@ -471,11 +472,62 @@
                 curl_close($ch);
                 echo $output;
             } else {
-                $query = "UPDATE `payment` SET `payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status', `updated_by`='$user_id', `last_update_date`='$last_update_date' WHERE `payment_id`='$payment_id'";
+                // SQL Query
+                $stmt = "SELECT * FROM `payment` INNER JOIN utility ON utility.utility_id = payment.utility_id WHERE payment.user_id = '$add_renter' AND payment.`utility_id` = '$utility_id'";
+                $stmt_run = mysqli_query($con,$stmt);
+                if ($stmt_run){
+                    while ($renter_row = $stmt_run->fetch_assoc()) {
+                        $utilityDate = $renter_row['utility_date']; // Assuming $renter_row['utility_date'] is in the format 'YYYY-MM-DD'
+                        $currentDate = date('Y-m-d'); // Get the current date
+                        $utilityDateTime = new DateTime($utilityDate); // Convert the dates to DateTime objects
+                        $currentDateTime = new DateTime($currentDate); // Convert the dates to DateTime objects
+                        $monthDiff = $currentDateTime->diff($utilityDateTime)->format('%m'); // Calculate the difference in months
+
+                        $add_penalty = number_format($renter_row['utility_amount'] * 0.05 * $monthDiff, 2);
+                        $payment_remaining = ($renter_row['utility_amount'] + $add_penalty) - $payment_amount;
+                        break; // exit the loop after the first iteration
+                    }
+                } else {
+                    $_SESSION['status'] = "The selected user does not have in property rented.";
+                    $_SESSION['status_code'] = "error";
+                    header("Location: " . base_url . "admin/home/payment");
+                    exit(0);
+                }
+
+                if($payment_remaining > 0){
+                    $payment_status = 'Partial';
+                    $is_payment_made = '2';
+    
+                    if($status_results == '1'){ // addition
+                        $added_balance = $new_calculation + $row_get_balance['balance'];
+                    } elseif ($status_results == '2') {
+                        $added_balance = $row_get_balance['balance'] - $new_calculation;
+                    } else {
+                        $added_balance = $row_get_balance['balance'];
+                    }
+                    mysqli_query($con, "UPDATE `user` SET `balance` = '$added_balance' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+                    $remarks = "The payment was made online, but there were insufficient funds.";
+                } else {
+                    if($payment_remaining < '-1'){ // if the payment is sobra...
+                        $payment_remaining = '0.00';
+                    }
+    
+                    if ($status_results == '2') {
+                        $added_balance = $row_get_balance['balance'] - $new_calculation; // $row_get_balance['balance'] - $payment_remaining;
+                    } else {
+                        $added_balance = $row_get_balance['balance'];
+                    }
+                    mysqli_query($con, "UPDATE `user` SET `balance` = '$added_balance' WHERE `user_id` = '$add_renter' AND `is_rented` = '1'");
+                    $remarks = "The payment was made online, Transaction Complete.";
+                    $payment_status = 'Paid';
+                    $is_payment_made = '2';
+                }
+
+                $query = "UPDATE `payment` SET `payment_amount`='$payment_amount',`payment_remaining`='$payment_remaining',`payment_status`='$payment_status', `remarks`='$remarks', `updated_by`='$user_id', `last_update_date`='$last_update_date' WHERE `payment_id`='$payment_id'";
                 $query_run = mysqli_query($con, $query);
 
                 // SQL Query
-                $update_status = mysqli_query($con, "UPDATE `utility` SET `is_payment_made` = '2' WHERE `utility_id` = '$utility_id'");
+                $update_status = mysqli_query($con, "UPDATE `utility` SET `is_payment_made` = '$is_payment_made' WHERE `utility_id` = '$utility_id'");
 
                 $sms_body = <<<EOD
                 Dear $fullname\r\nThanks for paying your $utility_type_name bill was approved. The amount you $payment_status is ₱$payment_amount, for the month of $YearandMonth.
