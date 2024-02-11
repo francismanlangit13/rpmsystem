@@ -113,13 +113,13 @@
                                 $query = "SELECT *, DATE_FORMAT(utility_date, '%M %d, %Y %h:%i %p') as new_utility_date FROM `utility`
                                     INNER JOIN `user` ON user.user_id = utility.user_id
                                     INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
-                                    WHERE DATE(utility_date) BETWEEN '{$firstDayOfMonth}' AND '{$lastDayOfMonth}' AND `utility_status` != 'Archive'
+                                    WHERE user_id = '$userID' AND DATE(utility_date) BETWEEN '{$firstDayOfMonth}' AND '{$lastDayOfMonth}' AND `utility_status` != 'Archive'
                                 ";
                             } else{
                                 $query = "SELECT *, DATE_FORMAT(utility_date, '%M %d, %Y %h:%i %p') as new_utility_date FROM `utility`
                                     INNER JOIN `user` ON user.user_id = utility.user_id
                                     INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
-                                    WHERE `utility_status` != 'Archive'
+                                    WHERE user_id = '$userID' AND `utility_status` != 'Archive'
                                 ";
                             }
                             $query_run = mysqli_query($con, $query);

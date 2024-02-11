@@ -53,13 +53,33 @@
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item">Rentee History</li>
         </ol>
-        <?php if(isset($_GET['id'])) {
-            $renter = isset($_GET['id']) ? $_GET['id'] : '';
+        <form action="rentee_history.php" method="post" autocomplete="off" enctype="multipart/form-data">
+            <div class="row noprint">
+                <div class="col-md-3 mb-3">
+                    <div class="form-group">
+                        <select class="form-control" name="rentee_history" id="rentee_history" required>
+                            <option value="" selected>Select History</option>
+                            <option value="Bill_History" <?= isset($_POST['rentee_history']) && $_POST['rentee_history'] == 'Bill_History' ? 'selected' : '' ?>>Bills History</option>
+                            <option value="Payment_History" <?= isset($_POST['rentee_history']) && $_POST['rentee_history'] == 'Payment_History' ? 'selected' : '' ?>>Payment History</option>
+                        </select>
+                        <div id="rentee_history-error"></div>
+                    </div>
+                </div>
+                <div class="col-md-1 mb-3">
+                    <input type="hidden" name="id" value="<?=isset($_POST['id']) ? $_POST['id'] : $_GET['id']?>">
+                    <button type="submit" class="btn btn-primary" id="submit-btn" name="history">Go</button>
+                </div>
+            </div>
+        </form>
+        <?php if(isset($_POST['id']) || isset($_GET['id'])) {
+            $history_type = isset($_POST['rentee_history']) ? $_POST['rentee_history'] : null;
+            if ($history_type == 'Payment_History'){
+            $renter = isset($_POST['id']) ? $_POST['id'] : $_GET['id'];
             $stmt = $con->query("SELECT * FROM `user` WHERE `user_id` = '$renter'");
             $stmt_result = $stmt->fetch_assoc();
         ?>
 
-            <h3 class="text-center mt-5">Full history rentee (<?= $stmt_result['fname'] .' '. $stmt_result['mname'] .' '. $stmt_result['lname'] .' '. $stmt_result['suffix']?>)</h3>
+            <h3 class="text-center mt-5">Full payment history rentee (<?= $stmt_result['fname'] .' '. $stmt_result['mname'] .' '. $stmt_result['lname'] .' '. $stmt_result['suffix']?>)</h3>
             <table class="table text-center table-hover table-striped mt-1 print-table-adjust">
                 <!-- <colgroup>
                     <col width="5%">
@@ -121,7 +141,56 @@
                     <?php endif; ?>
                 </tbody>
             </table>
-        <?php } else { echo "No records found"; } ?>
+        <?php } else { ?>
+            <?php
+                $renter = isset($_POST['id']) ? $_POST['id'] : $_GET['id'];
+                $stmt = $con->query("SELECT * FROM `user` WHERE `user_id` = '$renter'");
+                $stmt_result = $stmt->fetch_assoc();
+            ?>
+            <h3 class="text-center mt-5">Full bill history rentee (<?= $stmt_result['fname'] .' '. $stmt_result['mname'] .' '. $stmt_result['lname'] .' '. $stmt_result['suffix']?>)</h3>
+            <table class="table text-center table-hover table-striped mt-1 print-table-adjust">
+                <!-- <colgroup>
+                    <col width="5%">
+                    <col width="20%">
+                    <col width="8%">
+                    <col width="8%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="8%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="10%">
+                </colgroup> -->
+                <thead>
+                    <tr class="bg-secondary text-light">
+                        <th>No.</th>
+                        <th>Renter</th>
+                        <th>Bill Type</th>
+                        <th>Bill Amount</th>
+                        <th>Date of Billed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $qry = $con->query("SELECT *, DATE_FORMAT(utility_date, '%m-%d-%Y') as new_utility_date FROM utility INNER JOIN `user` ON user.user_id = utility.user_id INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id WHERE utility.user_id = '$renter'");                    
+                        while($row = $qry->fetch_assoc()):
+                    ?>
+                        <tr>
+                            <td class="text-center"><?php echo $row['utility_id'] ?></td>
+                            <td class=""><p class="m-0"><?php echo $row['fname'] ?> <?php echo $row['mname'] ?> <?php echo $row['lname'] ?> <?php echo $row['suffix'] ?></p></td>
+                            <td class=""><p class="m-0"><?php echo $row['utility_type_name'] ?></p></td>
+                            <td class=""><p class="m-0"><?php echo $row['utility_amount'] ?></p></td>
+                            <td class=""><p class="m-0"><?php echo $row['new_utility_date'] ?></p></td>
+                        </tr>
+                    <?php endwhile; ?>
+                    <?php if($qry->num_rows <= 0): ?>
+                        <tr>
+                            <th class="py-1 text-center" colspan="15">No Data.</th>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        <?php } } else { echo "No records found"; } ?>
     </div>
 </main>
 <script>
