@@ -78,6 +78,7 @@
                                 <label for="renter">Rentee</label>
                                 <select class="form-control select3" id="renter" name="renter" style="width: 100%;">
                                     <option value="">Select Rentee</option>
+                                    <option value="">All Rentee</option>
                                     <?php 
                                         if ($staff_result->num_rows > 0) {
                                         while($staffrow = $staff_result->fetch_assoc()) {

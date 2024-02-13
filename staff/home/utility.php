@@ -58,17 +58,17 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4 noprint">Other Bills
+        <h1 class="mt-4 noprint">Manage Bills
             <a href="utility_add" class="btn btn-success btn-icon-split float-end mt-2"> 
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Add Other Bills</span>
+                <span class="text">Add Manage Bills</span>
             </a>
         </h1>
         <ol class="breadcrumb mb-4 noprint">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item">Other Bills</li>
+            <li class="breadcrumb-item">Manage Bills</li>
         </ol>
         <form action="utility.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row noprint">
@@ -84,7 +84,7 @@
         <div class="card mb-4">
             <div class="card-header noprint">
                 <i class="fas fa-table me-1"></i>
-                DataTable Other Bills
+                DataTable Manage Bills
                 <div class="float-end">
                     <button class="btn btn-sm btn-flat btn-secondary" type="button" onclick="window.print()"><i class="fa fa-print"></i> Print</button>
                 </div>
@@ -175,7 +175,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Other Bills</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete Manage Bills</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

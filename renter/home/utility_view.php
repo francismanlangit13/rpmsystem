@@ -23,7 +23,7 @@
                 $sql = "SELECT *, DATE_FORMAT(utility_date, '%M %d, %Y %h:%i %p') as new_utility_date, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS rent_fullname FROM `utility`
                     INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id
                     INNER JOIN user ON user.user_id = utility.user_id
-                    WHERE `utility_id` = '$id' AND `utility_status` != 'Archive'
+                    WHERE user.user_id = '$userID' AND `utility_id` = '$id' AND `utility_status` != 'Archive'
                 ";
                 $sql_run = mysqli_query($con, $sql);
 

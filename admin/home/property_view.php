@@ -3,14 +3,74 @@
     <!-- Select2 CSS and JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-</head>
 <style type="text/css">
     #datatablesSimple th:nth-child(7) {
         width: 15% !important;
     }
+    .height {
+        min-height: 200px;
+    }
+
+    .icon {
+        font-size: 47px;
+        color: #5CB85C;
+    }
+
+    .iconbig {
+        font-size: 77px;
+        color: #5CB85C;
+    }
+
+    /* .table > tbody > tr > .emptyrow {
+        border-top: none;
+    } */
+
+    .table > thead > tr > .emptyrow {
+        border-bottom: none;
+    }
+
+    .table > tbody > tr > .highrow {
+        border-top: 3px solid;
+    }
+    .table tbody tr td.customtd {
+        padding-left: 280px;
+    }
+    @media print{
+        body{
+            margin-top: -50px;
+        }
+        .bg-success-print {
+            background-color: #28a745 !important; /* Green color for success */
+            color: #fff !important; /* White text for better visibility on dark background */
+        }
+        .noprint{
+            display: none;
+        }
+        .print-adjust {
+            margin-top:-5px;
+        }
+        .print-table-adjust{
+            zoom: 65%;
+        }
+        .noprint-scroll{
+        overflow-x: unset !important;
+        }
+        @page {
+            size: auto;
+            margin: 1mm;
+        }
+        .col-md-6,
+        .col-lg-6 {
+            width: 50%;
+        }
+        .table tbody tr td.customtd {
+        padding-left: 215px;
+    }
+    }
 </style>
+</head>
 <main>
-    <div class="container-fluid px-4">
+<div class="container-fluid px-4">
         <h1 class="mt-4">View Property</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
@@ -26,88 +86,59 @@
                 if(mysqli_num_rows($sql_run) > 0) {
                     foreach($sql_run as $row){
         ?>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Property form</h4>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="text-center">
+                        <div style="text-align: center;">
+                            <img class="img-responsive" src="<?php echo base_url ?>assets/files/system/system_logo.jpg" alt="System Logo" width="20%" height="20%">
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <label for="property_unit_code"><b>Property Unit Code</b></label>
-                                <input type="text" class="form-control-plaintext" id="property_unit_code" value="<?=$row['property_unit_code']?>" disabled>
-                            </div>
-
-                            <div class="col-md-3 mb-3">
-                                <label for="property_permit"><b>Building Permit No.</b></label>
-                                <input type="text" class="form-control-plaintext" id="property_permit" value="<?=$row['property_permit']?>" disabled>
-                            </div>
-
-                            <div class="col-md-3 mb-3">
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6 col-lg-6 pull-left">
+                            <div class="panel panel-default height">
+                                <div class="panel-heading">Rentee Information</div>
                                 <?php
-                                    $staff_id = $row['user_id'];
-                                    $staff = "SELECT *, CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS `staff_fullname` FROM `user` WHERE `user_id` = '$staff_id'";
-                                    $staff_result = $con->query($staff);
-                                    $staff_data = $staff_result->fetch_assoc();
+                                    $new_user_id = $row['rentee_id'];
+                                    $stmt0 = mysqli_query($con, "SELECT *, DATE_FORMAT(startrent, '%m-%d-%Y') as newstartrent, DATE_FORMAT(endrent, '%m-%d-%Y') as newendrent, CONCAT(`fname`, ' ', `mname`, ' ', `lname`) AS rentee_fullname FROM user WHERE user_id = '$new_user_id'");
+                                    $get_renteename = $stmt0->fetch_assoc();
                                 ?>
-                                <label for="staff_fullname"><b>Landlady / Landlord</b></label>
-                                <input type="text" class="form-control-plaintext" id="staff_fullname" value="<?=$staff_data['staff_fullname']?>" disabled>
+                                <?php if($row['property_status'] == 'Rented'){ ?>
+                                    <div class="panel-body">
+                                        <strong>Rentee:</strong> <?=$get_renteename['rentee_fullname']?><br>
+                                        <strong>Email:</strong> <?=$get_renteename['email']?><br>
+                                        <strong>Phone:</strong> <?=$get_renteename['phone']?><br>
+                                        <strong>Address:</strong> <?=$get_renteename['address']?><br>
+                                        <strong>Occupation:</strong> <?=$get_renteename['occupation']?><br>
+                                        <strong>Start Rent:</strong> <?=$get_renteename['newstartrent']?><br>
+                                        <strong>End Rent:</strong> <?=$get_renteename['newendrent']?><br>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="panel-body">
+                                        <strong>Rentee:</strong> N/A<br>
+                                        <strong>Email:</strong> N/A<br>
+                                        <strong>Phone:</strong> N/A<br>
+                                        <strong>Address:</strong> N/A<br>
+                                        <strong>Occupation:</strong> N/A<br>
+                                        <strong>Start Rent:</strong> N/A<br>
+                                        <strong>End Rent:</strong> N/A<br>
+                                    </div>
+                                <?php } ?>
                             </div>
-
-                            <div class="col-md-3 mb-3">
-                                <label for="property_type"><b>Property Type</b></label>
-                                <input type="text" class="form-control-plaintext" id="property_type" value="<?=$row['property_type_name']?>" disabled>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label for="property_status"><b>Property Status</b></label>
-                                <input type="text" class="form-control-plaintext" id="property_status" value="<?=$row['property_status']?>" disabled>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label for="property_purok"><b>Purok</b></label>
-                                <input type="text" class="form-control-plaintext" name="property_purok" id="property_purok" value="<?=$row['property_purok']?>" disabled>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label for="property_barangay"><b>Barangay</b></label>
-                                <input type="text" class="form-control-plaintext" name="property_barangay" id="property_barangay" value="<?=$row['property_barangay']?>" disabled>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label for="property_city"><b>City</b></label>
-                                <input type="text" class="form-control-plaintext" name="property_city" id="property_city" value="<?=$row['property_city']?>" disabled>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label for="property_zipcode"><b>Zipcode</b></label>
-                                <input type="text" class="form-control-plaintext" name="property_zipcode" id="property_zipcode" value="<?=$row['property_zipcode']?>" disabled>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label for="property_amount"><b>Unit Cost</b></label>
-                                <input type="text" class="form-control-plaintext" id="property_amount" value="₱<?=$row['property_amount']?>" disabled>
-                            </div>
-
-                            <div class="col-md-3 mb-3">
-                                <label for="has_electrical_meter"><b>Does the unit have its own electrical meter?</b></label>
-                                <input type="text" class="form-control-plaintext" id="has_electrical_meter" value="<?=$row['has_electrical_meter']?>" disabled>
-                            </div>
-
-                            <div class="col-md-3 mb-3">
-                                <label for="has_water_meter"><b>Does the unit have its own water meter?</b></label>
-                                <input type="text" class="form-control-plaintext" id="has_water_meter" value="<?=$row['has_water_meter']?>" disabled>
-                            </div>
-
-                            <div class="col-md-3 mb-3">
-                                <label for="has_parking_space"><b>Does the unit have a parking space?</b></label>
-                                <input type="text" class="form-control-plaintext" id="has_parking_space" value="<?=$row['has_parking_space']?>" disabled>
-                            </div>
-
-                            <div class="col-md-3 mb-3">
-                                <label for="has_conectivity"><b>Does the unit have a conectivity?</b></label>
-                                <input type="text" class="form-control-plaintext" id="has_conectivity" value="<?=$row['has_conectivity']?>" disabled>
+                        </div>
+                        <div class="col-xs-12 col-md-6 col-lg-6">
+                            <div class="panel panel-default height">
+                                <div class="panel-heading">Property Information</div>
+                                <div class="panel-body">
+                                    <strong>Unit Code:</strong> <?=$row['property_unit_code']?><br>
+                                    <strong>Unit Cost:</strong> <?=$row['property_amount']?><br>
+                                    <strong>Property Permit:</strong> <?=$row['property_permit']?><br>
+                                    <strong>Property Type:</strong> <?=$row['property_type_name']?><br>
+                                    <strong>Property Status:</strong> <?=$row['property_status']?><br>
+                                    <strong>Property Location:</strong> Purok <?=$row['property_purok']?> <?=$row['property_barangay']?>, <?=$row['property_city']?> <?=$row['property_zipcode']?><br>
+                                    <strong>Landlady / Landlord:</strong> <?=$row['staff_fullname']?><br>
+                                </div>
                             </div>
                         </div>
                     </div>

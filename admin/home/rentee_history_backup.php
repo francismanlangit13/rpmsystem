@@ -165,35 +165,22 @@
                     <tr class="bg-secondary text-light">
                         <th>No.</th>
                         <th>Renter</th>
-                        <th>Rent</th>
-                        <th>Electricity</th>
-                        <th>Water</th>
-                        <th>Total Bill</th>
+                        <th>Bill Type</th>
+                        <th>Bill Amount</th>
                         <th>Date of Billed</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        $qry = $con->query("SELECT utility_id,  CONCAT(`fname`, ' ', `mname`, ' ', `lname`, ' ', `suffix`) AS `rentee_fullname`, DATE_FORMAT(utility_date, '%M %d, %Y') AS month_year,
-                            SUM(CASE WHEN utility_type_id = 1 THEN utility_amount ELSE 0 END) AS rent_total,
-                            SUM(CASE WHEN utility_type_id = 2 THEN utility_amount ELSE 0 END) AS electricity_total,
-                            SUM(CASE WHEN utility_type_id = 3 THEN utility_amount ELSE 0 END) AS water_total,
-                            SUM(utility_amount) AS total_bill
-                            FROM utility 
-                            INNER JOIN user ON utility.user_id = user.user_id
-                            WHERE utility.user_id = '$renter' AND utility_date >= DATE_FORMAT(NOW(), '%Y-%m-01') AND utility_date <= LAST_DAY(NOW())
-                            GROUP BY DATE_FORMAT(utility_date, '%Y-%m');
-                        ");                    
+                        $qry = $con->query("SELECT *, DATE_FORMAT(utility_date, '%m-%d-%Y') as new_utility_date FROM utility INNER JOIN `user` ON user.user_id = utility.user_id INNER JOIN utility_type ON utility_type.utility_type_id = utility.utility_type_id WHERE utility.user_id = '$renter'");                    
                         while($row = $qry->fetch_assoc()):
                     ?>
                         <tr>
                             <td class="text-center"><?php echo $row['utility_id'] ?></td>
-                            <td class=""><p class="m-0"><?php echo $row['rentee_fullname'] ?></p></td>
-                            <td class=""><p class="m-0"><?php echo $row['rent_total'] ?></p></td>
-                            <td class=""><p class="m-0"><?php echo $row['electricity_total'] ?></p></td>
-                            <td class=""><p class="m-0"><?php echo $row['water_total'] ?></p></td>
-                            <td class=""><p class="m-0"><?php echo $row['total_bill'] ?></p></td>
-                            <td class=""><p class="m-0"><?php echo $row['month_year'] ?></p></td>
+                            <td class=""><p class="m-0"><?php echo $row['fname'] ?> <?php echo $row['mname'] ?> <?php echo $row['lname'] ?> <?php echo $row['suffix'] ?></p></td>
+                            <td class=""><p class="m-0"><?php echo $row['utility_type_name'] ?></p></td>
+                            <td class=""><p class="m-0"><?php echo $row['utility_amount'] ?></p></td>
+                            <td class=""><p class="m-0"><?php echo $row['new_utility_date'] ?></p></td>
                         </tr>
                     <?php endwhile; ?>
                     <?php if($qry->num_rows <= 0): ?>

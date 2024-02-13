@@ -77,7 +77,8 @@
                                 <div class="form-group">
                                     <label for="Role">User Type</label>
                                     <select class="form-control" name="Role" id="Role">
-                                        <option value="" selected>Select Status</option>
+                                        <option value="" selected>Select User Type</option>
+                                        <option value="">All User Type</option>
                                         <option value="Admin" <?= isset($role) && $role == 'Admin' ? 'selected' : '' ?>>Admin</option>
                                         <option value="Staff" <?= isset($role) && $role == 'Staff' ? 'selected' : '' ?>>Staff</option>
                                         <option value="Renter" <?= isset($role) && $role == 'Renter' ? 'selected' : '' ?>>Rentee</option>
@@ -89,6 +90,7 @@
                                     <label for="Status">User Status</label>
                                     <select class="form-control" name="Status" id="Status">
                                         <option value="" selected>Select Status</option>
+                                        <option value="">All Status</option>
                                         <option value="Active" <?= isset($status) && $status == 'Active' ? 'selected' : '' ?>>Active</option>
                                         <option value="Inactive" <?= isset($status) && $status == 'Inactive' ? 'selected' : '' ?>>Inactive</option>
                                     </select>

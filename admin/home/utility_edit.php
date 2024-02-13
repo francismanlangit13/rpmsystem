@@ -11,11 +11,11 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Edit Other Bills</h1>
+        <h1 class="mt-4">Edit Manage Bills</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./utility" class="text-decoration-none">Other Bills</a></li>
-            <li class="breadcrumb-item">Edit Other Bills</li>
+            <li class="breadcrumb-item active"><a href="./utility" class="text-decoration-none">Manage Bills</a></li>
+            <li class="breadcrumb-item">Edit Manage Bills</li>
         </ol>
         <?php
             if(isset($_GET['id'])) {
@@ -31,7 +31,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Other Bills form
+                            <h4>Manage Bills form
                                 <div class="float-end btn-disabled">
                                     <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-save"></i> Save</button>
                                     <input type="hidden" name="utility_id" value="<?=$row['utility_id']?>">
@@ -164,7 +164,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Other Bills info</h4>
+                            <h4>Manage Bills info</h4>
                         </div>
                         <div class="card-body">
                             <h4>No records found.</h4>

@@ -295,7 +295,7 @@
                         <div class="modal-footer">
                             <div class="float-end btn-disabled">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" name="add_user" id="addButton" class="btn btn-primary" disabled>Add</button>
+                                <button type="submit" name="add_user" id="addButton" class="btn btn-primary" disabled>Yes</button>
                             </div>
                         </div>
                     </div>

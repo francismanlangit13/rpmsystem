@@ -73,6 +73,7 @@
                                 <label for="property_type_id">Property Type</label>
                                 <select class="form-control" id="property_type_id" name="property_type_id">
                                     <option value="">Select Property Type</option>
+                                    <option value="">All Property Type</option>
                                     <?php
                                         // use a while loop to fetch data
                                         while ($property_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):

@@ -71,7 +71,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" name="add_payment_type" id="addButton" class="btn btn-success">Add</button>
+                            <button type="submit" name="add_payment_type" id="addButton" class="btn btn-success">Yes</button>
                         </div>
                     </div>
                 </div>

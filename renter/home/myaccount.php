@@ -96,6 +96,12 @@
                                     <div id="phone-error"></div>
                                 </div>
 
+                                <div class="col-md-12 mb-3">
+                                    <label for="address" class="required">Address</label>
+                                    <textarea type="text" class="form-control" placeholder="Enter Address" rows="3" name="address" id="address" autocomplete="off" required><?=$user['address']?></textarea>
+                                    <div id="address-error"></div>
+                                </div>
+
                                 <div class="col-md-4 mb-3">
                                     <label for="image1">Upload a photo</label>
                                     <input type="file" name="image1" class="form-control btn btn-secondary" style="padding-bottom:2.2rem;" id="image1" accept=".jpg, .jpeg, .png" onchange="previewImage('frame1', 'image1')">
@@ -397,6 +403,7 @@
         var debouncedCheckCivilstatus = _.debounce(checkCivilstatus, 500);
         var debouncedCheckEmail = _.debounce(checkEmail, 500);
         var debouncedCheckPhone = _.debounce(checkPhone, 500);
+        var debouncedCheckAddress = _.debounce(checkAddress, 500);
 
         // attach event listeners for each input field
         $('#fname').on('input', debouncedCheckFname);
@@ -406,6 +413,7 @@
         $('#civil_status').on('input', debouncedCheckCivilstatus);
         $('#email').on('input', debouncedCheckEmail); 
         $('#phone').on('input', debouncedCheckPhone);
+        $('#address').on('input', debouncedCheckAddress);
 
         $('#fname').on('blur', debouncedCheckFname);
         $('#lname').on('blur', debouncedCheckLname);
@@ -414,6 +422,7 @@
         $('#civil_status').on('blur', debouncedCheckCivilstatus);
         $('#email').on('blur', debouncedCheckEmail);
         $('#phone').on('blur', debouncedCheckPhone);
+        $('#address').on('blur', debouncedCheckAddress);
 
         function checkIfAllFieldsValid() {
             // check if all input fields are valid and enable submit button if so
@@ -424,7 +433,8 @@
                  $('#civil_status-error').is(':empty') &&
                  $('#email-error').is(':empty') &&
                  $('#email-error').is(':empty') &&
-                 $('#phone-error').is(':empty')
+                 $('#phone-error').is(':empty') &&
+                 $('#address-error').is(':empty')
                 ) {
                 $('#submit-btn').prop('disabled', false);
             } else {
@@ -623,6 +633,24 @@
                 $('#phone').removeClass('is-invalid');
                 checkIfAllFieldsValid();
             }
+        }
+
+        function checkAddress() {
+            var address = $('#address').val().trim();
+            
+            // show error if address is empty
+            if (address === '') {
+                $('#address-error').text('Please input address').css('color', 'red');
+                $('#address').addClass('is-invalid');
+                checkIfAllFieldsValid();
+                return;
+            }
+            
+            // Perform additional validation for address if needed
+            
+            $('#address-error').empty();
+            $('#address').removeClass('is-invalid');
+            checkIfAllFieldsValid();
         }
     });
 </script>

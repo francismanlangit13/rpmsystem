@@ -11,18 +11,18 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Add Other Bills</h1>
+        <h1 class="mt-4">Add Manage Bills</h1>
         <ol class="breadcrumb mb-4 mt-3">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="./utility" class="text-decoration-none">Other Bills</a></li>
-            <li class="breadcrumb-item">Add Other Bills</li>
+            <li class="breadcrumb-item active"><a href="./utility" class="text-decoration-none">Manage Bills</a></li>
+            <li class="breadcrumb-item">Add Manage Bills</li>
         </ol>
         <form id="myForm" action="utility_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Other Bills form
+                            <h4>Manage Bills form
                                 <div class="float-end btn-disabled">
                                     <button type="submit" class="btn btn-primary" id="submit-btn" onclick="return validateForm()"><i class="fas fa-save"></i> Save</button>
                                 </div>
@@ -116,7 +116,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" name="add_utility" id="addButton" class="btn btn-success">Add</button>
+                            <button type="submit" name="add_utility" id="addButton" class="btn btn-success">Yes</button>
                         </div>
                     </div>
                 </div>

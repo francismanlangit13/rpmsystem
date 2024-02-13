@@ -78,6 +78,7 @@
                                 <label for="renter">Rentee</label>
                                 <select class="form-control select3" id="renter" name="renter" style="width: 100%;">
                                     <option value="">Select Rentee</option>
+                                    <option value="">All Rentee</option>
                                     <?php 
                                         if ($staff_result->num_rows > 0) {
                                         while($staffrow = $staff_result->fetch_assoc()) {
@@ -103,7 +104,8 @@
                                 ?>
                                 <label for="utility_type">Bills Type</label>
                                 <select class="form-control" id="utility_type" name="utility_type">
-                                    <option value="">Select Bills Type</option>
+                                    <option value="" id="disabled-bills">Select Bills Type</option>
+                                    <option value="">All Bills</option>
                                     <?php
                                         // use a while loop to fetch data
                                         while ($utility_type = mysqli_fetch_array($stmt_run,MYSQLI_ASSOC)):
@@ -200,4 +202,5 @@
         }
     });
 </script>
+
 <?php include ('../includes/bottom.php'); ?>

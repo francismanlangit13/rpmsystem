@@ -25,7 +25,7 @@
                     INNER JOIN payment_type ON payment.payment_type_id = payment_type.payment_type_id
                     INNER JOIN utility ON utility.utility_id = payment.utility_id
                     INNER JOIN `utility_type` ON utility_type.utility_type_id = payment.utility_type_id
-                    WHERE `payment_id` = '$id' AND `payment`.`status` != 'Archive'
+                    WHERE user.user_id = '$userID' AND `payment_id` = '$id' AND `payment`.`status` != 'Archive'
                 ";
                 $sql_run = mysqli_query($con, $sql);
 
