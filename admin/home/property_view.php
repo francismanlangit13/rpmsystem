@@ -70,13 +70,16 @@
 </style>
 </head>
 <main>
-<div class="container-fluid px-4">
-        <h1 class="mt-4">View Property</h1>
-        <ol class="breadcrumb mb-4 mt-3">
+    <div class="container-fluid px-4">
+        <h1 class="mt-4 noprint">View Property</h1>
+        <ol class="breadcrumb mb-4 mt-3 noprint">
             <li class="breadcrumb-item active"><a href="../home" class="text-decoration-none">Dashboard</a></li>
             <li class="breadcrumb-item active"><a href="./property" class="text-decoration-none">Property</a></li>
             <li class="breadcrumb-item">View Property</li>
         </ol>
+        <div class="float-end noprint">
+            <button class="btn btn-sm btn-flat btn-secondary" type="button" onclick="window.print()"><i class="fa fa-print"></i> Print</button>
+        </div>
         <?php
             if(isset($_GET['id'])) {
                 $id = $_GET['id'];
