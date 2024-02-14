@@ -89,7 +89,7 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="payment_balance">Balance</label>
-                                        <input type="number" class="form-control-plaintext" id="payment_balance" value="<?= $balance ?>" disabled>
+                                        <input type="number" class="form-control" id="payment_balance" value="<?= $balance ?>" disabled>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
@@ -175,7 +175,7 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="payment_balance">Balance</label>
-                                        <input type="number" class="form-control-plaintext" id="payment_balance" disabled>
+                                        <input type="number" class="form-control" id="payment_balance" disabled>
                                     </div>
                                 </div>
                             </div>
