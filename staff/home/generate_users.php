@@ -131,6 +131,10 @@
                                     <label class="form-check-label" for="Property">Property</label>
                                 </div>
                                 <div class='col-md-2'>
+                                    <input class="form-check-input" type="checkbox" value="Location" id="Location" name="Location" <?php if(isset($_POST['Location'])) { echo "checked"; }?>>
+                                    <label class="form-check-label" for="Location">Property Location</label>
+                                </div>
+                                <div class='col-md-2'>
                                     <input class="form-check-input" type="checkbox" value="Property_amount" id="Property_amount" name="Property_amount" <?php if(isset($_POST['Property_amount'])) { echo "checked"; }?>>
                                     <label class="form-check-label" for="Property_amount">Unit Cost</label>
                                 </div>
@@ -185,6 +189,8 @@
                             <th>Address</th>
                         <?php } if(isset($_POST['Property'])) { ?>
                             <th>Property</th>
+                        <?php } if(isset($_POST['Location'])) { ?>
+                            <th>Property Location</th>
                         <?php } if(isset($_POST['Property_amount'])) { ?>
                             <th>Unit Cost</th>
                         <?php } if(isset($_POST['Balance'])) { ?>
@@ -231,7 +237,9 @@
                             <?php } if(isset($_POST['Address'])) { ?>
                                 <td class=""><p class="m-0"><?php echo $row['address'] ?></p></td>
                             <?php } if(isset($_POST['Property'])) { ?>
-                                <td class=""><p class="m-0"><?php echo $row['property_unit_code'] ?> (<?=$row['property_barangay']?>)</p></td>
+                                <td class=""><p class="m-0"><?php echo $row['property_unit_code'] ?></p></td>
+                            <?php } if(isset($_POST['Location'])) { ?>
+                                <td class=""><p class="m-0"><?php echo $row['property_barangay'] .', '. $row['property_city'] .' '. $row['property_zipcode']?></p></td>
                             <?php } if(isset($_POST['Property_amount'])) { ?>
                                 <td class=""><p class="m-0"><?php echo $row['property_amount'] ?></p></td>
                             <?php } if(isset($_POST['Balance'])) { ?>

@@ -61,7 +61,7 @@
                     </a>
                     <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/database.php') !== false)  { echo 'active'; } ?>" href="database">
                         <div class="sb-nav-link-icon"><i class="fas fa-database"></i></div>
-                        Database Management
+                        Backup and Restore
                     </a>
                     <div class="sb-sidenav-menu-heading">Reports</div>
                     <a class="nav-link <?php if (strpos($_SERVER['PHP_SELF'], 'home/generate_payments.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/generate_users.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/generate_utility.php') !== false  || strpos($_SERVER['PHP_SELF'], 'home/generate_invoice.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/generate_property.php') !== false || strpos($_SERVER['PHP_SELF'], 'home/generate_arrears.php') !== false)  {  } else{ echo'collapsed'; } ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
