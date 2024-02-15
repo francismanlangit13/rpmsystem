@@ -146,7 +146,7 @@
                                     <input type="text" class="form-control-plaintext" id="payment_comment" value="<?= $row['payment_comment']; ?>" disabled>
                                 </div>
 
-                                <div class="col-md-4 mt-3 text-center">
+                                <div class="col-md-4 mt-3 text-center <?php if($row['payment_type_name'] == 'Cash'){ echo "d-none";} ?>">
                                     <h6>Receipt Attachment</h6> 
                                     <a href="
                                         <?php

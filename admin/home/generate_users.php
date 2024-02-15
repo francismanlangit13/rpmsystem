@@ -238,7 +238,7 @@
                                 <td class=""><p class="m-0"><?php echo $row['address'] ?></p></td>
                             <?php } if(isset($_POST['Property'])) { ?>
                                 <td class=""><p class="m-0"><?php echo $row['property_unit_code'] ?></p></td>
-                            <?php } if(isset($_POST['Location'])) { ?>
+                                <?php } if(isset($_POST['Property'])) { ?>
                                 <td class=""><p class="m-0"><?php echo $row['property_barangay'] .', '. $row['property_city'] .' '. $row['property_zipcode']?></p></td>
                             <?php } if(isset($_POST['Property_amount'])) { ?>
                                 <td class=""><p class="m-0"><?php echo $row['property_amount'] ?></p></td>

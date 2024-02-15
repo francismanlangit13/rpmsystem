@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="col-md-4 text-center">
-                                <h6><b>Valid ID Attachment</b></h6> 
+                                <h6><b>Valid ID Attachment</b></h6>
                                 <a href="
                                     <?php
                                         if(!empty($row['valid_id'])){ 
@@ -145,19 +145,21 @@
                                         <input type="date" class="form-control-plaintext" id="endrent" value="<?=$row['endrent']?>" disabled>
                                     </div>
 
-                                    <div class="col-md-12 mt-3 <?php if($row['type'] != 'Renter'){ echo "d-none";} ?>">
-                                        <?php
-                                            $used_property = $row['property_rented_id'];
-                                            $property_result = $con->query("SELECT property.user_id FROM `property` WHERE `property_id` = '$used_property'");
-                                            $staff_user_id = $property_result->fetch_assoc();
-                                            $staff_id = $staff_user_id['user_id'];
+                                    <?php if($row['type'] == 'Renter'){ ?>
+                                        <div class="col-md-12 mt-3">
+                                            <?php
+                                                $used_property = $row['property_rented_id'];
+                                                $property_result = $con->query("SELECT property.user_id FROM `property` WHERE `property_id` = '$used_property'");
+                                                $staff_user_id = $property_result->fetch_assoc();
+                                                $staff_id = $staff_user_id['user_id'];
 
-                                            $stmt_result = $con->query("SELECT CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS staff_fullname FROM `user` WHERE `user_id` = $staff_id ");
-                                            $new_row = $stmt_result->fetch_assoc();
-                                        ?>
-                                        <label for="landlady_landlord"><b>Landlady / Landlord</b></label>
-                                        <input type="text" class="form-control-plaintext" id="landlady_landlord" value="<?=$new_row['staff_fullname']?>" disabled>
-                                    </div>
+                                                $stmt_result = $con->query("SELECT CONCAT(fname, ' ', mname, ' ', lname, ' ', suffix) AS staff_fullname FROM `user` WHERE `user_id` = $staff_id ");
+                                                $new_row = $stmt_result->fetch_assoc();
+                                            ?>
+                                            <label for="landlady_landlord"><b>Landlady / Landlord</b></label>
+                                            <input type="text" class="form-control-plaintext" id="landlady_landlord" value="<?=$new_row['staff_fullname']?>" disabled>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
