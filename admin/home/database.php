@@ -9,7 +9,7 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Database Management
+        <h1 class="mt-4">Backup and Restore
             <button class="btn btn-success btn-icon-split float-end mt-2" data-toggle="modal" data-target="#Modal_backupDB"> 
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
@@ -19,12 +19,12 @@
         </h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active"><a href="./home" class="text-decoration-none">Dashboard</a></li>
-            <li class="breadcrumb-item">Database Management</li>
+            <li class="breadcrumb-item">Backup and Restore</li>
         </ol>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                DataTable Database Management
+                DataTable Backup and Restore
                 <div class="float-end">
                     <button class="btn btn-dark btn-icon-split float-end mt-2" data-toggle="modal" data-target="#Modal_uploadDB"> 
                         <span class="icon text-white-50">
@@ -112,7 +112,7 @@
             <div class="modal-footer">
                 <form action="database_code.php" method="post" autocomplete="off" enctype="multipart/form-data">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="backup_db" id="backupButton" class="btn btn-success">Backup</button>
+                    <button type="submit" name="backup_db" id="backupButton" class="btn btn-success">Yes</button>
                 </form>
             </div>
         </div>
